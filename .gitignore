@@ -1,0 +1,6 @@
+.idea/workspace.xml
+config/ldap.yml
+templates/api-docs/*.json
+log/
+*.swp
+.repos

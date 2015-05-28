@@ -1,0 +1,4 @@
+# Richmond doesn't like binary files
+Richmond.reject do |file|
+  file.match /images/
+end
