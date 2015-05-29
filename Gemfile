@@ -12,6 +12,7 @@ group :development do
   gem 'rspec'
 	gem 'autotest'
   gem 'rspec-autotest'
+  gem 'nokogiri'
 
   gem 'rubocop'
   gem 'rack-test'
@@ -20,4 +21,3 @@ group :development do
   gem 'pry'
   gem 'pry-byebug'
 end
-

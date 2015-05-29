@@ -124,14 +124,14 @@
       <div id="summary">
         <h1><strong>NoMethodError</strong> at <strong>&#x2F;manifests&#x2F;pr.346&#x2F;applications
           </strong></h1>
-        <h2>undefined method `application_names&#x27; for #&lt;Manifest:0x007fcb22270ca0&gt;</h2>
+        <h2>undefined method `application_ids&#x27; for nil:NilClass</h2>
         <ul>
           <li class="first"><strong>file:</strong> <code>
-            attribute_methods.rb</code></li>
-          <li><strong>location:</strong> <code>method_missing
+            api.rb</code></li>
+          <li><strong>location:</strong> <code>block in &lt;class:Api&gt;
             </code></li>
           <li class="last"><strong>line:
-            </strong> 433</li>
+            </strong> 68</li>
         </ul>
       </div>
       <div class="clear"></div>
@@ -155,82 +155,6 @@
       
           
 
-            <li class="frame-info system">
-              <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;activemodel-4.2.1&#x2F;lib&#x2F;active_model&#x2F;attribute_methods.rb</code> in
-                <code><strong>method_missing</strong></code>
-            </li>
-
-            <li class="code system">
-              
-              <ol start="426"
-                  class="pre-context" id="pre-1"
-                  onclick="toggle(1);">
-                
-                <li class="pre-context-line"><code>    # class belonging to the +clients+ table with a +master_id+ foreign key
-</code></li>
-                
-                <li class="pre-context-line"><code>    # can instantiate master through &lt;tt&gt;Client#master&lt;&#x2F;tt&gt;.
-</code></li>
-                
-                <li class="pre-context-line"><code>    def method_missing(method, *args, &amp;block)
-</code></li>
-                
-                <li class="pre-context-line"><code>      if respond_to_without_attributes?(method, true)
-</code></li>
-                
-                <li class="pre-context-line"><code>        super
-</code></li>
-                
-                <li class="pre-context-line"><code>      else
-</code></li>
-                
-                <li class="pre-context-line"><code>        match = match_attribute_method?(method.to_s)
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="433" class="context" id="1"
-                  onclick="toggle(1);">
-                <li class="context-line" id="context-1"><code>        match ? attribute_missing(match, *args, &amp;block) : super</code></li>
-              </ol>
-
-              
-              <ol start="434" class="post-context"
-                  id="post-1" onclick="toggle(1);">
-                
-                <li class="post-context-line"><code>      end
-</code></li>
-                
-                <li class="post-context-line"><code>    end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>    # +attribute_missing+ is like +method_missing+, but for attributes. When
-</code></li>
-                
-                <li class="post-context-line"><code>    # +method_missing+ is called we check to see if there is a matching
-</code></li>
-                
-                <li class="post-context-line"><code>    # attribute method. If so, we tell +attribute_missing+ to dispatch the
-</code></li>
-                
-                <li class="post-context-line"><code>    # attribute. This method can be overloaded to customize the behavior.
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
-        
-      
-          
-
             <li class="frame-info app">
               <code>&#x2F;Users&#x2F;chrismc&#x2F;src&#x2F;nurture&#x2F;lib&#x2F;controllers&#x2F;api.rb</code> in
                 <code><strong>block in &lt;class:Api&gt;</strong></code>
@@ -238,9 +162,9 @@
 
             <li class="code app">
               
-              <ol start="36"
-                  class="pre-context" id="pre-2"
-                  onclick="toggle(2);">
+              <ol start="61"
+                  class="pre-context" id="pre-1"
+                  onclick="toggle(1);">
                 
                 <li class="pre-context-line"><code>    applications = params.clone
 </code></li>
@@ -266,14 +190,14 @@
               </ol>
               
 
-              <ol start="43" class="context" id="2"
-                  onclick="toggle(2);">
-                <li class="context-line" id="context-2"><code>    manifest.application_names.clear</code></li>
+              <ol start="68" class="context" id="1"
+                  onclick="toggle(1);">
+                <li class="context-line" id="context-1"><code>    manifest.application_ids.clear</code></li>
               </ol>
 
               
-              <ol start="44" class="post-context"
-                  id="post-2" onclick="toggle(2);">
+              <ol start="69" class="post-context"
+                  id="post-1" onclick="toggle(1);">
                 
                 <li class="post-context-line"><code>
 </code></li>
@@ -310,6 +234,82 @@
             <li class="frame-info framework">
               <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;sinatra-1.4.6&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
                 <code><strong>call</strong></code>
+            </li>
+
+            <li class="code framework">
+              
+              <ol start="1603"
+                  class="pre-context" id="pre-2"
+                  onclick="toggle(2);">
+                
+                <li class="pre-context-line"><code>        method_name             = &quot;#{verb} #{path}&quot;
+</code></li>
+                
+                <li class="pre-context-line"><code>        unbound_method          = generate_method(method_name, &amp;block)
+</code></li>
+                
+                <li class="pre-context-line"><code>        pattern, keys           = compile path
+</code></li>
+                
+                <li class="pre-context-line"><code>        conditions, @conditions = @conditions, []
+</code></li>
+                
+                <li class="pre-context-line"><code>
+</code></li>
+                
+                <li class="pre-context-line"><code>        wrapper                 = block.arity != 0 ?
+</code></li>
+                
+                <li class="pre-context-line"><code>          proc { |a,p| unbound_method.bind(a).call(*p) } :
+</code></li>
+                
+              </ol>
+              
+
+              <ol start="1610" class="context" id="2"
+                  onclick="toggle(2);">
+                <li class="context-line" id="context-2"><code>          proc { |a,p| unbound_method.bind(a).call }</code></li>
+              </ol>
+
+              
+              <ol start="1611" class="post-context"
+                  id="post-2" onclick="toggle(2);">
+                
+                <li class="post-context-line"><code>        wrapper.instance_variable_set(:@route_name, method_name)
+</code></li>
+                
+                <li class="post-context-line"><code>
+</code></li>
+                
+                <li class="post-context-line"><code>        [ pattern, keys, conditions, wrapper ]
+</code></li>
+                
+                <li class="post-context-line"><code>      end
+</code></li>
+                
+                <li class="post-context-line"><code>
+</code></li>
+                
+                <li class="post-context-line"><code>      def compile(path)
+</code></li>
+                
+                <li class="post-context-line"><code>        if path.respond_to? :to_str
+</code></li>
+                
+              </ol>
+              
+              <div class="clear"></div>
+            </li>
+
+          
+
+        
+      
+          
+
+            <li class="frame-info framework">
+              <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;sinatra-1.4.6&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
+                <code><strong>block in compile!</strong></code>
             </li>
 
             <li class="code framework">
@@ -385,67 +385,67 @@
 
             <li class="frame-info framework">
               <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;sinatra-1.4.6&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
-                <code><strong>block in compile!</strong></code>
+                <code><strong>[]</strong></code>
             </li>
 
             <li class="code framework">
               
-              <ol start="1603"
+              <ol start="967"
                   class="pre-context" id="pre-4"
                   onclick="toggle(4);">
-                
-                <li class="pre-context-line"><code>        method_name             = &quot;#{verb} #{path}&quot;
-</code></li>
-                
-                <li class="pre-context-line"><code>        unbound_method          = generate_method(method_name, &amp;block)
-</code></li>
-                
-                <li class="pre-context-line"><code>        pattern, keys           = compile path
-</code></li>
-                
-                <li class="pre-context-line"><code>        conditions, @conditions = @conditions, []
-</code></li>
                 
                 <li class="pre-context-line"><code>
 </code></li>
                 
-                <li class="pre-context-line"><code>        wrapper                 = block.arity != 0 ?
+                <li class="pre-context-line"><code>    # Run routes defined on the class and all superclasses.
 </code></li>
                 
-                <li class="pre-context-line"><code>          proc { |a,p| unbound_method.bind(a).call(*p) } :
+                <li class="pre-context-line"><code>    def route!(base = settings, pass_block = nil)
+</code></li>
+                
+                <li class="pre-context-line"><code>      if routes = base.routes[@request.request_method]
+</code></li>
+                
+                <li class="pre-context-line"><code>        routes.each do |pattern, keys, conditions, block|
+</code></li>
+                
+                <li class="pre-context-line"><code>          returned_pass_block = process_route(pattern, keys, conditions) do |*args|
+</code></li>
+                
+                <li class="pre-context-line"><code>            env[&#x27;sinatra.route&#x27;] = block.instance_variable_get(:@route_name)
 </code></li>
                 
               </ol>
               
 
-              <ol start="1610" class="context" id="4"
+              <ol start="974" class="context" id="4"
                   onclick="toggle(4);">
-                <li class="context-line" id="context-4"><code>          proc { |a,p| unbound_method.bind(a).call }</code></li>
+                <li class="context-line" id="context-4"><code>            route_eval { block[*args] }</code></li>
               </ol>
 
               
-              <ol start="1611" class="post-context"
+              <ol start="975" class="post-context"
                   id="post-4" onclick="toggle(4);">
                 
-                <li class="post-context-line"><code>        wrapper.instance_variable_set(:@route_name, method_name)
+                <li class="post-context-line"><code>          end
 </code></li>
                 
                 <li class="post-context-line"><code>
 </code></li>
                 
-                <li class="post-context-line"><code>        [ pattern, keys, conditions, wrapper ]
+                <li class="post-context-line"><code>          # don&#x27;t wipe out pass_block in superclass
+</code></li>
+                
+                <li class="post-context-line"><code>          pass_block = returned_pass_block if returned_pass_block
+</code></li>
+                
+                <li class="post-context-line"><code>        end
 </code></li>
                 
                 <li class="post-context-line"><code>      end
 </code></li>
                 
                 <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>      def compile(path)
-</code></li>
-                
-                <li class="post-context-line"><code>        if path.respond_to? :to_str
 </code></li>
                 
               </ol>
@@ -461,7 +461,7 @@
 
             <li class="frame-info framework">
               <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;sinatra-1.4.6&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
-                <code><strong>[]</strong></code>
+                <code><strong>block (3 levels) in route!</strong></code>
             </li>
 
             <li class="code framework">
@@ -537,90 +537,14 @@
 
             <li class="frame-info framework">
               <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;sinatra-1.4.6&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
-                <code><strong>block (3 levels) in route!</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="967"
-                  class="pre-context" id="pre-6"
-                  onclick="toggle(6);">
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    # Run routes defined on the class and all superclasses.
-</code></li>
-                
-                <li class="pre-context-line"><code>    def route!(base = settings, pass_block = nil)
-</code></li>
-                
-                <li class="pre-context-line"><code>      if routes = base.routes[@request.request_method]
-</code></li>
-                
-                <li class="pre-context-line"><code>        routes.each do |pattern, keys, conditions, block|
-</code></li>
-                
-                <li class="pre-context-line"><code>          returned_pass_block = process_route(pattern, keys, conditions) do |*args|
-</code></li>
-                
-                <li class="pre-context-line"><code>            env[&#x27;sinatra.route&#x27;] = block.instance_variable_get(:@route_name)
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="974" class="context" id="6"
-                  onclick="toggle(6);">
-                <li class="context-line" id="context-6"><code>            route_eval { block[*args] }</code></li>
-              </ol>
-
-              
-              <ol start="975" class="post-context"
-                  id="post-6" onclick="toggle(6);">
-                
-                <li class="post-context-line"><code>          end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>          # don&#x27;t wipe out pass_block in superclass
-</code></li>
-                
-                <li class="post-context-line"><code>          pass_block = returned_pass_block if returned_pass_block
-</code></li>
-                
-                <li class="post-context-line"><code>        end
-</code></li>
-                
-                <li class="post-context-line"><code>      end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
-        
-      
-          
-
-            <li class="frame-info framework">
-              <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;sinatra-1.4.6&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
                 <code><strong>route_eval</strong></code>
             </li>
 
             <li class="code framework">
               
               <ol start="986"
-                  class="pre-context" id="pre-7"
-                  onclick="toggle(7);">
+                  class="pre-context" id="pre-6"
+                  onclick="toggle(6);">
                 
                 <li class="pre-context-line"><code>
 </code></li>
@@ -646,14 +570,14 @@
               </ol>
               
 
-              <ol start="993" class="context" id="7"
-                  onclick="toggle(7);">
-                <li class="context-line" id="context-7"><code>      throw :halt, yield</code></li>
+              <ol start="993" class="context" id="6"
+                  onclick="toggle(6);">
+                <li class="context-line" id="context-6"><code>      throw :halt, yield</code></li>
               </ol>
 
               
               <ol start="994" class="post-context"
-                  id="post-7" onclick="toggle(7);">
+                  id="post-6" onclick="toggle(6);">
                 
                 <li class="post-context-line"><code>    end
 </code></li>
@@ -695,8 +619,8 @@
             <li class="code framework">
               
               <ol start="967"
-                  class="pre-context" id="pre-8"
-                  onclick="toggle(8);">
+                  class="pre-context" id="pre-7"
+                  onclick="toggle(7);">
                 
                 <li class="pre-context-line"><code>
 </code></li>
@@ -722,14 +646,14 @@
               </ol>
               
 
-              <ol start="974" class="context" id="8"
-                  onclick="toggle(8);">
-                <li class="context-line" id="context-8"><code>            route_eval { block[*args] }</code></li>
+              <ol start="974" class="context" id="7"
+                  onclick="toggle(7);">
+                <li class="context-line" id="context-7"><code>            route_eval { block[*args] }</code></li>
               </ol>
 
               
               <ol start="975" class="post-context"
-                  id="post-8" onclick="toggle(8);">
+                  id="post-7" onclick="toggle(7);">
                 
                 <li class="post-context-line"><code>          end
 </code></li>
@@ -771,8 +695,8 @@
             <li class="code framework">
               
               <ol start="1007"
-                  class="pre-context" id="pre-9"
-                  onclick="toggle(9);">
+                  class="pre-context" id="pre-8"
+                  onclick="toggle(8);">
                 
                 <li class="pre-context-line"><code>      if values.any?
 </code></li>
@@ -798,14 +722,14 @@
               </ol>
               
 
-              <ol start="1014" class="context" id="9"
-                  onclick="toggle(9);">
-                <li class="context-line" id="context-9"><code>        block ? block[self, values] : yield(self, values)</code></li>
+              <ol start="1014" class="context" id="8"
+                  onclick="toggle(8);">
+                <li class="context-line" id="context-8"><code>        block ? block[self, values] : yield(self, values)</code></li>
               </ol>
 
               
               <ol start="1015" class="post-context"
-                  id="post-9" onclick="toggle(9);">
+                  id="post-8" onclick="toggle(8);">
                 
                 <li class="post-context-line"><code>      end
 </code></li>
@@ -842,6 +766,82 @@
             <li class="frame-info framework">
               <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;sinatra-1.4.6&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
                 <code><strong>catch</strong></code>
+            </li>
+
+            <li class="code framework">
+              
+              <ol start="1005"
+                  class="pre-context" id="pre-9"
+                  onclick="toggle(9);">
+                
+                <li class="pre-context-line"><code>      values += match.captures.map! { |v| force_encoding URI_INSTANCE.unescape(v) if v }
+</code></li>
+                
+                <li class="pre-context-line"><code>
+</code></li>
+                
+                <li class="pre-context-line"><code>      if values.any?
+</code></li>
+                
+                <li class="pre-context-line"><code>        original, @params = params, params.merge(&#x27;splat&#x27; =&gt; [], &#x27;captures&#x27; =&gt; values)
+</code></li>
+                
+                <li class="pre-context-line"><code>        keys.zip(values) { |k,v| Array === @params[k] ? @params[k] &lt;&lt; v : @params[k] = v if v }
+</code></li>
+                
+                <li class="pre-context-line"><code>      end
+</code></li>
+                
+                <li class="pre-context-line"><code>
+</code></li>
+                
+              </ol>
+              
+
+              <ol start="1012" class="context" id="9"
+                  onclick="toggle(9);">
+                <li class="context-line" id="context-9"><code>      catch(:pass) do</code></li>
+              </ol>
+
+              
+              <ol start="1013" class="post-context"
+                  id="post-9" onclick="toggle(9);">
+                
+                <li class="post-context-line"><code>        conditions.each { |c| throw :pass if c.bind(self).call == false }
+</code></li>
+                
+                <li class="post-context-line"><code>        block ? block[self, values] : yield(self, values)
+</code></li>
+                
+                <li class="post-context-line"><code>      end
+</code></li>
+                
+                <li class="post-context-line"><code>    ensure
+</code></li>
+                
+                <li class="post-context-line"><code>      @params = original if original
+</code></li>
+                
+                <li class="post-context-line"><code>    end
+</code></li>
+                
+                <li class="post-context-line"><code>
+</code></li>
+                
+              </ol>
+              
+              <div class="clear"></div>
+            </li>
+
+          
+
+        
+      
+          
+
+            <li class="frame-info framework">
+              <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;sinatra-1.4.6&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
+                <code><strong>process_route</strong></code>
             </li>
 
             <li class="code framework">
@@ -917,90 +917,14 @@
 
             <li class="frame-info framework">
               <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;sinatra-1.4.6&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
-                <code><strong>process_route</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="1005"
-                  class="pre-context" id="pre-11"
-                  onclick="toggle(11);">
-                
-                <li class="pre-context-line"><code>      values += match.captures.map! { |v| force_encoding URI_INSTANCE.unescape(v) if v }
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>      if values.any?
-</code></li>
-                
-                <li class="pre-context-line"><code>        original, @params = params, params.merge(&#x27;splat&#x27; =&gt; [], &#x27;captures&#x27; =&gt; values)
-</code></li>
-                
-                <li class="pre-context-line"><code>        keys.zip(values) { |k,v| Array === @params[k] ? @params[k] &lt;&lt; v : @params[k] = v if v }
-</code></li>
-                
-                <li class="pre-context-line"><code>      end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="1012" class="context" id="11"
-                  onclick="toggle(11);">
-                <li class="context-line" id="context-11"><code>      catch(:pass) do</code></li>
-              </ol>
-
-              
-              <ol start="1013" class="post-context"
-                  id="post-11" onclick="toggle(11);">
-                
-                <li class="post-context-line"><code>        conditions.each { |c| throw :pass if c.bind(self).call == false }
-</code></li>
-                
-                <li class="post-context-line"><code>        block ? block[self, values] : yield(self, values)
-</code></li>
-                
-                <li class="post-context-line"><code>      end
-</code></li>
-                
-                <li class="post-context-line"><code>    ensure
-</code></li>
-                
-                <li class="post-context-line"><code>      @params = original if original
-</code></li>
-                
-                <li class="post-context-line"><code>    end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
-        
-      
-          
-
-            <li class="frame-info framework">
-              <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;sinatra-1.4.6&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
                 <code><strong>block in route!</strong></code>
             </li>
 
             <li class="code framework">
               
               <ol start="965"
-                  class="pre-context" id="pre-12"
-                  onclick="toggle(12);">
+                  class="pre-context" id="pre-11"
+                  onclick="toggle(11);">
                 
                 <li class="pre-context-line"><code>      base.filters[type].each { |args| process_route(*args) }
 </code></li>
@@ -1026,14 +950,14 @@
               </ol>
               
 
-              <ol start="972" class="context" id="12"
-                  onclick="toggle(12);">
-                <li class="context-line" id="context-12"><code>          returned_pass_block = process_route(pattern, keys, conditions) do |*args|</code></li>
+              <ol start="972" class="context" id="11"
+                  onclick="toggle(11);">
+                <li class="context-line" id="context-11"><code>          returned_pass_block = process_route(pattern, keys, conditions) do |*args|</code></li>
               </ol>
 
               
               <ol start="973" class="post-context"
-                  id="post-12" onclick="toggle(12);">
+                  id="post-11" onclick="toggle(11);">
                 
                 <li class="post-context-line"><code>            env[&#x27;sinatra.route&#x27;] = block.instance_variable_get(:@route_name)
 </code></li>
@@ -1070,6 +994,82 @@
             <li class="frame-info framework">
               <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;sinatra-1.4.6&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
                 <code><strong>each</strong></code>
+            </li>
+
+            <li class="code framework">
+              
+              <ol start="964"
+                  class="pre-context" id="pre-12"
+                  onclick="toggle(12);">
+                
+                <li class="pre-context-line"><code>      filter! type, base.superclass if base.superclass.respond_to?(:filters)
+</code></li>
+                
+                <li class="pre-context-line"><code>      base.filters[type].each { |args| process_route(*args) }
+</code></li>
+                
+                <li class="pre-context-line"><code>    end
+</code></li>
+                
+                <li class="pre-context-line"><code>
+</code></li>
+                
+                <li class="pre-context-line"><code>    # Run routes defined on the class and all superclasses.
+</code></li>
+                
+                <li class="pre-context-line"><code>    def route!(base = settings, pass_block = nil)
+</code></li>
+                
+                <li class="pre-context-line"><code>      if routes = base.routes[@request.request_method]
+</code></li>
+                
+              </ol>
+              
+
+              <ol start="971" class="context" id="12"
+                  onclick="toggle(12);">
+                <li class="context-line" id="context-12"><code>        routes.each do |pattern, keys, conditions, block|</code></li>
+              </ol>
+
+              
+              <ol start="972" class="post-context"
+                  id="post-12" onclick="toggle(12);">
+                
+                <li class="post-context-line"><code>          returned_pass_block = process_route(pattern, keys, conditions) do |*args|
+</code></li>
+                
+                <li class="post-context-line"><code>            env[&#x27;sinatra.route&#x27;] = block.instance_variable_get(:@route_name)
+</code></li>
+                
+                <li class="post-context-line"><code>            route_eval { block[*args] }
+</code></li>
+                
+                <li class="post-context-line"><code>          end
+</code></li>
+                
+                <li class="post-context-line"><code>
+</code></li>
+                
+                <li class="post-context-line"><code>          # don&#x27;t wipe out pass_block in superclass
+</code></li>
+                
+                <li class="post-context-line"><code>          pass_block = returned_pass_block if returned_pass_block
+</code></li>
+                
+              </ol>
+              
+              <div class="clear"></div>
+            </li>
+
+          
+
+        
+      
+          
+
+            <li class="frame-info framework">
+              <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;sinatra-1.4.6&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
+                <code><strong>route!</strong></code>
             </li>
 
             <li class="code framework">
@@ -1145,90 +1145,14 @@
 
             <li class="frame-info framework">
               <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;sinatra-1.4.6&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
-                <code><strong>route!</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="964"
-                  class="pre-context" id="pre-14"
-                  onclick="toggle(14);">
-                
-                <li class="pre-context-line"><code>      filter! type, base.superclass if base.superclass.respond_to?(:filters)
-</code></li>
-                
-                <li class="pre-context-line"><code>      base.filters[type].each { |args| process_route(*args) }
-</code></li>
-                
-                <li class="pre-context-line"><code>    end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    # Run routes defined on the class and all superclasses.
-</code></li>
-                
-                <li class="pre-context-line"><code>    def route!(base = settings, pass_block = nil)
-</code></li>
-                
-                <li class="pre-context-line"><code>      if routes = base.routes[@request.request_method]
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="971" class="context" id="14"
-                  onclick="toggle(14);">
-                <li class="context-line" id="context-14"><code>        routes.each do |pattern, keys, conditions, block|</code></li>
-              </ol>
-
-              
-              <ol start="972" class="post-context"
-                  id="post-14" onclick="toggle(14);">
-                
-                <li class="post-context-line"><code>          returned_pass_block = process_route(pattern, keys, conditions) do |*args|
-</code></li>
-                
-                <li class="post-context-line"><code>            env[&#x27;sinatra.route&#x27;] = block.instance_variable_get(:@route_name)
-</code></li>
-                
-                <li class="post-context-line"><code>            route_eval { block[*args] }
-</code></li>
-                
-                <li class="post-context-line"><code>          end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>          # don&#x27;t wipe out pass_block in superclass
-</code></li>
-                
-                <li class="post-context-line"><code>          pass_block = returned_pass_block if returned_pass_block
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
-        
-      
-          
-
-            <li class="frame-info framework">
-              <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;sinatra-1.4.6&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
                 <code><strong>block in dispatch!</strong></code>
             </li>
 
             <li class="code framework">
               
               <ol start="1077"
-                  class="pre-context" id="pre-15"
-                  onclick="toggle(15);">
+                  class="pre-context" id="pre-14"
+                  onclick="toggle(14);">
                 
                 <li class="pre-context-line"><code>    end
 </code></li>
@@ -1254,14 +1178,14 @@
               </ol>
               
 
-              <ol start="1084" class="context" id="15"
-                  onclick="toggle(15);">
-                <li class="context-line" id="context-15"><code>        route!</code></li>
+              <ol start="1084" class="context" id="14"
+                  onclick="toggle(14);">
+                <li class="context-line" id="context-14"><code>        route!</code></li>
               </ol>
 
               
               <ol start="1085" class="post-context"
-                  id="post-15" onclick="toggle(15);">
+                  id="post-14" onclick="toggle(14);">
                 
                 <li class="post-context-line"><code>      end
 </code></li>
@@ -1298,6 +1222,82 @@
             <li class="frame-info framework">
               <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;sinatra-1.4.6&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
                 <code><strong>block in invoke</strong></code>
+            </li>
+
+            <li class="code framework">
+              
+              <ol start="1059"
+                  class="pre-context" id="pre-15"
+                  onclick="toggle(15);">
+                
+                <li class="pre-context-line"><code>    # Creates a Hash with indifferent access.
+</code></li>
+                
+                <li class="pre-context-line"><code>    def indifferent_hash
+</code></li>
+                
+                <li class="pre-context-line"><code>      Hash.new {|hash,key| hash[key.to_s] if Symbol === key }
+</code></li>
+                
+                <li class="pre-context-line"><code>    end
+</code></li>
+                
+                <li class="pre-context-line"><code>
+</code></li>
+                
+                <li class="pre-context-line"><code>    # Run the block with &#x27;throw :halt&#x27; support and apply result to the response.
+</code></li>
+                
+                <li class="pre-context-line"><code>    def invoke
+</code></li>
+                
+              </ol>
+              
+
+              <ol start="1066" class="context" id="15"
+                  onclick="toggle(15);">
+                <li class="context-line" id="context-15"><code>      res = catch(:halt) { yield }</code></li>
+              </ol>
+
+              
+              <ol start="1067" class="post-context"
+                  id="post-15" onclick="toggle(15);">
+                
+                <li class="post-context-line"><code>      res = [res] if Fixnum === res or String === res
+</code></li>
+                
+                <li class="post-context-line"><code>      if Array === res and Fixnum === res.first
+</code></li>
+                
+                <li class="post-context-line"><code>        res = res.dup
+</code></li>
+                
+                <li class="post-context-line"><code>        status(res.shift)
+</code></li>
+                
+                <li class="post-context-line"><code>        body(res.pop)
+</code></li>
+                
+                <li class="post-context-line"><code>        headers(*res)
+</code></li>
+                
+                <li class="post-context-line"><code>      elsif res.respond_to? :each
+</code></li>
+                
+              </ol>
+              
+              <div class="clear"></div>
+            </li>
+
+          
+
+        
+      
+          
+
+            <li class="frame-info framework">
+              <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;sinatra-1.4.6&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
+                <code><strong>catch</strong></code>
             </li>
 
             <li class="code framework">
@@ -1373,7 +1373,7 @@
 
             <li class="frame-info framework">
               <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;sinatra-1.4.6&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
-                <code><strong>catch</strong></code>
+                <code><strong>invoke</strong></code>
             </li>
 
             <li class="code framework">
@@ -1449,90 +1449,14 @@
 
             <li class="frame-info framework">
               <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;sinatra-1.4.6&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
-                <code><strong>invoke</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="1059"
-                  class="pre-context" id="pre-18"
-                  onclick="toggle(18);">
-                
-                <li class="pre-context-line"><code>    # Creates a Hash with indifferent access.
-</code></li>
-                
-                <li class="pre-context-line"><code>    def indifferent_hash
-</code></li>
-                
-                <li class="pre-context-line"><code>      Hash.new {|hash,key| hash[key.to_s] if Symbol === key }
-</code></li>
-                
-                <li class="pre-context-line"><code>    end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    # Run the block with &#x27;throw :halt&#x27; support and apply result to the response.
-</code></li>
-                
-                <li class="pre-context-line"><code>    def invoke
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="1066" class="context" id="18"
-                  onclick="toggle(18);">
-                <li class="context-line" id="context-18"><code>      res = catch(:halt) { yield }</code></li>
-              </ol>
-
-              
-              <ol start="1067" class="post-context"
-                  id="post-18" onclick="toggle(18);">
-                
-                <li class="post-context-line"><code>      res = [res] if Fixnum === res or String === res
-</code></li>
-                
-                <li class="post-context-line"><code>      if Array === res and Fixnum === res.first
-</code></li>
-                
-                <li class="post-context-line"><code>        res = res.dup
-</code></li>
-                
-                <li class="post-context-line"><code>        status(res.shift)
-</code></li>
-                
-                <li class="post-context-line"><code>        body(res.pop)
-</code></li>
-                
-                <li class="post-context-line"><code>        headers(*res)
-</code></li>
-                
-                <li class="post-context-line"><code>      elsif res.respond_to? :each
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
-        
-      
-          
-
-            <li class="frame-info framework">
-              <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;sinatra-1.4.6&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
                 <code><strong>dispatch!</strong></code>
             </li>
 
             <li class="code framework">
               
               <ol start="1074"
-                  class="pre-context" id="pre-19"
-                  onclick="toggle(19);">
+                  class="pre-context" id="pre-18"
+                  onclick="toggle(18);">
                 
                 <li class="pre-context-line"><code>        body res
 </code></li>
@@ -1558,14 +1482,14 @@
               </ol>
               
 
-              <ol start="1081" class="context" id="19"
-                  onclick="toggle(19);">
-                <li class="context-line" id="context-19"><code>      invoke do</code></li>
+              <ol start="1081" class="context" id="18"
+                  onclick="toggle(18);">
+                <li class="context-line" id="context-18"><code>      invoke do</code></li>
               </ol>
 
               
               <ol start="1082" class="post-context"
-                  id="post-19" onclick="toggle(19);">
+                  id="post-18" onclick="toggle(18);">
                 
                 <li class="post-context-line"><code>        static! if settings.static? &amp;&amp; (request.get? || request.head?)
 </code></li>
@@ -1607,8 +1531,8 @@
             <li class="code framework">
               
               <ol start="899"
-                  class="pre-context" id="pre-20"
-                  onclick="toggle(20);">
+                  class="pre-context" id="pre-19"
+                  onclick="toggle(19);">
                 
                 <li class="pre-context-line"><code>      @request  = Request.new(env)
 </code></li>
@@ -1634,14 +1558,14 @@
               </ol>
               
 
-              <ol start="906" class="context" id="20"
-                  onclick="toggle(20);">
-                <li class="context-line" id="context-20"><code>      invoke { dispatch! }</code></li>
+              <ol start="906" class="context" id="19"
+                  onclick="toggle(19);">
+                <li class="context-line" id="context-19"><code>      invoke { dispatch! }</code></li>
               </ol>
 
               
               <ol start="907" class="post-context"
-                  id="post-20" onclick="toggle(20);">
+                  id="post-19" onclick="toggle(19);">
                 
                 <li class="post-context-line"><code>      invoke { error_block!(response.status) } unless @env[&#x27;sinatra.error&#x27;]
 </code></li>
@@ -1678,6 +1602,82 @@
             <li class="frame-info framework">
               <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;sinatra-1.4.6&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
                 <code><strong>block in invoke</strong></code>
+            </li>
+
+            <li class="code framework">
+              
+              <ol start="1059"
+                  class="pre-context" id="pre-20"
+                  onclick="toggle(20);">
+                
+                <li class="pre-context-line"><code>    # Creates a Hash with indifferent access.
+</code></li>
+                
+                <li class="pre-context-line"><code>    def indifferent_hash
+</code></li>
+                
+                <li class="pre-context-line"><code>      Hash.new {|hash,key| hash[key.to_s] if Symbol === key }
+</code></li>
+                
+                <li class="pre-context-line"><code>    end
+</code></li>
+                
+                <li class="pre-context-line"><code>
+</code></li>
+                
+                <li class="pre-context-line"><code>    # Run the block with &#x27;throw :halt&#x27; support and apply result to the response.
+</code></li>
+                
+                <li class="pre-context-line"><code>    def invoke
+</code></li>
+                
+              </ol>
+              
+
+              <ol start="1066" class="context" id="20"
+                  onclick="toggle(20);">
+                <li class="context-line" id="context-20"><code>      res = catch(:halt) { yield }</code></li>
+              </ol>
+
+              
+              <ol start="1067" class="post-context"
+                  id="post-20" onclick="toggle(20);">
+                
+                <li class="post-context-line"><code>      res = [res] if Fixnum === res or String === res
+</code></li>
+                
+                <li class="post-context-line"><code>      if Array === res and Fixnum === res.first
+</code></li>
+                
+                <li class="post-context-line"><code>        res = res.dup
+</code></li>
+                
+                <li class="post-context-line"><code>        status(res.shift)
+</code></li>
+                
+                <li class="post-context-line"><code>        body(res.pop)
+</code></li>
+                
+                <li class="post-context-line"><code>        headers(*res)
+</code></li>
+                
+                <li class="post-context-line"><code>      elsif res.respond_to? :each
+</code></li>
+                
+              </ol>
+              
+              <div class="clear"></div>
+            </li>
+
+          
+
+        
+      
+          
+
+            <li class="frame-info framework">
+              <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;sinatra-1.4.6&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
+                <code><strong>catch</strong></code>
             </li>
 
             <li class="code framework">
@@ -1753,7 +1753,7 @@
 
             <li class="frame-info framework">
               <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;sinatra-1.4.6&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
-                <code><strong>catch</strong></code>
+                <code><strong>invoke</strong></code>
             </li>
 
             <li class="code framework">
@@ -1829,90 +1829,14 @@
 
             <li class="frame-info framework">
               <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;sinatra-1.4.6&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
-                <code><strong>invoke</strong></code>
-            </li>
-
-            <li class="code framework">
-              
-              <ol start="1059"
-                  class="pre-context" id="pre-23"
-                  onclick="toggle(23);">
-                
-                <li class="pre-context-line"><code>    # Creates a Hash with indifferent access.
-</code></li>
-                
-                <li class="pre-context-line"><code>    def indifferent_hash
-</code></li>
-                
-                <li class="pre-context-line"><code>      Hash.new {|hash,key| hash[key.to_s] if Symbol === key }
-</code></li>
-                
-                <li class="pre-context-line"><code>    end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>    # Run the block with &#x27;throw :halt&#x27; support and apply result to the response.
-</code></li>
-                
-                <li class="pre-context-line"><code>    def invoke
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="1066" class="context" id="23"
-                  onclick="toggle(23);">
-                <li class="context-line" id="context-23"><code>      res = catch(:halt) { yield }</code></li>
-              </ol>
-
-              
-              <ol start="1067" class="post-context"
-                  id="post-23" onclick="toggle(23);">
-                
-                <li class="post-context-line"><code>      res = [res] if Fixnum === res or String === res
-</code></li>
-                
-                <li class="post-context-line"><code>      if Array === res and Fixnum === res.first
-</code></li>
-                
-                <li class="post-context-line"><code>        res = res.dup
-</code></li>
-                
-                <li class="post-context-line"><code>        status(res.shift)
-</code></li>
-                
-                <li class="post-context-line"><code>        body(res.pop)
-</code></li>
-                
-                <li class="post-context-line"><code>        headers(*res)
-</code></li>
-                
-                <li class="post-context-line"><code>      elsif res.respond_to? :each
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
-        
-      
-          
-
-            <li class="frame-info framework">
-              <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;sinatra-1.4.6&#x2F;lib&#x2F;sinatra&#x2F;base.rb</code> in
                 <code><strong>call!</strong></code>
             </li>
 
             <li class="code framework">
               
               <ol start="899"
-                  class="pre-context" id="pre-24"
-                  onclick="toggle(24);">
+                  class="pre-context" id="pre-23"
+                  onclick="toggle(23);">
                 
                 <li class="pre-context-line"><code>      @request  = Request.new(env)
 </code></li>
@@ -1938,14 +1862,14 @@
               </ol>
               
 
-              <ol start="906" class="context" id="24"
-                  onclick="toggle(24);">
-                <li class="context-line" id="context-24"><code>      invoke { dispatch! }</code></li>
+              <ol start="906" class="context" id="23"
+                  onclick="toggle(23);">
+                <li class="context-line" id="context-23"><code>      invoke { dispatch! }</code></li>
               </ol>
 
               
               <ol start="907" class="post-context"
-                  id="post-24" onclick="toggle(24);">
+                  id="post-23" onclick="toggle(23);">
                 
                 <li class="post-context-line"><code>      invoke { error_block!(response.status) } unless @env[&#x27;sinatra.error&#x27;]
 </code></li>
@@ -1987,8 +1911,8 @@
             <li class="code framework">
               
               <ol start="887"
-                  class="pre-context" id="pre-25"
-                  onclick="toggle(25);">
+                  class="pre-context" id="pre-24"
+                  onclick="toggle(24);">
                 
                 <li class="pre-context-line"><code>      @app = app
 </code></li>
@@ -2014,14 +1938,14 @@
               </ol>
               
 
-              <ol start="894" class="context" id="25"
-                  onclick="toggle(25);">
-                <li class="context-line" id="context-25"><code>      dup.call!(env)</code></li>
+              <ol start="894" class="context" id="24"
+                  onclick="toggle(24);">
+                <li class="context-line" id="context-24"><code>      dup.call!(env)</code></li>
               </ol>
 
               
               <ol start="895" class="post-context"
-                  id="post-25" onclick="toggle(25);">
+                  id="post-24" onclick="toggle(24);">
                 
                 <li class="post-context-line"><code>    end
 </code></li>
@@ -2063,8 +1987,8 @@
             <li class="code system">
               
               <ol start="11"
-                  class="pre-context" id="pre-26"
-                  onclick="toggle(26);">
+                  class="pre-context" id="pre-25"
+                  onclick="toggle(25);">
                 
                 <li class="pre-context-line"><code>    #
 </code></li>
@@ -2090,14 +2014,14 @@
               </ol>
               
 
-              <ol start="18" class="context" id="26"
-                  onclick="toggle(26);">
-                <li class="context-line" id="context-26"><code>        status, headers, body = @app.call(env)</code></li>
+              <ol start="18" class="context" id="25"
+                  onclick="toggle(25);">
+                <li class="context-line" id="context-25"><code>        status, headers, body = @app.call(env)</code></li>
               </ol>
 
               
               <ol start="19" class="post-context"
-                  id="post-26" onclick="toggle(26);">
+                  id="post-25" onclick="toggle(25);">
                 
                 <li class="post-context-line"><code>        headers[&#x27;X-XSS-Protection&#x27;]       ||= &quot;1; mode=#{options[:xss_mode]}&quot; if html? headers
 </code></li>
@@ -2139,8 +2063,8 @@
             <li class="code system">
               
               <ol start="9"
-                  class="pre-context" id="pre-27"
-                  onclick="toggle(27);">
+                  class="pre-context" id="pre-26"
+                  onclick="toggle(26);">
                 
                 <li class="pre-context-line"><code>    #
 </code></li>
@@ -2166,14 +2090,14 @@
               </ol>
               
 
-              <ol start="16" class="context" id="27"
-                  onclick="toggle(27);">
-                <li class="context-line" id="context-27"><code>        app.call env</code></li>
+              <ol start="16" class="context" id="26"
+                  onclick="toggle(26);">
+                <li class="context-line" id="context-26"><code>        app.call env</code></li>
               </ol>
 
               
               <ol start="17" class="post-context"
-                  id="post-27" onclick="toggle(27);">
+                  id="post-26" onclick="toggle(26);">
                 
                 <li class="post-context-line"><code>      ensure
 </code></li>
@@ -2215,8 +2139,8 @@
             <li class="code system">
               
               <ol start="11"
-                  class="pre-context" id="pre-28"
-                  onclick="toggle(28);">
+                  class="pre-context" id="pre-27"
+                  onclick="toggle(27);">
                 
                 <li class="pre-context-line"><code>    # Array prototype has been patched to track data. Checks the referrer
 </code></li>
@@ -2242,14 +2166,14 @@
               </ol>
               
 
-              <ol start="18" class="context" id="28"
-                  onclick="toggle(28);">
-                <li class="context-line" id="context-28"><code>        status, headers, body = app.call(env)</code></li>
+              <ol start="18" class="context" id="27"
+                  onclick="toggle(27);">
+                <li class="context-line" id="context-27"><code>        status, headers, body = app.call(env)</code></li>
               </ol>
 
               
               <ol start="19" class="post-context"
-                  id="post-28" onclick="toggle(28);">
+                  id="post-27" onclick="toggle(27);">
                 
                 <li class="post-context-line"><code>
 </code></li>
@@ -2270,6 +2194,82 @@
 </code></li>
                 
                 <li class="post-context-line"><code>        end
+</code></li>
+                
+              </ol>
+              
+              <div class="clear"></div>
+            </li>
+
+          
+
+        
+      
+          
+
+            <li class="frame-info system">
+              <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;rack-protection-1.5.3&#x2F;lib&#x2F;rack&#x2F;protection&#x2F;base.rb</code> in
+                <code><strong>call</strong></code>
+            </li>
+
+            <li class="code system">
+              
+              <ol start="42"
+                  class="pre-context" id="pre-28"
+                  onclick="toggle(28);">
+                
+                <li class="pre-context-line"><code>      end
+</code></li>
+                
+                <li class="pre-context-line"><code>
+</code></li>
+                
+                <li class="pre-context-line"><code>      def call(env)
+</code></li>
+                
+                <li class="pre-context-line"><code>        unless accepts? env
+</code></li>
+                
+                <li class="pre-context-line"><code>          instrument env
+</code></li>
+                
+                <li class="pre-context-line"><code>          result = react env
+</code></li>
+                
+                <li class="pre-context-line"><code>        end
+</code></li>
+                
+              </ol>
+              
+
+              <ol start="49" class="context" id="28"
+                  onclick="toggle(28);">
+                <li class="context-line" id="context-28"><code>        result or app.call(env)</code></li>
+              </ol>
+
+              
+              <ol start="50" class="post-context"
+                  id="post-28" onclick="toggle(28);">
+                
+                <li class="post-context-line"><code>      end
+</code></li>
+                
+                <li class="post-context-line"><code>
+</code></li>
+                
+                <li class="post-context-line"><code>      def react(env)
+</code></li>
+                
+                <li class="post-context-line"><code>        result = send(options[:reaction], env)
+</code></li>
+                
+                <li class="post-context-line"><code>        result if Array === result and result.size == 3
+</code></li>
+                
+                <li class="post-context-line"><code>      end
+</code></li>
+                
+                <li class="post-context-line"><code>
 </code></li>
                 
               </ol>
@@ -2360,82 +2360,6 @@
           
 
             <li class="frame-info system">
-              <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;rack-protection-1.5.3&#x2F;lib&#x2F;rack&#x2F;protection&#x2F;base.rb</code> in
-                <code><strong>call</strong></code>
-            </li>
-
-            <li class="code system">
-              
-              <ol start="42"
-                  class="pre-context" id="pre-30"
-                  onclick="toggle(30);">
-                
-                <li class="pre-context-line"><code>      end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>      def call(env)
-</code></li>
-                
-                <li class="pre-context-line"><code>        unless accepts? env
-</code></li>
-                
-                <li class="pre-context-line"><code>          instrument env
-</code></li>
-                
-                <li class="pre-context-line"><code>          result = react env
-</code></li>
-                
-                <li class="pre-context-line"><code>        end
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="49" class="context" id="30"
-                  onclick="toggle(30);">
-                <li class="context-line" id="context-30"><code>        result or app.call(env)</code></li>
-              </ol>
-
-              
-              <ol start="50" class="post-context"
-                  id="post-30" onclick="toggle(30);">
-                
-                <li class="post-context-line"><code>      end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>      def react(env)
-</code></li>
-                
-                <li class="post-context-line"><code>        result = send(options[:reaction], env)
-</code></li>
-                
-                <li class="post-context-line"><code>        result if Array === result and result.size == 3
-</code></li>
-                
-                <li class="post-context-line"><code>      end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
-        
-      
-          
-
-            <li class="frame-info system">
               <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;rack-protection-1.5.3&#x2F;lib&#x2F;rack&#x2F;protection&#x2F;frame_options.rb</code> in
                 <code><strong>call</strong></code>
             </li>
@@ -2443,8 +2367,8 @@
             <li class="code system">
               
               <ol start="24"
-                  class="pre-context" id="pre-31"
-                  onclick="toggle(31);">
+                  class="pre-context" id="pre-30"
+                  onclick="toggle(30);">
                 
                 <li class="pre-context-line"><code>          frame_options = options[:frame_options]
 </code></li>
@@ -2470,14 +2394,14 @@
               </ol>
               
 
-              <ol start="31" class="context" id="31"
-                  onclick="toggle(31);">
-                <li class="context-line" id="context-31"><code>        status, headers, body        = @app.call(env)</code></li>
+              <ol start="31" class="context" id="30"
+                  onclick="toggle(30);">
+                <li class="context-line" id="context-30"><code>        status, headers, body        = @app.call(env)</code></li>
               </ol>
 
               
               <ol start="32" class="post-context"
-                  id="post-31" onclick="toggle(31);">
+                  id="post-30" onclick="toggle(30);">
                 
                 <li class="post-context-line"><code>        headers[&#x27;X-Frame-Options&#x27;] ||= frame_options if html? headers
 </code></li>
@@ -2509,15 +2433,15 @@
           
 
             <li class="frame-info system">
-              <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;rack-1.6.0&#x2F;lib&#x2F;rack&#x2F;nulllogger.rb</code> in
+              <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;rack-1.6.1&#x2F;lib&#x2F;rack&#x2F;nulllogger.rb</code> in
                 <code><strong>call</strong></code>
             </li>
 
             <li class="code system">
               
               <ol start="2"
-                  class="pre-context" id="pre-32"
-                  onclick="toggle(32);">
+                  class="pre-context" id="pre-31"
+                  onclick="toggle(31);">
                 
                 <li class="pre-context-line"><code>  class NullLogger
 </code></li>
@@ -2543,14 +2467,14 @@
               </ol>
               
 
-              <ol start="9" class="context" id="32"
-                  onclick="toggle(32);">
-                <li class="context-line" id="context-32"><code>      @app.call(env)</code></li>
+              <ol start="9" class="context" id="31"
+                  onclick="toggle(31);">
+                <li class="context-line" id="context-31"><code>      @app.call(env)</code></li>
               </ol>
 
               
               <ol start="10" class="post-context"
-                  id="post-32" onclick="toggle(32);">
+                  id="post-31" onclick="toggle(31);">
                 
                 <li class="post-context-line"><code>    end
 </code></li>
@@ -2585,15 +2509,15 @@
           
 
             <li class="frame-info system">
-              <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;rack-1.6.0&#x2F;lib&#x2F;rack&#x2F;head.rb</code> in
+              <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;rack-1.6.1&#x2F;lib&#x2F;rack&#x2F;head.rb</code> in
                 <code><strong>call</strong></code>
             </li>
 
             <li class="code system">
               
               <ol start="6"
-                  class="pre-context" id="pre-33"
-                  onclick="toggle(33);">
+                  class="pre-context" id="pre-32"
+                  onclick="toggle(32);">
                 
                 <li class="pre-context-line"><code>  # Rack::Head returns an empty body for all HEAD requests. It leaves
 </code></li>
@@ -2619,14 +2543,14 @@
               </ol>
               
 
-              <ol start="13" class="context" id="33"
-                  onclick="toggle(33);">
-                <li class="context-line" id="context-33"><code>    status, headers, body = @app.call(env)</code></li>
+              <ol start="13" class="context" id="32"
+                  onclick="toggle(32);">
+                <li class="context-line" id="context-32"><code>    status, headers, body = @app.call(env)</code></li>
               </ol>
 
               
               <ol start="14" class="post-context"
-                  id="post-33" onclick="toggle(33);">
+                  id="post-32" onclick="toggle(32);">
                 
                 <li class="post-context-line"><code>
 </code></li>
@@ -2668,8 +2592,8 @@
             <li class="code framework">
               
               <ol start="14"
-                  class="pre-context" id="pre-34"
-                  onclick="toggle(34);">
+                  class="pre-context" id="pre-33"
+                  onclick="toggle(33);">
                 
                 <li class="pre-context-line"><code>
 </code></li>
@@ -2695,14 +2619,14 @@
               </ol>
               
 
-              <ol start="21" class="context" id="34"
-                  onclick="toggle(34);">
-                <li class="context-line" id="context-34"><code>      @app.call(env)</code></li>
+              <ol start="21" class="context" id="33"
+                  onclick="toggle(33);">
+                <li class="context-line" id="context-33"><code>      @app.call(env)</code></li>
               </ol>
 
               
               <ol start="22" class="post-context"
-                  id="post-34" onclick="toggle(34);">
+                  id="post-33" onclick="toggle(33);">
                 
                 <li class="post-context-line"><code>    rescue Exception =&gt; e
 </code></li>
@@ -2744,8 +2668,8 @@
             <li class="code framework">
               
               <ol start="174"
-                  class="pre-context" id="pre-35"
-                  onclick="toggle(35);">
+                  class="pre-context" id="pre-34"
+                  onclick="toggle(34);">
                 
                 <li class="pre-context-line"><code>  # Some Rack handlers (Thin, Rainbows!) implement an extended body object protocol, however,
 </code></li>
@@ -2771,14 +2695,14 @@
               </ol>
               
 
-              <ol start="181" class="context" id="35"
-                  onclick="toggle(35);">
-                <li class="context-line" id="context-35"><code>      result, callback = app.call(env), env[&#x27;async.callback&#x27;]</code></li>
+              <ol start="181" class="context" id="34"
+                  onclick="toggle(34);">
+                <li class="context-line" id="context-34"><code>      result, callback = app.call(env), env[&#x27;async.callback&#x27;]</code></li>
               </ol>
 
               
               <ol start="182" class="post-context"
-                  id="post-35" onclick="toggle(35);">
+                  id="post-34" onclick="toggle(34);">
                 
                 <li class="post-context-line"><code>      return result unless callback and async?(*result)
 </code></li>
@@ -2820,8 +2744,8 @@
             <li class="code framework">
               
               <ol start="2014"
-                  class="pre-context" id="pre-36"
-                  onclick="toggle(36);">
+                  class="pre-context" id="pre-35"
+                  onclick="toggle(35);">
                 
                 <li class="pre-context-line"><code>    end
 </code></li>
@@ -2847,14 +2771,14 @@
               </ol>
               
 
-              <ol start="2021" class="context" id="36"
-                  onclick="toggle(36);">
-                <li class="context-line" id="context-36"><code>      @stack.call(env)</code></li>
+              <ol start="2021" class="context" id="35"
+                  onclick="toggle(35);">
+                <li class="context-line" id="context-35"><code>      @stack.call(env)</code></li>
               </ol>
 
               
               <ol start="2022" class="post-context"
-                  id="post-36" onclick="toggle(36);">
+                  id="post-35" onclick="toggle(35);">
                 
                 <li class="post-context-line"><code>    end
 </code></li>
@@ -2896,8 +2820,8 @@
             <li class="code system">
               
               <ol start="23"
-                  class="pre-context" id="pre-37"
-                  onclick="toggle(37);">
+                  class="pre-context" id="pre-36"
+                  onclick="toggle(36);">
                 
                 <li class="pre-context-line"><code>    def set_cookie(cookie, uri = nil)
 </code></li>
@@ -2923,14 +2847,14 @@
               </ol>
               
 
-              <ol start="30" class="context" id="37"
-                  onclick="toggle(37);">
-                <li class="context-line" id="context-37"><code>      status, headers, body = @app.call(@last_request.env)</code></li>
+              <ol start="30" class="context" id="36"
+                  onclick="toggle(36);">
+                <li class="context-line" id="context-36"><code>      status, headers, body = @app.call(@last_request.env)</code></li>
               </ol>
 
               
               <ol start="31" class="post-context"
-                  id="post-37" onclick="toggle(37);">
+                  id="post-36" onclick="toggle(36);">
                 
                 <li class="post-context-line"><code>
 </code></li>
@@ -2972,8 +2896,8 @@
             <li class="code system">
               
               <ol start="237"
-                  class="pre-context" id="pre-38"
-                  onclick="toggle(38);">
+                  class="pre-context" id="pre-37"
+                  onclick="toggle(37);">
                 
                 <li class="pre-context-line"><code>        Rack::MockRequest.env_for(uri.to_s, env)
 </code></li>
@@ -2999,14 +2923,14 @@
               </ol>
               
 
-              <ol start="244" class="context" id="38"
-                  onclick="toggle(38);">
-                <li class="context-line" id="context-38"><code>        @rack_mock_session.request(uri, env)</code></li>
+              <ol start="244" class="context" id="37"
+                  onclick="toggle(37);">
+                <li class="context-line" id="context-37"><code>        @rack_mock_session.request(uri, env)</code></li>
               </ol>
 
               
               <ol start="245" class="post-context"
-                  id="post-38" onclick="toggle(38);">
+                  id="post-37" onclick="toggle(37);">
                 
                 <li class="post-context-line"><code>
 </code></li>
@@ -3048,8 +2972,8 @@
             <li class="code system">
               
               <ol start="60"
-                  class="pre-context" id="pre-39"
-                  onclick="toggle(39);">
+                  class="pre-context" id="pre-38"
+                  onclick="toggle(38);">
                 
                 <li class="pre-context-line"><code>
 </code></li>
@@ -3075,14 +2999,14 @@
               </ol>
               
 
-              <ol start="67" class="context" id="39"
-                  onclick="toggle(39);">
-                <li class="context-line" id="context-39"><code>        process_request(uri, env, &amp;block)</code></li>
+              <ol start="67" class="context" id="38"
+                  onclick="toggle(38);">
+                <li class="context-line" id="context-38"><code>        process_request(uri, env, &amp;block)</code></li>
               </ol>
 
               
               <ol start="68" class="post-context"
-                  id="post-39" onclick="toggle(39);">
+                  id="post-38" onclick="toggle(38);">
                 
                 <li class="post-context-line"><code>      end
 </code></li>
@@ -3124,8 +3048,8 @@
             <li class="code app">
               
               <ol start="176"
-                  class="pre-context" id="pre-40"
-                  onclick="toggle(40);">
+                  class="pre-context" id="pre-39"
+                  onclick="toggle(39);">
                 
                 <li class="pre-context-line"><code>  #   q.queue    #=&gt; [42]
 </code></li>
@@ -3151,14 +3075,14 @@
               </ol>
               
 
-              <ol start="183" class="context" id="40"
-                  onclick="toggle(40);">
-                <li class="context-line" id="context-40"><code>          #{accessor}.__send__(:#{method}, *args, &amp;block)</code></li>
+              <ol start="183" class="context" id="39"
+                  onclick="toggle(39);">
+                <li class="context-line" id="context-39"><code>          #{accessor}.__send__(:#{method}, *args, &amp;block)</code></li>
               </ol>
 
               
               <ol start="184" class="post-context"
-                  id="post-40" onclick="toggle(40);">
+                  id="post-39" onclick="toggle(39);">
                 
                 <li class="post-context-line"><code>        rescue Exception
 </code></li>
@@ -3199,9 +3123,9 @@
 
             <li class="code app">
               
-              <ol start="112"
-                  class="pre-context" id="pre-41"
-                  onclick="toggle(41);">
+              <ol start="175"
+                  class="pre-context" id="pre-40"
+                  onclick="toggle(40);">
                 
                 <li class="pre-context-line"><code>      it &#x27;post&#x27; do
 </code></li>
@@ -3227,14 +3151,14 @@
               </ol>
               
 
-              <ol start="119" class="context" id="41"
-                  onclick="toggle(41);">
-                <li class="context-line" id="context-41"><code>        post &#x27;&#x2F;manifests&#x2F;pr.346&#x2F;applications&#x27;, body</code></li>
+              <ol start="182" class="context" id="40"
+                  onclick="toggle(40);">
+                <li class="context-line" id="context-40"><code>        post &#x27;&#x2F;manifests&#x2F;pr.346&#x2F;applications&#x27;, body</code></li>
               </ol>
 
               
-              <ol start="120" class="post-context"
-                  id="post-41" onclick="toggle(41);">
+              <ol start="183" class="post-context"
+                  id="post-40" onclick="toggle(40);">
                 
                 <li class="post-context-line"><code>
 </code></li>
@@ -3254,7 +3178,7 @@
                 <li class="post-context-line"><code>        expect(result).to_not be nil
 </code></li>
                 
-                <li class="post-context-line"><code>        expect(result.application_names.size).to eq 2
+                <li class="post-context-line"><code>        expect(result.application_ids.size).to eq 2
 </code></li>
                 
               </ol>
@@ -3271,6 +3195,82 @@
             <li class="frame-info system">
               <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;rspec-core-3.2.3&#x2F;lib&#x2F;rspec&#x2F;core&#x2F;example.rb</code> in
                 <code><strong>instance_exec</strong></code>
+            </li>
+
+            <li class="code system">
+              
+              <ol start="170"
+                  class="pre-context" id="pre-41"
+                  onclick="toggle(41);">
+                
+                <li class="pre-context-line"><code>        begin
+</code></li>
+                
+                <li class="pre-context-line"><code>          if skipped?
+</code></li>
+                
+                <li class="pre-context-line"><code>            Pending.mark_pending! self, skip
+</code></li>
+                
+                <li class="pre-context-line"><code>          elsif !RSpec.configuration.dry_run?
+</code></li>
+                
+                <li class="pre-context-line"><code>            with_around_and_singleton_context_hooks do
+</code></li>
+                
+                <li class="pre-context-line"><code>              begin
+</code></li>
+                
+                <li class="pre-context-line"><code>                run_before_example
+</code></li>
+                
+              </ol>
+              
+
+              <ol start="177" class="context" id="41"
+                  onclick="toggle(41);">
+                <li class="context-line" id="context-41"><code>                @example_group_instance.instance_exec(self, &amp;@example_block)</code></li>
+              </ol>
+
+              
+              <ol start="178" class="post-context"
+                  id="post-41" onclick="toggle(41);">
+                
+                <li class="post-context-line"><code>
+</code></li>
+                
+                <li class="post-context-line"><code>                if pending?
+</code></li>
+                
+                <li class="post-context-line"><code>                  Pending.mark_fixed! self
+</code></li>
+                
+                <li class="post-context-line"><code>
+</code></li>
+                
+                <li class="post-context-line"><code>                  raise Pending::PendingExampleFixedError,
+</code></li>
+                
+                <li class="post-context-line"><code>                        &#x27;Expected example to fail since it is pending, but it passed.&#x27;,
+</code></li>
+                
+                <li class="post-context-line"><code>                        [location]
+</code></li>
+                
+              </ol>
+              
+              <div class="clear"></div>
+            </li>
+
+          
+
+        
+      
+          
+
+            <li class="frame-info system">
+              <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;rspec-core-3.2.3&#x2F;lib&#x2F;rspec&#x2F;core&#x2F;example.rb</code> in
+                <code><strong>block in run</strong></code>
             </li>
 
             <li class="code system">
@@ -3346,90 +3346,14 @@
 
             <li class="frame-info system">
               <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;rspec-core-3.2.3&#x2F;lib&#x2F;rspec&#x2F;core&#x2F;example.rb</code> in
-                <code><strong>block in run</strong></code>
-            </li>
-
-            <li class="code system">
-              
-              <ol start="170"
-                  class="pre-context" id="pre-43"
-                  onclick="toggle(43);">
-                
-                <li class="pre-context-line"><code>        begin
-</code></li>
-                
-                <li class="pre-context-line"><code>          if skipped?
-</code></li>
-                
-                <li class="pre-context-line"><code>            Pending.mark_pending! self, skip
-</code></li>
-                
-                <li class="pre-context-line"><code>          elsif !RSpec.configuration.dry_run?
-</code></li>
-                
-                <li class="pre-context-line"><code>            with_around_and_singleton_context_hooks do
-</code></li>
-                
-                <li class="pre-context-line"><code>              begin
-</code></li>
-                
-                <li class="pre-context-line"><code>                run_before_example
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="177" class="context" id="43"
-                  onclick="toggle(43);">
-                <li class="context-line" id="context-43"><code>                @example_group_instance.instance_exec(self, &amp;@example_block)</code></li>
-              </ol>
-
-              
-              <ol start="178" class="post-context"
-                  id="post-43" onclick="toggle(43);">
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>                if pending?
-</code></li>
-                
-                <li class="post-context-line"><code>                  Pending.mark_fixed! self
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>                  raise Pending::PendingExampleFixedError,
-</code></li>
-                
-                <li class="post-context-line"><code>                        &#x27;Expected example to fail since it is pending, but it passed.&#x27;,
-</code></li>
-                
-                <li class="post-context-line"><code>                        [location]
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
-        
-      
-          
-
-            <li class="frame-info system">
-              <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;rspec-core-3.2.3&#x2F;lib&#x2F;rspec&#x2F;core&#x2F;example.rb</code> in
                 <code><strong>block in with_around_and_singleton_context_hooks</strong></code>
             </li>
 
             <li class="code system">
               
               <ol start="378"
-                  class="pre-context" id="pre-44"
-                  onclick="toggle(44);">
+                  class="pre-context" id="pre-43"
+                  onclick="toggle(43);">
                 
                 <li class="pre-context-line"><code>        @example_group_instance.setup_mocks_for_rspec
 </code></li>
@@ -3455,14 +3379,14 @@
               </ol>
               
 
-              <ol start="385" class="context" id="44"
-                  onclick="toggle(44);">
-                <li class="context-line" id="context-44"><code>        with_around_example_hooks { yield }</code></li>
+              <ol start="385" class="context" id="43"
+                  onclick="toggle(43);">
+                <li class="context-line" id="context-43"><code>        with_around_example_hooks { yield }</code></li>
               </ol>
 
               
               <ol start="386" class="post-context"
-                  id="post-44" onclick="toggle(44);">
+                  id="post-43" onclick="toggle(43);">
                 
                 <li class="post-context-line"><code>      ensure
 </code></li>
@@ -3504,8 +3428,8 @@
             <li class="code system">
               
               <ol start="336"
-                  class="pre-context" id="pre-45"
-                  onclick="toggle(45);">
+                  class="pre-context" id="pre-44"
+                  onclick="toggle(44);">
                 
                 <li class="pre-context-line"><code>    private
 </code></li>
@@ -3531,14 +3455,14 @@
               </ol>
               
 
-              <ol start="343" class="context" id="45"
-                  onclick="toggle(45);">
-                <li class="context-line" id="context-45"><code>        hooks.run(:around, :example, self) { yield }</code></li>
+              <ol start="343" class="context" id="44"
+                  onclick="toggle(44);">
+                <li class="context-line" id="context-44"><code>        hooks.run(:around, :example, self) { yield }</code></li>
               </ol>
 
               
               <ol start="344" class="post-context"
-                  id="post-45" onclick="toggle(45);">
+                  id="post-44" onclick="toggle(44);">
                 
                 <li class="post-context-line"><code>      rescue Exception =&gt; e
 </code></li>
@@ -3580,8 +3504,8 @@
             <li class="code system">
               
               <ol start="467"
-                  class="pre-context" id="pre-46"
-                  onclick="toggle(46);">
+                  class="pre-context" id="pre-45"
+                  onclick="toggle(45);">
                 
                 <li class="pre-context-line"><code>
 </code></li>
@@ -3607,14 +3531,14 @@
               </ol>
               
 
-              <ol start="474" class="context" id="46"
-                  onclick="toggle(46);">
-                <li class="context-line" id="context-46"><code>            when :around then run_around_example_hooks_for(example_or_group) { yield }</code></li>
+              <ol start="474" class="context" id="45"
+                  onclick="toggle(45);">
+                <li class="context-line" id="context-45"><code>            when :around then run_around_example_hooks_for(example_or_group) { yield }</code></li>
               </ol>
 
               
               <ol start="475" class="post-context"
-                  id="post-46" onclick="toggle(46);">
+                  id="post-45" onclick="toggle(45);">
                 
                 <li class="post-context-line"><code>            end
 </code></li>
@@ -3656,8 +3580,8 @@
             <li class="code system">
               
               <ol start="605"
-                  class="pre-context" id="pre-47"
-                  onclick="toggle(47);">
+                  class="pre-context" id="pre-46"
+                  onclick="toggle(46);">
                 
                 <li class="pre-context-line"><code>        end
 </code></li>
@@ -3683,14 +3607,14 @@
               </ol>
               
 
-              <ol start="612" class="context" id="47"
-                  onclick="toggle(47);">
-                <li class="context-line" id="context-47"><code>          return yield if hooks.empty? # exit early to avoid the extra allocation cost of `Example::Procsy`</code></li>
+              <ol start="612" class="context" id="46"
+                  onclick="toggle(46);">
+                <li class="context-line" id="context-46"><code>          return yield if hooks.empty? # exit early to avoid the extra allocation cost of `Example::Procsy`</code></li>
               </ol>
 
               
               <ol start="613" class="post-context"
-                  id="post-47" onclick="toggle(47);">
+                  id="post-46" onclick="toggle(46);">
                 
                 <li class="post-context-line"><code>
 </code></li>
@@ -3732,8 +3656,8 @@
             <li class="code system">
               
               <ol start="467"
-                  class="pre-context" id="pre-48"
-                  onclick="toggle(48);">
+                  class="pre-context" id="pre-47"
+                  onclick="toggle(47);">
                 
                 <li class="pre-context-line"><code>
 </code></li>
@@ -3759,14 +3683,14 @@
               </ol>
               
 
-              <ol start="474" class="context" id="48"
-                  onclick="toggle(48);">
-                <li class="context-line" id="context-48"><code>            when :around then run_around_example_hooks_for(example_or_group) { yield }</code></li>
+              <ol start="474" class="context" id="47"
+                  onclick="toggle(47);">
+                <li class="context-line" id="context-47"><code>            when :around then run_around_example_hooks_for(example_or_group) { yield }</code></li>
               </ol>
 
               
               <ol start="475" class="post-context"
-                  id="post-48" onclick="toggle(48);">
+                  id="post-47" onclick="toggle(47);">
                 
                 <li class="post-context-line"><code>            end
 </code></li>
@@ -3808,8 +3732,8 @@
             <li class="code system">
               
               <ol start="336"
-                  class="pre-context" id="pre-49"
-                  onclick="toggle(49);">
+                  class="pre-context" id="pre-48"
+                  onclick="toggle(48);">
                 
                 <li class="pre-context-line"><code>    private
 </code></li>
@@ -3835,14 +3759,14 @@
               </ol>
               
 
-              <ol start="343" class="context" id="49"
-                  onclick="toggle(49);">
-                <li class="context-line" id="context-49"><code>        hooks.run(:around, :example, self) { yield }</code></li>
+              <ol start="343" class="context" id="48"
+                  onclick="toggle(48);">
+                <li class="context-line" id="context-48"><code>        hooks.run(:around, :example, self) { yield }</code></li>
               </ol>
 
               
               <ol start="344" class="post-context"
-                  id="post-49" onclick="toggle(49);">
+                  id="post-48" onclick="toggle(48);">
                 
                 <li class="post-context-line"><code>      rescue Exception =&gt; e
 </code></li>
@@ -3884,8 +3808,8 @@
             <li class="code system">
               
               <ol start="378"
-                  class="pre-context" id="pre-50"
-                  onclick="toggle(50);">
+                  class="pre-context" id="pre-49"
+                  onclick="toggle(49);">
                 
                 <li class="pre-context-line"><code>        @example_group_instance.setup_mocks_for_rspec
 </code></li>
@@ -3911,14 +3835,14 @@
               </ol>
               
 
-              <ol start="385" class="context" id="50"
-                  onclick="toggle(50);">
-                <li class="context-line" id="context-50"><code>        with_around_example_hooks { yield }</code></li>
+              <ol start="385" class="context" id="49"
+                  onclick="toggle(49);">
+                <li class="context-line" id="context-49"><code>        with_around_example_hooks { yield }</code></li>
               </ol>
 
               
               <ol start="386" class="post-context"
-                  id="post-50" onclick="toggle(50);">
+                  id="post-49" onclick="toggle(49);">
                 
                 <li class="post-context-line"><code>      ensure
 </code></li>
@@ -3960,8 +3884,8 @@
             <li class="code system">
               
               <ol start="167"
-                  class="pre-context" id="pre-51"
-                  onclick="toggle(51);">
+                  class="pre-context" id="pre-50"
+                  onclick="toggle(50);">
                 
                 <li class="pre-context-line"><code>        start(reporter)
 </code></li>
@@ -3987,14 +3911,14 @@
               </ol>
               
 
-              <ol start="174" class="context" id="51"
-                  onclick="toggle(51);">
-                <li class="context-line" id="context-51"><code>            with_around_and_singleton_context_hooks do</code></li>
+              <ol start="174" class="context" id="50"
+                  onclick="toggle(50);">
+                <li class="context-line" id="context-50"><code>            with_around_and_singleton_context_hooks do</code></li>
               </ol>
 
               
               <ol start="175" class="post-context"
-                  id="post-51" onclick="toggle(51);">
+                  id="post-50" onclick="toggle(50);">
                 
                 <li class="post-context-line"><code>              begin
 </code></li>
@@ -4036,8 +3960,8 @@
             <li class="code system">
               
               <ol start="542"
-                  class="pre-context" id="pre-52"
-                  onclick="toggle(52);">
+                  class="pre-context" id="pre-51"
+                  onclick="toggle(51);">
                 
                 <li class="pre-context-line"><code>
 </code></li>
@@ -4063,14 +3987,14 @@
               </ol>
               
 
-              <ol start="549" class="context" id="52"
-                  onclick="toggle(52);">
-                <li class="context-line" id="context-52"><code>          succeeded = example.run(instance, reporter)</code></li>
+              <ol start="549" class="context" id="51"
+                  onclick="toggle(51);">
+                <li class="context-line" id="context-51"><code>          succeeded = example.run(instance, reporter)</code></li>
               </ol>
 
               
               <ol start="550" class="post-context"
-                  id="post-52" onclick="toggle(52);">
+                  id="post-51" onclick="toggle(51);">
                 
                 <li class="post-context-line"><code>          RSpec.world.wants_to_quit = true if fail_fast? &amp;&amp; !succeeded
 </code></li>
@@ -4107,6 +4031,82 @@
             <li class="frame-info system">
               <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;rspec-core-3.2.3&#x2F;lib&#x2F;rspec&#x2F;core&#x2F;example_group.rb</code> in
                 <code><strong>map</strong></code>
+            </li>
+
+            <li class="code system">
+              
+              <ol start="538"
+                  class="pre-context" id="pre-52"
+                  onclick="toggle(52);">
+                
+                <li class="pre-context-line"><code>
+</code></li>
+                
+                <li class="pre-context-line"><code>          registry.fetch(:global)
+</code></li>
+                
+                <li class="pre-context-line"><code>        end
+</code></li>
+                
+                <li class="pre-context-line"><code>      end
+</code></li>
+                
+                <li class="pre-context-line"><code>
+</code></li>
+                
+                <li class="pre-context-line"><code>      # @private
+</code></li>
+                
+                <li class="pre-context-line"><code>      def self.run_examples(reporter)
+</code></li>
+                
+              </ol>
+              
+
+              <ol start="545" class="context" id="52"
+                  onclick="toggle(52);">
+                <li class="context-line" id="context-52"><code>        ordering_strategy.order(filtered_examples).map do |example|</code></li>
+              </ol>
+
+              
+              <ol start="546" class="post-context"
+                  id="post-52" onclick="toggle(52);">
+                
+                <li class="post-context-line"><code>          next if RSpec.world.wants_to_quit
+</code></li>
+                
+                <li class="post-context-line"><code>          instance = new(example.inspect_output)
+</code></li>
+                
+                <li class="post-context-line"><code>          set_ivars(instance, before_context_ivars)
+</code></li>
+                
+                <li class="post-context-line"><code>          succeeded = example.run(instance, reporter)
+</code></li>
+                
+                <li class="post-context-line"><code>          RSpec.world.wants_to_quit = true if fail_fast? &amp;&amp; !succeeded
+</code></li>
+                
+                <li class="post-context-line"><code>          succeeded
+</code></li>
+                
+                <li class="post-context-line"><code>        end.all?
+</code></li>
+                
+              </ol>
+              
+              <div class="clear"></div>
+            </li>
+
+          
+
+        
+      
+          
+
+            <li class="frame-info system">
+              <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;rspec-core-3.2.3&#x2F;lib&#x2F;rspec&#x2F;core&#x2F;example_group.rb</code> in
+                <code><strong>run_examples</strong></code>
             </li>
 
             <li class="code system">
@@ -4182,90 +4182,14 @@
 
             <li class="frame-info system">
               <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;rspec-core-3.2.3&#x2F;lib&#x2F;rspec&#x2F;core&#x2F;example_group.rb</code> in
-                <code><strong>run_examples</strong></code>
-            </li>
-
-            <li class="code system">
-              
-              <ol start="538"
-                  class="pre-context" id="pre-54"
-                  onclick="toggle(54);">
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>          registry.fetch(:global)
-</code></li>
-                
-                <li class="pre-context-line"><code>        end
-</code></li>
-                
-                <li class="pre-context-line"><code>      end
-</code></li>
-                
-                <li class="pre-context-line"><code>
-</code></li>
-                
-                <li class="pre-context-line"><code>      # @private
-</code></li>
-                
-                <li class="pre-context-line"><code>      def self.run_examples(reporter)
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="545" class="context" id="54"
-                  onclick="toggle(54);">
-                <li class="context-line" id="context-54"><code>        ordering_strategy.order(filtered_examples).map do |example|</code></li>
-              </ol>
-
-              
-              <ol start="546" class="post-context"
-                  id="post-54" onclick="toggle(54);">
-                
-                <li class="post-context-line"><code>          next if RSpec.world.wants_to_quit
-</code></li>
-                
-                <li class="post-context-line"><code>          instance = new(example.inspect_output)
-</code></li>
-                
-                <li class="post-context-line"><code>          set_ivars(instance, before_context_ivars)
-</code></li>
-                
-                <li class="post-context-line"><code>          succeeded = example.run(instance, reporter)
-</code></li>
-                
-                <li class="post-context-line"><code>          RSpec.world.wants_to_quit = true if fail_fast? &amp;&amp; !succeeded
-</code></li>
-                
-                <li class="post-context-line"><code>          succeeded
-</code></li>
-                
-                <li class="post-context-line"><code>        end.all?
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
-        
-      
-          
-
-            <li class="frame-info system">
-              <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;rspec-core-3.2.3&#x2F;lib&#x2F;rspec&#x2F;core&#x2F;example_group.rb</code> in
                 <code><strong>run</strong></code>
             </li>
 
             <li class="code system">
               
               <ol start="505"
-                  class="pre-context" id="pre-55"
-                  onclick="toggle(55);">
+                  class="pre-context" id="pre-54"
+                  onclick="toggle(54);">
                 
                 <li class="pre-context-line"><code>          return
 </code></li>
@@ -4291,14 +4215,14 @@
               </ol>
               
 
-              <ol start="512" class="context" id="55"
-                  onclick="toggle(55);">
-                <li class="context-line" id="context-55"><code>          result_for_this_group = run_examples(reporter)</code></li>
+              <ol start="512" class="context" id="54"
+                  onclick="toggle(54);">
+                <li class="context-line" id="context-54"><code>          result_for_this_group = run_examples(reporter)</code></li>
               </ol>
 
               
               <ol start="513" class="post-context"
-                  id="post-55" onclick="toggle(55);">
+                  id="post-54" onclick="toggle(54);">
                 
                 <li class="post-context-line"><code>          results_for_descendants = ordering_strategy.order(children).map { |child| child.run(reporter) }.all?
 </code></li>
@@ -4335,6 +4259,82 @@
             <li class="frame-info system">
               <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;rspec-core-3.2.3&#x2F;lib&#x2F;rspec&#x2F;core&#x2F;example_group.rb</code> in
                 <code><strong>block in run</strong></code>
+            </li>
+
+            <li class="code system">
+              
+              <ol start="506"
+                  class="pre-context" id="pre-55"
+                  onclick="toggle(55);">
+                
+                <li class="pre-context-line"><code>        end
+</code></li>
+                
+                <li class="pre-context-line"><code>        reporter.example_group_started(self)
+</code></li>
+                
+                <li class="pre-context-line"><code>
+</code></li>
+                
+                <li class="pre-context-line"><code>        should_run_context_hooks = descendant_filtered_examples.any?
+</code></li>
+                
+                <li class="pre-context-line"><code>        begin
+</code></li>
+                
+                <li class="pre-context-line"><code>          run_before_context_hooks(new(&#x27;before(:context) hook&#x27;)) if should_run_context_hooks
+</code></li>
+                
+                <li class="pre-context-line"><code>          result_for_this_group = run_examples(reporter)
+</code></li>
+                
+              </ol>
+              
+
+              <ol start="513" class="context" id="55"
+                  onclick="toggle(55);">
+                <li class="context-line" id="context-55"><code>          results_for_descendants = ordering_strategy.order(children).map { |child| child.run(reporter) }.all?</code></li>
+              </ol>
+
+              
+              <ol start="514" class="post-context"
+                  id="post-55" onclick="toggle(55);">
+                
+                <li class="post-context-line"><code>          result_for_this_group &amp;&amp; results_for_descendants
+</code></li>
+                
+                <li class="post-context-line"><code>        rescue Pending::SkipDeclaredInExample =&gt; ex
+</code></li>
+                
+                <li class="post-context-line"><code>          for_filtered_examples(reporter) { |example| example.skip_with_exception(reporter, ex) }
+</code></li>
+                
+                <li class="post-context-line"><code>          true
+</code></li>
+                
+                <li class="post-context-line"><code>        rescue Exception =&gt; ex
+</code></li>
+                
+                <li class="post-context-line"><code>          RSpec.world.wants_to_quit = true if fail_fast?
+</code></li>
+                
+                <li class="post-context-line"><code>          for_filtered_examples(reporter) { |example| example.fail_with_exception(reporter, ex) }
+</code></li>
+                
+              </ol>
+              
+              <div class="clear"></div>
+            </li>
+
+          
+
+        
+      
+          
+
+            <li class="frame-info system">
+              <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;rspec-core-3.2.3&#x2F;lib&#x2F;rspec&#x2F;core&#x2F;example_group.rb</code> in
+                <code><strong>map</strong></code>
             </li>
 
             <li class="code system">
@@ -4410,7 +4410,7 @@
 
             <li class="frame-info system">
               <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;rspec-core-3.2.3&#x2F;lib&#x2F;rspec&#x2F;core&#x2F;example_group.rb</code> in
-                <code><strong>map</strong></code>
+                <code><strong>run</strong></code>
             </li>
 
             <li class="code system">
@@ -4486,7 +4486,7 @@
 
             <li class="frame-info system">
               <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;rspec-core-3.2.3&#x2F;lib&#x2F;rspec&#x2F;core&#x2F;example_group.rb</code> in
-                <code><strong>run</strong></code>
+                <code><strong>block in run</strong></code>
             </li>
 
             <li class="code system">
@@ -4562,7 +4562,7 @@
 
             <li class="frame-info system">
               <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;rspec-core-3.2.3&#x2F;lib&#x2F;rspec&#x2F;core&#x2F;example_group.rb</code> in
-                <code><strong>block in run</strong></code>
+                <code><strong>map</strong></code>
             </li>
 
             <li class="code system">
@@ -4638,7 +4638,7 @@
 
             <li class="frame-info system">
               <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;rspec-core-3.2.3&#x2F;lib&#x2F;rspec&#x2F;core&#x2F;example_group.rb</code> in
-                <code><strong>map</strong></code>
+                <code><strong>run</strong></code>
             </li>
 
             <li class="code system">
@@ -4713,68 +4713,68 @@
           
 
             <li class="frame-info system">
-              <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;rspec-core-3.2.3&#x2F;lib&#x2F;rspec&#x2F;core&#x2F;example_group.rb</code> in
-                <code><strong>run</strong></code>
+              <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;rspec-core-3.2.3&#x2F;lib&#x2F;rspec&#x2F;core&#x2F;runner.rb</code> in
+                <code><strong>block (3 levels) in run_specs</strong></code>
             </li>
 
             <li class="code system">
               
-              <ol start="506"
+              <ol start="103"
                   class="pre-context" id="pre-61"
                   onclick="toggle(61);">
                 
-                <li class="pre-context-line"><code>        end
+                <li class="pre-context-line"><code>      # @param example_groups [Array&lt;RSpec::Core::ExampleGroup&gt;] groups to run
 </code></li>
                 
-                <li class="pre-context-line"><code>        reporter.example_group_started(self)
+                <li class="pre-context-line"><code>      # @return [Fixnum] exit status code. 0 if all specs passed,
 </code></li>
                 
-                <li class="pre-context-line"><code>
+                <li class="pre-context-line"><code>      #   or the configured failure exit code (1 by default) if specs
 </code></li>
                 
-                <li class="pre-context-line"><code>        should_run_context_hooks = descendant_filtered_examples.any?
+                <li class="pre-context-line"><code>      #   failed.
 </code></li>
                 
-                <li class="pre-context-line"><code>        begin
+                <li class="pre-context-line"><code>      def run_specs(example_groups)
 </code></li>
                 
-                <li class="pre-context-line"><code>          run_before_context_hooks(new(&#x27;before(:context) hook&#x27;)) if should_run_context_hooks
+                <li class="pre-context-line"><code>        @configuration.reporter.report(@world.example_count(example_groups)) do |reporter|
 </code></li>
                 
-                <li class="pre-context-line"><code>          result_for_this_group = run_examples(reporter)
+                <li class="pre-context-line"><code>          @configuration.with_suite_hooks do
 </code></li>
                 
               </ol>
               
 
-              <ol start="513" class="context" id="61"
+              <ol start="110" class="context" id="61"
                   onclick="toggle(61);">
-                <li class="context-line" id="context-61"><code>          results_for_descendants = ordering_strategy.order(children).map { |child| child.run(reporter) }.all?</code></li>
+                <li class="context-line" id="context-61"><code>            example_groups.map { |g| g.run(reporter) }.all? ? 0 : @configuration.failure_exit_code</code></li>
               </ol>
 
               
-              <ol start="514" class="post-context"
+              <ol start="111" class="post-context"
                   id="post-61" onclick="toggle(61);">
                 
-                <li class="post-context-line"><code>          result_for_this_group &amp;&amp; results_for_descendants
+                <li class="post-context-line"><code>          end
 </code></li>
                 
-                <li class="post-context-line"><code>        rescue Pending::SkipDeclaredInExample =&gt; ex
+                <li class="post-context-line"><code>        end
 </code></li>
                 
-                <li class="post-context-line"><code>          for_filtered_examples(reporter) { |example| example.skip_with_exception(reporter, ex) }
+                <li class="post-context-line"><code>      end
 </code></li>
                 
-                <li class="post-context-line"><code>          true
+                <li class="post-context-line"><code>
 </code></li>
                 
-                <li class="post-context-line"><code>        rescue Exception =&gt; ex
+                <li class="post-context-line"><code>      # @private
 </code></li>
                 
-                <li class="post-context-line"><code>          RSpec.world.wants_to_quit = true if fail_fast?
+                <li class="post-context-line"><code>      def self.disable_autorun!
 </code></li>
                 
-                <li class="post-context-line"><code>          for_filtered_examples(reporter) { |example| example.fail_with_exception(reporter, ex) }
+                <li class="post-context-line"><code>        @autorun_disabled = true
 </code></li>
                 
               </ol>
@@ -4790,7 +4790,7 @@
 
             <li class="frame-info system">
               <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;rspec-core-3.2.3&#x2F;lib&#x2F;rspec&#x2F;core&#x2F;runner.rb</code> in
-                <code><strong>block (3 levels) in run_specs</strong></code>
+                <code><strong>map</strong></code>
             </li>
 
             <li class="code system">
@@ -4866,7 +4866,7 @@
 
             <li class="frame-info system">
               <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;rspec-core-3.2.3&#x2F;lib&#x2F;rspec&#x2F;core&#x2F;runner.rb</code> in
-                <code><strong>map</strong></code>
+                <code><strong>block (2 levels) in run_specs</strong></code>
             </li>
 
             <li class="code system">
@@ -4941,82 +4941,6 @@
           
 
             <li class="frame-info system">
-              <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;rspec-core-3.2.3&#x2F;lib&#x2F;rspec&#x2F;core&#x2F;runner.rb</code> in
-                <code><strong>block (2 levels) in run_specs</strong></code>
-            </li>
-
-            <li class="code system">
-              
-              <ol start="103"
-                  class="pre-context" id="pre-64"
-                  onclick="toggle(64);">
-                
-                <li class="pre-context-line"><code>      # @param example_groups [Array&lt;RSpec::Core::ExampleGroup&gt;] groups to run
-</code></li>
-                
-                <li class="pre-context-line"><code>      # @return [Fixnum] exit status code. 0 if all specs passed,
-</code></li>
-                
-                <li class="pre-context-line"><code>      #   or the configured failure exit code (1 by default) if specs
-</code></li>
-                
-                <li class="pre-context-line"><code>      #   failed.
-</code></li>
-                
-                <li class="pre-context-line"><code>      def run_specs(example_groups)
-</code></li>
-                
-                <li class="pre-context-line"><code>        @configuration.reporter.report(@world.example_count(example_groups)) do |reporter|
-</code></li>
-                
-                <li class="pre-context-line"><code>          @configuration.with_suite_hooks do
-</code></li>
-                
-              </ol>
-              
-
-              <ol start="110" class="context" id="64"
-                  onclick="toggle(64);">
-                <li class="context-line" id="context-64"><code>            example_groups.map { |g| g.run(reporter) }.all? ? 0 : @configuration.failure_exit_code</code></li>
-              </ol>
-
-              
-              <ol start="111" class="post-context"
-                  id="post-64" onclick="toggle(64);">
-                
-                <li class="post-context-line"><code>          end
-</code></li>
-                
-                <li class="post-context-line"><code>        end
-</code></li>
-                
-                <li class="post-context-line"><code>      end
-</code></li>
-                
-                <li class="post-context-line"><code>
-</code></li>
-                
-                <li class="post-context-line"><code>      # @private
-</code></li>
-                
-                <li class="post-context-line"><code>      def self.disable_autorun!
-</code></li>
-                
-                <li class="post-context-line"><code>        @autorun_disabled = true
-</code></li>
-                
-              </ol>
-              
-              <div class="clear"></div>
-            </li>
-
-          
-
-        
-      
-          
-
-            <li class="frame-info system">
               <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;rspec-core-3.2.3&#x2F;lib&#x2F;rspec&#x2F;core&#x2F;configuration.rb</code> in
                 <code><strong>with_suite_hooks</strong></code>
             </li>
@@ -5024,8 +4948,8 @@
             <li class="code system">
               
               <ol start="1519"
-                  class="pre-context" id="pre-65"
-                  onclick="toggle(65);">
+                  class="pre-context" id="pre-64"
+                  onclick="toggle(64);">
                 
                 <li class="pre-context-line"><code>      # @private
 </code></li>
@@ -5051,14 +4975,14 @@
               </ol>
               
 
-              <ol start="1526" class="context" id="65"
-                  onclick="toggle(65);">
-                <li class="context-line" id="context-65"><code>          yield</code></li>
+              <ol start="1526" class="context" id="64"
+                  onclick="toggle(64);">
+                <li class="context-line" id="context-64"><code>          yield</code></li>
               </ol>
 
               
               <ol start="1527" class="post-context"
-                  id="post-65" onclick="toggle(65);">
+                  id="post-64" onclick="toggle(64);">
                 
                 <li class="post-context-line"><code>        ensure
 </code></li>
@@ -5100,8 +5024,8 @@
             <li class="code system">
               
               <ol start="102"
-                  class="pre-context" id="pre-66"
-                  onclick="toggle(66);">
+                  class="pre-context" id="pre-65"
+                  onclick="toggle(65);">
                 
                 <li class="pre-context-line"><code>      #
 </code></li>
@@ -5127,14 +5051,14 @@
               </ol>
               
 
-              <ol start="109" class="context" id="66"
-                  onclick="toggle(66);">
-                <li class="context-line" id="context-66"><code>          @configuration.with_suite_hooks do</code></li>
+              <ol start="109" class="context" id="65"
+                  onclick="toggle(65);">
+                <li class="context-line" id="context-65"><code>          @configuration.with_suite_hooks do</code></li>
               </ol>
 
               
               <ol start="110" class="post-context"
-                  id="post-66" onclick="toggle(66);">
+                  id="post-65" onclick="toggle(65);">
                 
                 <li class="post-context-line"><code>            example_groups.map { |g| g.run(reporter) }.all? ? 0 : @configuration.failure_exit_code
 </code></li>
@@ -5176,8 +5100,8 @@
             <li class="code system">
               
               <ol start="55"
-                  class="pre-context" id="pre-67"
-                  onclick="toggle(67);">
+                  class="pre-context" id="pre-66"
+                  onclick="toggle(66);">
                 
                 <li class="pre-context-line"><code>    #     reporter.report(group.examples.size) do |r|
 </code></li>
@@ -5203,14 +5127,14 @@
               </ol>
               
 
-              <ol start="62" class="context" id="67"
-                  onclick="toggle(67);">
-                <li class="context-line" id="context-67"><code>        yield self</code></li>
+              <ol start="62" class="context" id="66"
+                  onclick="toggle(66);">
+                <li class="context-line" id="context-66"><code>        yield self</code></li>
               </ol>
 
               
               <ol start="63" class="post-context"
-                  id="post-67" onclick="toggle(67);">
+                  id="post-66" onclick="toggle(66);">
                 
                 <li class="post-context-line"><code>      ensure
 </code></li>
@@ -5252,8 +5176,8 @@
             <li class="code system">
               
               <ol start="101"
-                  class="pre-context" id="pre-68"
-                  onclick="toggle(68);">
+                  class="pre-context" id="pre-67"
+                  onclick="toggle(67);">
                 
                 <li class="pre-context-line"><code>      # Runs the provided example groups.
 </code></li>
@@ -5279,14 +5203,14 @@
               </ol>
               
 
-              <ol start="108" class="context" id="68"
-                  onclick="toggle(68);">
-                <li class="context-line" id="context-68"><code>        @configuration.reporter.report(@world.example_count(example_groups)) do |reporter|</code></li>
+              <ol start="108" class="context" id="67"
+                  onclick="toggle(67);">
+                <li class="context-line" id="context-67"><code>        @configuration.reporter.report(@world.example_count(example_groups)) do |reporter|</code></li>
               </ol>
 
               
               <ol start="109" class="post-context"
-                  id="post-68" onclick="toggle(68);">
+                  id="post-67" onclick="toggle(67);">
                 
                 <li class="post-context-line"><code>          @configuration.with_suite_hooks do
 </code></li>
@@ -5328,8 +5252,8 @@
             <li class="code system">
               
               <ol start="79"
-                  class="pre-context" id="pre-69"
-                  onclick="toggle(69);">
+                  class="pre-context" id="pre-68"
+                  onclick="toggle(68);">
                 
                 <li class="pre-context-line"><code>
 </code></li>
@@ -5355,14 +5279,14 @@
               </ol>
               
 
-              <ol start="86" class="context" id="69"
-                  onclick="toggle(69);">
-                <li class="context-line" id="context-69"><code>        run_specs(@world.ordered_example_groups)</code></li>
+              <ol start="86" class="context" id="68"
+                  onclick="toggle(68);">
+                <li class="context-line" id="context-68"><code>        run_specs(@world.ordered_example_groups)</code></li>
               </ol>
 
               
               <ol start="87" class="post-context"
-                  id="post-69" onclick="toggle(69);">
+                  id="post-68" onclick="toggle(68);">
                 
                 <li class="post-context-line"><code>      end
 </code></li>
@@ -5404,8 +5328,8 @@
             <li class="code system">
               
               <ol start="63"
-                  class="pre-context" id="pre-70"
-                  onclick="toggle(70);">
+                  class="pre-context" id="pre-69"
+                  onclick="toggle(69);">
                 
                 <li class="pre-context-line"><code>          begin
 </code></li>
@@ -5431,14 +5355,14 @@
               </ol>
               
 
-              <ol start="70" class="context" id="70"
-                  onclick="toggle(70);">
-                <li class="context-line" id="context-70"><code>          new(options).run(err, out)</code></li>
+              <ol start="70" class="context" id="69"
+                  onclick="toggle(69);">
+                <li class="context-line" id="context-69"><code>          new(options).run(err, out)</code></li>
               </ol>
 
               
               <ol start="71" class="post-context"
-                  id="post-70" onclick="toggle(70);">
+                  id="post-69" onclick="toggle(69);">
                 
                 <li class="post-context-line"><code>        end
 </code></li>
@@ -5480,8 +5404,8 @@
             <li class="code system">
               
               <ol start="31"
-                  class="pre-context" id="pre-71"
-                  onclick="toggle(71);">
+                  class="pre-context" id="pre-70"
+                  onclick="toggle(70);">
                 
                 <li class="pre-context-line"><code>        @installed_at_exit = true
 </code></li>
@@ -5507,14 +5431,14 @@
               </ol>
               
 
-              <ol start="38" class="context" id="71"
-                  onclick="toggle(71);">
-                <li class="context-line" id="context-71"><code>        status = run(ARGV, $stderr, $stdout).to_i</code></li>
+              <ol start="38" class="context" id="70"
+                  onclick="toggle(70);">
+                <li class="context-line" id="context-70"><code>        status = run(ARGV, $stderr, $stdout).to_i</code></li>
               </ol>
 
               
               <ol start="39" class="post-context"
-                  id="post-71" onclick="toggle(71);">
+                  id="post-70" onclick="toggle(70);">
                 
                 <li class="post-context-line"><code>        exit(status) if status != 0
 </code></li>
@@ -5550,14 +5474,14 @@
 
             <li class="frame-info system">
               <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;gems&#x2F;rspec-core-3.2.3&#x2F;exe&#x2F;rspec</code> in
-                <code><strong>&lt;main&gt;</strong></code>
+                <code><strong>&lt;top (required)&gt;</strong></code>
             </li>
 
             <li class="code system">
               
               <ol start="1"
-                  class="pre-context" id="pre-72"
-                  onclick="toggle(72);">
+                  class="pre-context" id="pre-71"
+                  onclick="toggle(71);">
                 
                 <li class="pre-context-line"><code>#!&#x2F;usr&#x2F;bin&#x2F;env ruby
 </code></li>
@@ -5571,14 +5495,234 @@
               </ol>
               
 
-              <ol start="4" class="context" id="72"
-                  onclick="toggle(72);">
-                <li class="context-line" id="context-72"><code>RSpec::Core::Runner.invoke</code></li>
+              <ol start="4" class="context" id="71"
+                  onclick="toggle(71);">
+                <li class="context-line" id="context-71"><code>RSpec::Core::Runner.invoke</code></li>
               </ol>
 
               
               <ol start="5" class="post-context"
+                  id="post-71" onclick="toggle(71);">
+                
+              </ol>
+              
+              <div class="clear"></div>
+            </li>
+
+          
+
+        
+      
+          
+
+            <li class="frame-info system">
+              <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;bin&#x2F;rspec</code> in
+                <code><strong>load</strong></code>
+            </li>
+
+            <li class="code system">
+              
+              <ol start="16"
+                  class="pre-context" id="pre-72"
+                  onclick="toggle(72);">
+                
+                <li class="pre-context-line"><code>  if str =~ &#x2F;\A_(.*)_\z&#x2F; and Gem::Version.correct?($1) then
+</code></li>
+                
+                <li class="pre-context-line"><code>    version = $1
+</code></li>
+                
+                <li class="pre-context-line"><code>    ARGV.shift
+</code></li>
+                
+                <li class="pre-context-line"><code>  end
+</code></li>
+                
+                <li class="pre-context-line"><code>end
+</code></li>
+                
+                <li class="pre-context-line"><code>
+</code></li>
+                
+                <li class="pre-context-line"><code>gem &#x27;rspec-core&#x27;, version
+</code></li>
+                
+              </ol>
+              
+
+              <ol start="23" class="context" id="72"
+                  onclick="toggle(72);">
+                <li class="context-line" id="context-72"><code>load Gem.bin_path(&#x27;rspec-core&#x27;, &#x27;rspec&#x27;, version)</code></li>
+              </ol>
+
+              
+              <ol start="24" class="post-context"
                   id="post-72" onclick="toggle(72);">
+                
+              </ol>
+              
+              <div class="clear"></div>
+            </li>
+
+          
+
+        
+      
+          
+
+            <li class="frame-info system">
+              <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;bin&#x2F;rspec</code> in
+                <code><strong>&lt;main&gt;</strong></code>
+            </li>
+
+            <li class="code system">
+              
+              <ol start="16"
+                  class="pre-context" id="pre-73"
+                  onclick="toggle(73);">
+                
+                <li class="pre-context-line"><code>  if str =~ &#x2F;\A_(.*)_\z&#x2F; and Gem::Version.correct?($1) then
+</code></li>
+                
+                <li class="pre-context-line"><code>    version = $1
+</code></li>
+                
+                <li class="pre-context-line"><code>    ARGV.shift
+</code></li>
+                
+                <li class="pre-context-line"><code>  end
+</code></li>
+                
+                <li class="pre-context-line"><code>end
+</code></li>
+                
+                <li class="pre-context-line"><code>
+</code></li>
+                
+                <li class="pre-context-line"><code>gem &#x27;rspec-core&#x27;, version
+</code></li>
+                
+              </ol>
+              
+
+              <ol start="23" class="context" id="73"
+                  onclick="toggle(73);">
+                <li class="context-line" id="context-73"><code>load Gem.bin_path(&#x27;rspec-core&#x27;, &#x27;rspec&#x27;, version)</code></li>
+              </ol>
+
+              
+              <ol start="24" class="post-context"
+                  id="post-73" onclick="toggle(73);">
+                
+              </ol>
+              
+              <div class="clear"></div>
+            </li>
+
+          
+
+        
+      
+          
+
+            <li class="frame-info system">
+              <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;bin&#x2F;ruby_executable_hooks</code> in
+                <code><strong>eval</strong></code>
+            </li>
+
+            <li class="code system">
+              
+              <ol start="8"
+                  class="pre-context" id="pre-74"
+                  onclick="toggle(74);">
+                
+                <li class="pre-context-line"><code>begin
+</code></li>
+                
+                <li class="pre-context-line"><code>  require &#x27;executable-hooks&#x2F;hooks&#x27;
+</code></li>
+                
+                <li class="pre-context-line"><code>  Gem::ExecutableHooks.run($0)
+</code></li>
+                
+                <li class="pre-context-line"><code>rescue LoadError
+</code></li>
+                
+                <li class="pre-context-line"><code>  warn &quot;unable to load executable-hooks&#x2F;hooks&quot; if ENV.key?(&#x27;ExecutableHooks_DEBUG&#x27;)
+</code></li>
+                
+                <li class="pre-context-line"><code>end
+</code></li>
+                
+                <li class="pre-context-line"><code>
+</code></li>
+                
+              </ol>
+              
+
+              <ol start="15" class="context" id="74"
+                  onclick="toggle(74);">
+                <li class="context-line" id="context-74"><code>eval File.read($0), binding, $0</code></li>
+              </ol>
+
+              
+              <ol start="16" class="post-context"
+                  id="post-74" onclick="toggle(74);">
+                
+              </ol>
+              
+              <div class="clear"></div>
+            </li>
+
+          
+
+        
+      
+          
+
+            <li class="frame-info system">
+              <code>&#x2F;Users&#x2F;chrismc&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.2.0&#x2F;bin&#x2F;ruby_executable_hooks</code> in
+                <code><strong>&lt;main&gt;</strong></code>
+            </li>
+
+            <li class="code system">
+              
+              <ol start="8"
+                  class="pre-context" id="pre-75"
+                  onclick="toggle(75);">
+                
+                <li class="pre-context-line"><code>begin
+</code></li>
+                
+                <li class="pre-context-line"><code>  require &#x27;executable-hooks&#x2F;hooks&#x27;
+</code></li>
+                
+                <li class="pre-context-line"><code>  Gem::ExecutableHooks.run($0)
+</code></li>
+                
+                <li class="pre-context-line"><code>rescue LoadError
+</code></li>
+                
+                <li class="pre-context-line"><code>  warn &quot;unable to load executable-hooks&#x2F;hooks&quot; if ENV.key?(&#x27;ExecutableHooks_DEBUG&#x27;)
+</code></li>
+                
+                <li class="pre-context-line"><code>end
+</code></li>
+                
+                <li class="pre-context-line"><code>
+</code></li>
+                
+              </ol>
+              
+
+              <ol start="15" class="context" id="75"
+                  onclick="toggle(75);">
+                <li class="context-line" id="context-75"><code>eval File.read($0), binding, $0</code></li>
+              </ol>
+
+              
+              <ol start="16" class="post-context"
+                  id="post-75" onclick="toggle(75);">
                 
               </ol>
               
@@ -5703,17 +5847,17 @@
          
          <tr>
            <td>rack.errors</td>
-           <td class="code"><div>#&lt;Object:0x007fcb21a5e2b0&gt;</div></td>
+           <td class="code"><div>#&lt;Object:0x007fa7941c2440&gt;</div></td>
          </tr>
          
          <tr>
            <td>rack.input</td>
-           <td class="code"><div>#&lt;StringIO:0x007fcb2228a510&gt;</div></td>
+           <td class="code"><div>#&lt;StringIO:0x007fa797085458&gt;</div></td>
          </tr>
          
          <tr>
            <td>rack.logger</td>
-           <td class="code"><div>#&lt;Rack::NullLogger:0x007fcb2316ac88 @app=#&lt;Rack::Protection::FrameOptions:0x007fcb2316ae40 @app=#&lt;Rack::Protection::HttpOrigin:0x007fcb2316aff8 @app=#&lt;Rack::Protection::IPSpoofing:0x007fcb2316b1b0 @app=#&lt;Rack::Protection::JsonCsrf:0x007fcb2316b318 @app=#&lt;Rack::Protection::PathTraversal:0x007fcb2316b750 @app=#&lt;Rack::Protection::XSSHeader:0x007fcb2316b9f8 @app=#&lt;Api:0x007fcb23171060 @default_layout=:layout, @preferred_extension=nil, @app=nil, @template_cache=#&lt;Tilt::Cache:0x007fcb23171038 @cache={}&gt;&gt;, @options={:reaction=&gt;:drop_session, :logging=&gt;true, :message=&gt;&quot;Forbidden&quot;, :encryptor=&gt;Digest::SHA1, :session_key=&gt;&quot;rack.session&quot;, :status=&gt;403, :allow_empty_referrer=&gt;true, :report_key=&gt;&quot;protection.failed&quot;, :html_types=&gt;[&quot;text&#x2F;html&quot;, &quot;application&#x2F;xhtml&quot;], :xss_mode=&gt;:block, :nosniff=&gt;true, :except=&gt;[:session_hijacking, :remote_token]}&gt;, @options={:reaction=&gt;:drop_session, :logging=&gt;true, :message=&gt;&quot;Forbidden&quot;, :encryptor=&gt;Digest::SHA1, :session_key=&gt;&quot;rack.session&quot;, :status=&gt;403, :allow_empty_referrer=&gt;true, :report_key=&gt;&quot;protection.failed&quot;, :html_types=&gt;[&quot;text&#x2F;html&quot;, &quot;application&#x2F;xhtml&quot;], :except=&gt;[:session_hijacking, :remote_token]}&gt;, @options={:reaction=&gt;:drop_session, :logging=&gt;true, :message=&gt;&quot;Forbidden&quot;, :encryptor=&gt;Digest::SHA1, :session_key=&gt;&quot;rack.session&quot;, :status=&gt;403, :allow_empty_referrer=&gt;true, :report_key=&gt;&quot;protection.failed&quot;, :html_types=&gt;[&quot;text&#x2F;html&quot;, &quot;application&#x2F;xhtml&quot;], :except=&gt;[:session_hijacking, :remote_token]}&gt;, @options={:reaction=&gt;:drop_session, :logging=&gt;true, :message=&gt;&quot;Forbidden&quot;, :encryptor=&gt;Digest::SHA1, :session_key=&gt;&quot;rack.session&quot;, :status=&gt;403, :allow_empty_referrer=&gt;true, :report_key=&gt;&quot;protection.failed&quot;, :html_types=&gt;[&quot;text&#x2F;html&quot;, &quot;application&#x2F;xhtml&quot;], :except=&gt;[:session_hijacking, :remote_token]}&gt;, @options={:reaction=&gt;:drop_session, :logging=&gt;true, :message=&gt;&quot;Forbidden&quot;, :encryptor=&gt;Digest::SHA1, :session_key=&gt;&quot;rack.session&quot;, :status=&gt;403, :allow_empty_referrer=&gt;true, :report_key=&gt;&quot;protection.failed&quot;, :html_types=&gt;[&quot;text&#x2F;html&quot;, &quot;application&#x2F;xhtml&quot;], :except=&gt;[:session_hijacking, :remote_token]}&gt;, @options={:reaction=&gt;:drop_session, :logging=&gt;true, :message=&gt;&quot;Forbidden&quot;, :encryptor=&gt;Digest::SHA1, :session_key=&gt;&quot;rack.session&quot;, :status=&gt;403, :allow_empty_referrer=&gt;true, :report_key=&gt;&quot;protection.failed&quot;, :html_types=&gt;[&quot;text&#x2F;html&quot;, &quot;application&#x2F;xhtml&quot;], :frame_options=&gt;:sameorigin, :except=&gt;[:session_hijacking, :remote_token]}&gt;&gt;</div></td>
+           <td class="code"><div>#&lt;Rack::NullLogger:0x007fa79a16a640 @app=#&lt;Rack::Protection::FrameOptions:0x007fa79a16a730 @app=#&lt;Rack::Protection::HttpOrigin:0x007fa79a16a7d0 @app=#&lt;Rack::Protection::IPSpoofing:0x007fa79a16a870 @app=#&lt;Rack::Protection::JsonCsrf:0x007fa79a16a910 @app=#&lt;Rack::Protection::PathTraversal:0x007fa79a16a9b0 @app=#&lt;Rack::Protection::XSSHeader:0x007fa79a16aaa0 @app=#&lt;Api:0x007fa79a16b478 @default_layout=:layout, @preferred_extension=nil, @app=nil, @template_cache=#&lt;Tilt::Cache:0x007fa79a16b450 @cache={}&gt;&gt;, @options={:reaction=&gt;:drop_session, :logging=&gt;true, :message=&gt;&quot;Forbidden&quot;, :encryptor=&gt;Digest::SHA1, :session_key=&gt;&quot;rack.session&quot;, :status=&gt;403, :allow_empty_referrer=&gt;true, :report_key=&gt;&quot;protection.failed&quot;, :html_types=&gt;[&quot;text&#x2F;html&quot;, &quot;application&#x2F;xhtml&quot;], :xss_mode=&gt;:block, :nosniff=&gt;true, :except=&gt;[:session_hijacking, :remote_token]}&gt;, @options={:reaction=&gt;:drop_session, :logging=&gt;true, :message=&gt;&quot;Forbidden&quot;, :encryptor=&gt;Digest::SHA1, :session_key=&gt;&quot;rack.session&quot;, :status=&gt;403, :allow_empty_referrer=&gt;true, :report_key=&gt;&quot;protection.failed&quot;, :html_types=&gt;[&quot;text&#x2F;html&quot;, &quot;application&#x2F;xhtml&quot;], :except=&gt;[:session_hijacking, :remote_token]}&gt;, @options={:reaction=&gt;:drop_session, :logging=&gt;true, :message=&gt;&quot;Forbidden&quot;, :encryptor=&gt;Digest::SHA1, :session_key=&gt;&quot;rack.session&quot;, :status=&gt;403, :allow_empty_referrer=&gt;true, :report_key=&gt;&quot;protection.failed&quot;, :html_types=&gt;[&quot;text&#x2F;html&quot;, &quot;application&#x2F;xhtml&quot;], :except=&gt;[:session_hijacking, :remote_token]}&gt;, @options={:reaction=&gt;:drop_session, :logging=&gt;true, :message=&gt;&quot;Forbidden&quot;, :encryptor=&gt;Digest::SHA1, :session_key=&gt;&quot;rack.session&quot;, :status=&gt;403, :allow_empty_referrer=&gt;true, :report_key=&gt;&quot;protection.failed&quot;, :html_types=&gt;[&quot;text&#x2F;html&quot;, &quot;application&#x2F;xhtml&quot;], :except=&gt;[:session_hijacking, :remote_token]}&gt;, @options={:reaction=&gt;:drop_session, :logging=&gt;true, :message=&gt;&quot;Forbidden&quot;, :encryptor=&gt;Digest::SHA1, :session_key=&gt;&quot;rack.session&quot;, :status=&gt;403, :allow_empty_referrer=&gt;true, :report_key=&gt;&quot;protection.failed&quot;, :html_types=&gt;[&quot;text&#x2F;html&quot;, &quot;application&#x2F;xhtml&quot;], :except=&gt;[:session_hijacking, :remote_token]}&gt;, @options={:reaction=&gt;:drop_session, :logging=&gt;true, :message=&gt;&quot;Forbidden&quot;, :encryptor=&gt;Digest::SHA1, :session_key=&gt;&quot;rack.session&quot;, :status=&gt;403, :allow_empty_referrer=&gt;true, :report_key=&gt;&quot;protection.failed&quot;, :html_types=&gt;[&quot;text&#x2F;html&quot;, &quot;application&#x2F;xhtml&quot;], :frame_options=&gt;:sameorigin, :except=&gt;[:session_hijacking, :remote_token]}&gt;&gt;</div></td>
          </tr>
          
          <tr>
@@ -5743,7 +5887,7 @@
          
          <tr>
            <td>rack.request.form_input</td>
-           <td class="code"><div>#&lt;StringIO:0x007fcb2228a510&gt;</div></td>
+           <td class="code"><div>#&lt;StringIO:0x007fa797085458&gt;</div></td>
          </tr>
          
          <tr>
@@ -5783,12 +5927,12 @@
          
          <tr>
            <td>sinatra.accept</td>
-           <td class="code"><div>[#&lt;Sinatra::Request::AcceptEntry:0x007fcb2225ab30 @entry=&quot;*&#x2F;*&quot;, @type=&quot;*&#x2F;*&quot;, @params={}, @q=1.0&gt;]</div></td>
+           <td class="code"><div>[#&lt;Sinatra::Request::AcceptEntry:0x007fa794b95e18 @entry=&quot;*&#x2F;*&quot;, @type=&quot;*&#x2F;*&quot;, @params={}, @q=1.0&gt;]</div></td>
          </tr>
          
          <tr>
            <td>sinatra.error</td>
-           <td class="code"><div>#&lt;NoMethodError: undefined method `application_names&#x27; for #&lt;Manifest:0x007fcb22270ca0&gt;&gt;</div></td>
+           <td class="code"><div>#&lt;NoMethodError: undefined method `application_ids&#x27; for nil:NilClass&gt;</div></td>
          </tr>
          
          <tr>

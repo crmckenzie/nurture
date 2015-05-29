@@ -11,28 +11,7 @@ describe Api do
     MongoMapper.database = "nurture-tests"
   end
 
-  after(:all) do
-  end
-
-  after(:each) do |x|
-    puts x.full_description
-
-    Dir.mkdir 'tmp' if ! Dir.exists? 'tmp'
-
-    next if last_response.ok?
-
-    filename = 'tmp/api-test.html'
-    File.delete filename if File.exists? filename
-
-
-    File.open('tmp/api-test.html', 'w') do |file|
-      file.write last_response.body
-    end
-
-    #system "open #{filename}"
-  end
-
-  subject {Api.new }
+  subject { Api }
 
   # required by rack/test
   def app
@@ -45,17 +24,99 @@ describe Api do
       Manifest.collection.remove
     end
 
-    it 'post' do
-      post '/manifests', {
-        :name => 'pr.521',
-        :description => 'fredbob'
-      }
+    describe 'post' do
 
-      release = Manifest.first
+      it 'simple - manifest only' do
+        post '/manifests', {
+          :name => 'pr.521',
+          :description => 'fredbob'
+        }
 
-      expect(last_response.ok?).to be true
-      expect(release.name).to eq 'pr.521'
-      expect(release.description).to eq 'fredbob'
+        release = Manifest.first
+
+        expect(last_response.ok?).to be true
+        expect(release.name).to eq 'pr.521'
+        expect(release.description).to eq 'fredbob'
+      end
+
+      it 'complex - with application versions' do
+
+          post '/manifests', {
+            :name => 'pr.521',
+            :description => 'fredbob',
+            :applications => {
+              :notepad => '1.0',
+              :dobby => '0.3.0.126'
+            }
+          }
+
+          expect(last_response.ok?).to eq true
+
+          result = Manifest.first({:name => 'pr.521'})
+
+          expect(result).to_not be nil
+          expect(result.application_ids.size).to eq 2
+          expect(result.applications.size).to eq 2
+
+          expect(result.applications[0].name).to eq 'notepad'
+          expect(result.applications[0].version).to eq '1.0'
+
+          expect(result.applications[1].name).to eq 'dobby'
+          expect(result.applications[1].version).to eq '0.3.0.126'
+
+      end
+
+    end
+
+    describe 'put' do
+
+      before(:each) do
+        post '/manifests', {
+          :name => 'pr.521',
+          :description => 'fredbob'
+        }
+      end
+
+      it 'simple - manifest only' do
+
+        put '/manifests', {
+          :name => 'pr.521',
+          :description => 'this is a test'
+        }
+
+        release = Manifest.first
+
+        expect(last_response.ok?).to be true
+        expect(release.name).to eq 'pr.521'
+        expect(release.description).to eq 'this is a test'
+      end
+
+      it 'complex - with application versions' do
+
+          put '/manifests', {
+            :name => 'pr.521',
+            :description => 'fredbob',
+            :applications => {
+              :notepad => '1.0',
+              :dobby => '0.3.0.126'
+            }
+          }
+
+          expect(last_response.ok?).to eq true
+
+          result = Manifest.first({:name => 'pr.521'})
+
+          expect(result).to_not be nil
+          expect(result.application_ids.size).to eq 2
+          expect(result.applications.size).to eq 2
+
+          expect(result.applications[0].name).to eq 'notepad'
+          expect(result.applications[0].version).to eq '1.0'
+
+          expect(result.applications[1].name).to eq 'dobby'
+          expect(result.applications[1].version).to eq '0.3.0.126'
+
+      end
 
     end
 
@@ -66,6 +127,7 @@ describe Api do
       }
 
       post '/manifests', post_data
+      expect(last_response.ok?).to be true
 
       get '/manifests'
 
@@ -96,46 +158,27 @@ describe Api do
 
     end
 
-    describe '/manifests/:name/applications' do
-
+    describe '/manifests/:name' do |variable|
       before(:each) do
-
         body = {
           :name => 'pr.346',
           :description => 'test release'
         }
 
         post '/manifests', body
-
       end
 
-      it 'post' do
+      it 'get' do
 
-        body = {
-          :notepad => '1.0',
-          :dobby => '0.3.0.126'
-        }
-
-        post '/manifests/pr.346/applications', body
+        get '/manifests/pr.346'
 
         expect(last_response.ok?).to eq true
 
-        result = Manifest.first({:name => 'pr.346'})
-
-        expect(result).to_not be nil
-        expect(result.application_ids.size).to eq 2
-        expect(result.applications.size).to eq 2
-
-        expect(result.applications[0].name).to eq 'notepad'
-        expect(result.applications[0].version).to eq '1.0'
-
-        expect(result.applications[1].name).to eq 'dobby'
-        expect(result.applications[1].version).to eq '0.3.0.126'
       end
+
 
     end
 
   end
-
 
 end
