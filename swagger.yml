@@ -1,0 +1,92 @@
+# edit this document here:
+# http://editor.swagger.io/#/
+swagger: '2.0'
+info:
+  title: nurture
+  description: Release management api
+  version: "1.0.0"
+# the domain of the service
+host: nuture.isg.com
+# array of all schemes that your API supports
+schemes:
+  - https
+# will be prefixed to all paths
+basePath: /v1
+produces:
+  - application/json
+paths:
+  /manifests:
+    get:
+      summary: Manifests
+      description: |
+        A manifest contains a list of application versions being worked on.
+      parameters:
+        - name: name
+          in: query
+          required: false
+          type: string
+      tags:
+        - Manifests
+      responses:
+        200:
+          description: An array of manifests
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Manifest'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /environments:
+    get:
+      summary: Environments
+      description: |
+        A environment contains a list of manifests being worked on.
+      parameters:
+        - name: name
+          in: query
+          required: false
+          type: string
+      tags:
+        - Environments
+      responses:
+        200:
+          description: An array of environments
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Environment'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  ApplicationVersion:
+    properties:
+      name:
+        type: string
+      value:
+        type: string
+  Environment:
+    properties:
+      name:
+        type: string
+  Manifest:
+    properties:
+      name:
+        type: string
+        description: the name of the manifest
+      application_versions:
+        type: array
+        items:
+          $ref: '#/definitions/ApplicationVersion'
+  Error:
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string
