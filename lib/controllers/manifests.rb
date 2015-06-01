@@ -1,11 +1,6 @@
-class Api < Sinatra::Base
+class Manifests < Sinatra::Base
 
   before do
-  end
-
-  error do
-    binding.pry
-    puts "An error occurred: #{env['sinatra.error']}"
   end
 
   after do
@@ -19,13 +14,11 @@ class Api < Sinatra::Base
     end
   end
 
-
-
-  get '/manifests' do
+  get '/' do
     Manifest.all()
   end
 
-  post '/manifests' do
+  post '/' do
     manifest_data = {
       :name => params[:name],
       :description => params[:description]
@@ -47,7 +40,7 @@ class Api < Sinatra::Base
     manifest.save
   end
 
-  put '/manifests' do
+  put '/' do
     manifest = Manifest.first({:name => params[:name]})
     manifest.description = params[:description] if params[:description]
 
@@ -67,38 +60,15 @@ class Api < Sinatra::Base
     manifest.save
   end
 
-  delete '/manifests' do
+  delete '/' do
     name = params[:name]
     item = Manifest.first({:name => name})
     item.destroy
   end
 
-  get '/manifests/:name' do
+  get '/:name' do
     Manifest.first({:name => params[:name]})
   end
 
-  post '/manifests/:name/applications' do
-    applications = params.clone
-    applications.delete 'name'
-    applications.delete 'splat'
-    applications.delete 'captures'
-
-    name = params[:name]
-    manifest = Manifest.first({:name => name})
-    manifest.application_ids.clear
-
-    applications.each do |key, value|
-      app = Application.new
-      app.name = key
-      app.version = value
-      app.save
-
-      manifest.application_ids.push app.id
-    end
-
-    manifest.save
-    manifest
-
-  end
 
 end

@@ -12,6 +12,10 @@ configure :development do
   use Rack::ShowExceptions
 end
 
-map'/api/v1/' do
-  run Nurture::Api
+map'/api/v1/manifests' do
+  run Manifests
+end
+
+map '/api/v1/environments' do
+  run Environments
 end

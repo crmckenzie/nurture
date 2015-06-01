@@ -1,6 +1,6 @@
 require_relative '../../spec_helper'
 
-describe Api do
+describe Manifests do
   include Rack::Test::Methods
 
   before(:all) do
@@ -11,14 +11,14 @@ describe Api do
     MongoMapper.database = "nurture-tests"
   end
 
-  subject { Api }
+  subject { Manifests }
 
   # required by rack/test
   def app
     subject
   end
 
-  describe '/manifests' do
+  describe '/' do
 
     before(:each) do
       Manifest.collection.remove
@@ -27,7 +27,7 @@ describe Api do
     describe 'post' do
 
       it 'simple - manifest only' do
-        post '/manifests', {
+        post '/', {
           :name => 'pr.521',
           :description => 'fredbob'
         }
@@ -41,7 +41,7 @@ describe Api do
 
       it 'complex - with application versions' do
 
-          post '/manifests', {
+          post '/', {
             :name => 'pr.521',
             :description => 'fredbob',
             :applications => {
@@ -71,7 +71,7 @@ describe Api do
     describe 'put' do
 
       before(:each) do
-        post '/manifests', {
+        post '/', {
           :name => 'pr.521',
           :description => 'fredbob'
         }
@@ -79,7 +79,7 @@ describe Api do
 
       it 'simple - manifest only' do
 
-        put '/manifests', {
+        put '/', {
           :name => 'pr.521',
           :description => 'this is a test'
         }
@@ -93,7 +93,7 @@ describe Api do
 
       it 'complex - with application versions' do
 
-          put '/manifests', {
+          put '/', {
             :name => 'pr.521',
             :description => 'fredbob',
             :applications => {
@@ -126,10 +126,10 @@ describe Api do
         :description => 'fredbob'
       }
 
-      post '/manifests', post_data
+      post '/', post_data
       expect(last_response.ok?).to be true
 
-      get '/manifests'
+      get '/'
 
       expect(last_response.ok?).to be true
 
@@ -147,35 +147,34 @@ describe Api do
     end
 
     it 'delete' do
-      post '/manifests', {
+      post '/', {
         :name => 'pr.521',
         :description => 'fredbob'
       }
 
-      delete '/manifests', { :name => 'pr.521' }
+      delete '/', { :name => 'pr.521' }
 
       expect(Manifest.collection.size).to eq 0
 
     end
 
-    describe '/manifests/:name' do |variable|
+    describe '/:name' do |variable|
       before(:each) do
         body = {
           :name => 'pr.346',
           :description => 'test release'
         }
 
-        post '/manifests', body
+        post '/', body
       end
 
       it 'get' do
 
-        get '/manifests/pr.346'
+        get '/pr.346'
 
         expect(last_response.ok?).to eq true
 
       end
-
 
     end
 
