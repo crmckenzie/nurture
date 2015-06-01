@@ -30,58 +30,55 @@ describe Manifest do
       let(:notepad) {
         notepad = Application.new
         notepad.name = 'notepad'
-        notepad.version = '1.2.3'
         notepad.save
 
-          notepad
+        version = ApplicationVersion.new
+        version.value = '1.2.3'
+        version.application = notepad
+        version.save
+
+        version
       }
 
       let(:dobby) {
         dobby = Application.new
         dobby.name = 'dobby'
-        dobby.version = '2.3.4'
         dobby.save
 
-        dobby
+        version = ApplicationVersion.new
+        version.application = dobby
+        version.value = '2.3.4'
+        version.save
+
+        version
       }
 
       subject {
 
         manifest = Manifest.new
         manifest.name = 'pr.346'
-        manifest.application_ids.push dobby.id
-        manifest.application_ids.push notepad.id
         manifest.save
+
+        dobby.manifest = manifest
+        notepad.manifest = manifest
+
+        dobby.save
+        notepad.save  
 
         result = Manifest.first({:name => 'pr.346'})
 
         result
       }
 
-      it '.application_ids' do
+      it '.application_versions' do
 
-        expect(subject.application_ids.size).to eq 2
-        expect(subject.application_ids).to include(dobby.id)
-        expect(subject.application_ids).to include(notepad.id)
-
-      end
-
-
-      it '.applications' do
-
-        expect(subject.applications.size).to eq 2
-
-        names = subject.applications.map {|row| row.name}
-
-        expect(names).to include('notepad')
-        expect(names).to include('dobby')
+        expect(subject.application_versions.size).to eq 2
+        expect(subject.application_versions).to include(dobby)
+        expect(subject.application_versions).to include(notepad)
 
       end
 
     end
-
-
-
 
   end
 

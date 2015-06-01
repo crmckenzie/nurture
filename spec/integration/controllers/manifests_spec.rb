@@ -44,7 +44,7 @@ describe Manifests do
           post '/', {
             :name => 'pr.521',
             :description => 'fredbob',
-            :applications => {
+            :application_versions => {
               :notepad => '1.0',
               :dobby => '0.3.0.126'
             }
@@ -55,14 +55,13 @@ describe Manifests do
           result = Manifest.first({:name => 'pr.521'})
 
           expect(result).to_not be nil
-          expect(result.application_ids.size).to eq 2
-          expect(result.applications.size).to eq 2
+          expect(result.application_versions.size).to eq 2
 
-          expect(result.applications[0].name).to eq 'notepad'
-          expect(result.applications[0].version).to eq '1.0'
+          expect(result.application_versions[0].application.name).to eq 'notepad'
+          expect(result.application_versions[0].value).to eq '1.0'
 
-          expect(result.applications[1].name).to eq 'dobby'
-          expect(result.applications[1].version).to eq '0.3.0.126'
+          expect(result.application_versions[1].application.name).to eq 'dobby'
+          expect(result.application_versions[1].value).to eq '0.3.0.126'
 
       end
 
@@ -96,7 +95,7 @@ describe Manifests do
           put '/', {
             :name => 'pr.521',
             :description => 'fredbob',
-            :applications => {
+            :application_versions => {
               :notepad => '1.0',
               :dobby => '0.3.0.126'
             }
@@ -107,14 +106,13 @@ describe Manifests do
           result = Manifest.first({:name => 'pr.521'})
 
           expect(result).to_not be nil
-          expect(result.application_ids.size).to eq 2
-          expect(result.applications.size).to eq 2
+          expect(result.application_versions.size).to eq 2
 
-          expect(result.applications[0].name).to eq 'notepad'
-          expect(result.applications[0].version).to eq '1.0'
+          expect(result.application_versions[0].application.name).to eq 'notepad'
+          expect(result.application_versions[0].value).to eq '1.0'
 
-          expect(result.applications[1].name).to eq 'dobby'
-          expect(result.applications[1].version).to eq '0.3.0.126'
+          expect(result.application_versions[1].application.name).to eq 'dobby'
+          expect(result.application_versions[1].value).to eq '0.3.0.126'
 
       end
 
@@ -142,8 +140,8 @@ describe Manifests do
       expect(result['updated_at']).to_not be nil
       expect(result['id']).to_not be nil
 
-      expect(result['applications']).to_not be nil
-      expect(result['applications']).to be_kind_of Array
+      expect(result['application_versions']).to_not be nil
+      expect(result['application_versions']).to be_kind_of Array
     end
 
     it 'delete' do

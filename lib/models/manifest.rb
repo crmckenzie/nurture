@@ -5,12 +5,10 @@ class Manifest
   key :description, String
   key :environment, String
 
-  key :application_ids, Array
-
-  many :applications, :in => :application_ids, :class_name => 'Application'
+  many :application_versions
 
   def serializable_hash(options = {})
-    result = super({:except => :application_ids, :include => :applications}.merge(options))
+    result = super({:include => :application_versions}.merge(options))
     result
   end
 

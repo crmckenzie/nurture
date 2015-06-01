@@ -24,40 +24,47 @@ class Manifests < Sinatra::Base
       :description => params[:description]
     }
     manifest = Manifest.create manifest_data
+    manifest.save
 
-    if params[:applications]
+    if params[:application_versions]
 
-      params[:applications].each do |key, value|
-        hash = {:name => key, :version => value}
+      params[:application_versions].each do |key, value|
+        hash = {:name => key }
         app = Application.create hash
         app.save
 
-        manifest.application_ids.push app.id
+        hash = {:value => value }
+        version = ApplicationVersion.create hash
+        version.application = app
+        version.manifest = manifest
+        version.save
       end
 
     end
 
-    manifest.save
   end
 
   put '/' do
     manifest = Manifest.first({:name => params[:name]})
     manifest.description = params[:description] if params[:description]
+    manifest.save
 
-    if params[:applications]
-      manifest.application_ids.clear
+    if params[:application_versions]
 
-      params[:applications].each do |key, value|
-        hash = {:name => key, :version => value}
+      params[:application_versions].each do |key, value|
+        hash = {:name => key }
         app = Application.create hash
         app.save
 
-        manifest.application_ids.push app.id
+        hash = {:value => value }
+        version = ApplicationVersion.create hash
+        version.application = app
+        version.manifest = manifest
+        version.save
       end
 
     end
 
-    manifest.save
   end
 
   delete '/' do

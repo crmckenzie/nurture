@@ -1,7 +1,8 @@
 class Application
   include MongoMapper::Document
   key :name, String
-  key :version, String
+
+  many :application_versions
 
   timestamps!
 end
