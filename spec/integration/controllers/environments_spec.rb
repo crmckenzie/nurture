@@ -20,6 +20,22 @@ describe Environments do
 
   describe '/' do
 
+    it 'get' do
+
+      post '/uat-team-a'
+      get '/'
+
+      expect(last_response.ok?).to eq true
+      array = JSON.parse(last_response.body)
+      result = array.first
+
+      expect(result['name']).to eq 'uat-team-a'
+    end
+
+  end
+
+  describe '/:name' do
+
     before(:each) do
       Environment.collection.remove
     end
@@ -27,9 +43,7 @@ describe Environments do
     describe 'post' do
 
       it 'simple - manifest only' do
-        post '/', {
-          :name => 'uat-team-a'
-        }
+        post '/uat-team-a'
 
         environment = Environment.first
 
@@ -42,16 +56,12 @@ describe Environments do
     describe 'put' do
 
       before(:each) do
-        post '/', {
-          :name => 'uat-team-a'
-        }
+        post '/uat-team-a'
       end
 
-      it 'simple - manifest only' do
+      it 'simple' do
 
-        put '/', {
-          :name => 'uat-team-a'
-        }
+        put '/uat-team-a'
 
         environment = Environment.first
 
@@ -61,52 +71,31 @@ describe Environments do
 
     end
 
-    it 'get' do
-      post_data = {
-        :name => 'uat-team-a'
-      }
+    describe 'get' do
 
-      post '/', post_data
-      expect(last_response.ok?).to be true
+      before(:each) do
+        post '/uat-team-a'
+      end
 
-      get '/'
+      it 'returns the correct environment' do
+        get '/uat-team-a'
 
-      expect(last_response.ok?).to be true
+        expect(last_response.ok?).to be true
 
-      array = JSON.parse(last_response.body)
-      result = array.first
+        result = JSON.parse(last_response.body)
 
-      expect(result['name']).to eq post_data[:name]
+        expect(result['name']).to eq 'uat-team-a'
+      end
     end
 
     it 'delete' do
-      post '/', {
-        :name => 'uat-team-a'
-      }
+      post '/uat-team-a'
 
-      delete '/', { :name => 'uat-team-a' }
+      delete '/uat-team-a'
+
+      expect(last_response.ok?).to be true
 
       expect(Manifest.collection.size).to eq 0
-
-    end
-
-    describe '/:name' do
-      before(:each) do
-        body = {
-          :name => 'uat-team-a'
-        }
-
-        post '/environments', body
-      end
-
-      it 'get' do
-
-        get '/uat-team-a'
-
-        expect(last_response.ok?).to eq true
-
-      end
-
     end
 
   end

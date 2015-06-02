@@ -18,7 +18,7 @@ describe Manifests do
     subject
   end
 
-  describe '/' do
+  describe '/name' do
 
     before(:each) do
       Manifest.collection.remove
@@ -27,8 +27,7 @@ describe Manifests do
     describe 'post' do
 
       it 'simple - manifest only' do
-        post '/', {
-          :name => 'pr.521',
+        post '/pr.521', {
           :description => 'fredbob'
         }
 
@@ -41,8 +40,7 @@ describe Manifests do
 
       it 'complex - with application versions' do
 
-          post '/', {
-            :name => 'pr.521',
+          post '/pr.521', {
             :description => 'fredbob',
             :application_versions => {
               :notepad => '1.0',
@@ -70,16 +68,14 @@ describe Manifests do
     describe 'put' do
 
       before(:each) do
-        post '/', {
-          :name => 'pr.521',
+        post '/pr.521', {
           :description => 'fredbob'
         }
       end
 
       it 'simple - manifest only' do
 
-        put '/', {
-          :name => 'pr.521',
+        put '/pr.521', {
           :description => 'this is a test'
         }
 
@@ -92,8 +88,7 @@ describe Manifests do
 
       it 'complex - with application versions' do
 
-          put '/', {
-            :name => 'pr.521',
+          put '/pr.521', {
             :description => 'fredbob',
             :application_versions => {
               :notepad => '1.0',
@@ -120,11 +115,10 @@ describe Manifests do
 
     it 'get' do
       post_data = {
-        :name => 'pr.521',
         :description => 'fredbob'
       }
 
-      post '/', post_data
+      post '/pr.521', post_data
       expect(last_response.ok?).to be true
 
       get '/'
@@ -145,32 +139,31 @@ describe Manifests do
     end
 
     it 'delete' do
-      post '/', {
-        :name => 'pr.521',
+      post '/pr.521', {
         :description => 'fredbob'
       }
 
-      delete '/', { :name => 'pr.521' }
+      delete '/pr.521'
 
       expect(Manifest.collection.size).to eq 0
-
     end
 
-    describe '/:name' do |variable|
+    describe '/' do |variable|
       before(:each) do
-        body = {
-          :name => 'pr.346',
-          :description => 'test release'
-        }
-
-        post '/', body
+        post '/pr.346', { :description => 'test release'}
       end
 
       it 'get' do
 
-        get '/pr.346'
+        get '/'
 
         expect(last_response.ok?).to eq true
+
+        array = JSON.parse(last_response.body)
+        expect(array).to be_kind_of(Array)
+
+        expect(array.size).to eq 1
+        expect(array.first['name']).to eq 'pr.346'
 
       end
 

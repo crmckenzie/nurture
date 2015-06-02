@@ -68,7 +68,7 @@ paths:
         required: true
         type: string
       - name: application_versions
-        in: formData
+        in: body
         description: a list of application versions to be applied to the manifest
         required: false
         type: Array
@@ -90,7 +90,7 @@ paths:
         required: true
         type: string
       - name: manifests
-        in: formData
+        in: body
         description: a list of application versions to be associated to the manifest
         required: false
         type: Array
@@ -169,7 +169,7 @@ paths:
         required: true
         type: string
       - name: manifests
-        in: formData
+        in: body
         description: a list of manifest names associated with the environment
         required: false
         type: Array
@@ -191,7 +191,7 @@ paths:
         required: true
         type: string
       - name: manifests
-        in: formData
+        in: body
         description: a list of manifest names associated with the environment
         required: false
         type: Array

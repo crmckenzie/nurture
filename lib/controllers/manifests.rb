@@ -18,7 +18,7 @@ class Manifests < Sinatra::Base
     Manifest.all()
   end
 
-  post '/' do
+  post '/:name' do
     manifest_data = {
       :name => params[:name],
       :description => params[:description]
@@ -44,7 +44,7 @@ class Manifests < Sinatra::Base
 
   end
 
-  put '/' do
+  put '/:name' do
     manifest = Manifest.first({:name => params[:name]})
     manifest.description = params[:description] if params[:description]
     manifest.save
@@ -67,7 +67,7 @@ class Manifests < Sinatra::Base
 
   end
 
-  delete '/' do
+  delete '/:name' do
     name = params[:name]
     item = Manifest.first({:name => name})
     item.destroy

@@ -18,17 +18,18 @@ class Environments < Sinatra::Base
     Environment.all()
   end
 
-  post '/' do
-    environment = Environment.create params
+  post '/:name' do
+    hash = {:name => params[:name]}
+    environment = Environment.create hash
     environment.save
   end
 
-  put '/' do
+  put '/:name' do
     environment = Environment.first({:name => params[:name]})
     environment.save
   end
 
-  delete '/' do
+  delete '/:name' do
     name = params[:name]
     item = Environment.first({:name => name})
     item.destroy
