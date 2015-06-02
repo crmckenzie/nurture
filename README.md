@@ -1,84 +1,8 @@
 # Nurture API
 
-## /manifests
+# Provides an api spec and a sample implementation for a staged release management process.
 
-### GET
-
-Returns a list of manifests.
-
-Can perform simple queries by field=value in query string
-
-### POST
-
-    {
-      	name: {string: required},
-      	description: {string: optional},
-      	application_versions: {
-	          <application_name1>: version,
-	          <application_name2>: version
-        }
-    }
-
-### PUT
-    {
-	      name: {string: required},
-	      description: {string: optional},
-	      application_versions: {
-	          <application_name1>: version,
-	          <application_name2>: version
-	      }
-    }
-
-### DELETE
-    {
-    	name: {string: required}
-    }
-
-
-## /manifests/:name
-
-### GET
-
-Returns an individual manifest by name.
-
-
-
-## /environments
-
-### GET
-
-returns a list of environments
-
-### POST
-    {
-    	name: {string: required}
-    }
-
-### DELETE
-    {
-    	name: {string: required}
-    }
-
-## /environments/:name
-
-### GET
-
-returns a single environment by name
-
-## /environment/:name/application_versions
-
-### GET
-
-Returns the application versions associated with an environment.
-
-## /environments/:name/application_versions/:name
-
-### GET
-
-Returns the application version by name in the given environment.
-
-
-
+[Swagger Docs](swagger.yml)
 
 ## TODO
 
