@@ -18,7 +18,7 @@ class Environments < Sinatra::Base
     Environment.all()
   end
 
-  post '/:name' do
+  post '/' do
     hash = {:name => params[:name]}
     environment = Environment.create hash
     environment.save

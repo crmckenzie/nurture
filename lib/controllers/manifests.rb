@@ -18,7 +18,7 @@ class Manifests < Sinatra::Base
     Manifest.all()
   end
 
-  post '/:name' do
+  post '/' do
     manifest_data = {
       :name => params[:name],
       :description => params[:description]
@@ -53,7 +53,7 @@ class Manifests < Sinatra::Base
         application_version.manifest = nil
         application_version.save
       end
-      
+
       params[:application_versions].each do |key, value|
         hash = {:name => key }
         app = Application.create hash

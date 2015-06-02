@@ -38,6 +38,21 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
+    post:
+      summary: Manifest
+      description: |
+        create an manifest
+      parameters:
+        - name: manifest
+          in: path
+          required: true
+          schema:
+            $ref: '#/definitions/Manifest'
+      responses:
+        200:
+          description: the manifest was created successfully
+        default:
+          description: Unexpected error
   /manifests/{name}:
     get:
       summary: Manifest
@@ -57,28 +72,6 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-    post:
-      summary: Manifest
-      description: |
-        create an manifest
-      parameters:
-        - name: name
-          in: path
-          description: The name of the manifest to be created
-          required: true
-          type: string
-        - name: application_versions
-          in: body
-          description: a list of application versions to be applied to the manifest
-          required: false
-          type: Array
-          items:
-            type: '#/definitions/ApplicationVersion'
-      responses:
-        200:
-          description: the manifest was created successfully
-        default:
-          description: Unexpected error
     put:
       summary: Manifest
       description: |
@@ -89,16 +82,15 @@ paths:
           description: The name of the manifest to be updated
           required: true
           type: string
-        - name: manifests
-          in: body
-          description: a list of application versions to be associated to the manifest
-          required: false
-          type: Array
-          items:
-            type: ApplicationVersion
+        - name: manifest
+          in: path
+          description: The name of the manifest to be updated
+          required: true
+          schema:
+            $ref: '#/definitions/Manifest'
       responses:
         200:
-          description: the manifest was created successfully
+          description: the manifest was updated successfully
         default:
           description: Unexpected error
     delete:
@@ -108,12 +100,12 @@ paths:
       parameters:
         - name: name
           in: path
-          description: The name of the manifest to be created
+          description: The name of the manifest to be deleted
           required: true
           type: string
       responses:
         200:
-          description: the manifest was created successfully
+          description: the manifest was deleted successfully
         default:
           description: Unexpected error
   /environments:
@@ -139,6 +131,22 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
+    post:
+      summary: Environment
+      description: |
+        create an environment
+      parameters:
+        - name: manifest
+          in: path
+          description: The name of the manifest to be created
+          required: true
+          schema:
+            $ref: '#/definitions/Environment'
+      responses:
+        200:
+          description: the environment was created successfully
+        default:
+          description: Unexpected error
   /environments/{name}:
     get:
       summary: Environment
@@ -158,28 +166,6 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-    post:
-      summary: Environment
-      description: |
-        create an environment
-      parameters:
-        - name: name
-          in: path
-          description: The name of the environment to be created
-          required: true
-          type: string
-        - name: manifests
-          in: body
-          description: a list of manifest names associated with the environment
-          required: false
-          type: Array
-          items:
-            type: string
-      responses:
-        200:
-          description: the environment was created successfully
-        default:
-          description: Unexpected error
     put:
       summary: Environments
       description: |
@@ -190,16 +176,15 @@ paths:
           description: The name of the environment to be updated
           required: true
           type: string
-        - name: manifests
-          in: body
-          description: a list of manifest names associated with the environment
-          required: false
-          type: Array
-          items:
-            type: string
+        - name: manifest
+          in: path
+          description: The name of the manifest to be updated
+          required: true
+          schema:
+            $ref: '#/definitions/Environment'
       responses:
         200:
-          description: the environment was created successfully
+          description: the environment was updated successfully
         default:
           description: Unexpected error
     delete:
@@ -209,12 +194,12 @@ paths:
       parameters:
         - name: name
           in: path
-          description: The name of the environment to be created
+          description: The name of the environment to be deleted
           required: true
           type: string
       responses:
         200:
-          description: the environment was created successfully
+          description: the environment was deleted successfully
         default:
           description: Unexpected error
 definitions:
@@ -228,6 +213,10 @@ definitions:
     properties:
       name:
         type: string
+      manifests:
+        type: array
+        items:
+          type: string
   Manifest:
     properties:
       name:

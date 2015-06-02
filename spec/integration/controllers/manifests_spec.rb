@@ -22,12 +22,13 @@ describe Manifests do
     subject
   end
 
-  describe '/:name' do
+  describe '/' do
 
     describe 'post' do
 
       it 'simple - manifest only' do
-        post '/pr.521', {
+        post '/', {
+          :name => 'pr.521',
           :description => 'fredbob'
         }
 
@@ -40,7 +41,8 @@ describe Manifests do
 
       it 'complex - with application versions' do
 
-          post '/pr.521', {
+          post '/', {
+            :name => 'pr.521',
             :description => 'fredbob',
             :application_versions => {
               :notepad => '1.0',
@@ -66,8 +68,34 @@ describe Manifests do
     end
 
     it 'get' do
+      post '/', {
+        :name => 'pr.346',
+        :description => 'test release'
+      }
 
-      post '/pr.521', {:description => 'fredbob'}
+      get '/'
+
+      expect(last_response.ok?).to eq true
+
+      array = JSON.parse(last_response.body)
+      expect(array).to be_kind_of(Array)
+
+      expect(array.size).to eq 1
+      expect(array.first['name']).to eq 'pr.346'
+
+    end
+
+  end
+
+
+  describe '/:name' do
+
+    it 'get' do
+
+      post '/', {
+        :name => 'pr.521',
+        :description => 'fredbob'
+      }
 
       expect(last_response.ok?).to be true
 
@@ -90,7 +118,8 @@ describe Manifests do
     describe 'put' do
 
       before(:each) do
-        post '/pr.521', {
+        post '/', {
+          :name => 'pr.521',
           :description => 'fredbob',
           :application_versions => {
             :notepad => '1.0',
@@ -146,7 +175,8 @@ describe Manifests do
 
 
     it 'delete' do
-      post '/pr.521', {
+      post '/', {
+        :name => 'pr.521',
         :description => 'fredbob'
       }
 
@@ -157,24 +187,4 @@ describe Manifests do
 
   end
 
-  describe '/' do
-    before(:each) do
-      post '/pr.346', { :description => 'test release'}
-    end
-
-    it 'get' do
-
-      get '/'
-
-      expect(last_response.ok?).to eq true
-
-      array = JSON.parse(last_response.body)
-      expect(array).to be_kind_of(Array)
-
-      expect(array.size).to eq 1
-      expect(array.first['name']).to eq 'pr.346'
-
-    end
-
-  end
 end

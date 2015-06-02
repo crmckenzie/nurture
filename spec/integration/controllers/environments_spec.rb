@@ -18,32 +18,17 @@ describe Environments do
     subject
   end
 
-  describe '/' do
-
-    it 'get' do
-
-      post '/uat-team-a'
-      get '/'
-
-      expect(last_response.ok?).to eq true
-      array = JSON.parse(last_response.body)
-      result = array.first
-
-      expect(result['name']).to eq 'uat-team-a'
-    end
-
+  before(:each) do
+    Manifest.collection.remove
+    Environment.collection.remove
   end
 
-  describe '/:name' do
-
-    before(:each) do
-      Environment.collection.remove
-    end
+  describe '/' do
 
     describe 'post' do
 
       it 'simple' do
-        post '/uat-team-a'
+        post '/', {:name => 'uat-team-a'}
 
         environment = Environment.first({:name => 'uat-team-a'})
 
@@ -57,7 +42,8 @@ describe Environments do
         Manifest.create({:name => 'pr.234'})
         Manifest.create({:name => 'pr.345'})
 
-        post 'uat-team-a', {
+        post '/', {
+          :name => 'uat-team-a',
           :manifests => ['pr.123', 'pr.234', 'pr.345']
         }
 
@@ -74,7 +60,23 @@ describe Environments do
     end
 
     it 'get' do
-      post '/uat-team-a'
+
+      post '/', {:name => 'uat-team-a'}
+      get '/'
+
+      expect(last_response.ok?).to eq true
+      array = JSON.parse(last_response.body)
+      result = array.first
+
+      expect(result['name']).to eq 'uat-team-a'
+    end
+
+  end
+
+  describe '/:name' do
+
+    it 'get' do
+      post '/', {:name => 'uat-team-a'}
 
       get '/uat-team-a'
 
@@ -94,7 +96,8 @@ describe Environments do
         Manifest.create({:name => 'pr.456'})
         Manifest.create({:name => 'pr.567'})
 
-        post '/uat-team-a', {
+        post '/', {
+          :name => 'uat-team-a',
           :manifests => ['pr.123', 'pr.234', 'pr.345']
         }
 
@@ -119,7 +122,7 @@ describe Environments do
     end
 
     it 'delete' do
-      post '/uat-team-a'
+      post '/', {:name => 'uat-team-a'}
 
       delete '/uat-team-a'
 
