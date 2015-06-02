@@ -42,13 +42,33 @@ describe Environments do
 
     describe 'post' do
 
-      it 'simple - manifest only' do
+      it 'simple' do
         post '/uat-team-a'
 
-        environment = Environment.first
+        environment = Environment.first({:name => 'uat-team-a'})
 
         expect(last_response.ok?).to be true
         expect(environment.name).to eq 'uat-team-a'
+      end
+
+      it 'with manifests' do
+
+        Manifest.create({:name => 'pr.123'})
+        Manifest.create({:name => 'pr.234'})
+        Manifest.create({:name => 'pr.345'})
+
+        post 'uat-team-a', {
+          :manifests => ['pr.123', 'pr.234', 'pr.345']
+        }
+
+        expect(last_response.ok?).to be true
+
+        environment = Environment.first({:name => 'uat-team-a'})
+
+        expect(environment.manifests.size).to eq 3
+        expect(environment.manifests[0].name).to eq 'pr.123'
+        expect(environment.manifests[1].name).to eq 'pr.234'
+        expect(environment.manifests[2].name).to eq 'pr.345'
       end
 
     end
@@ -68,17 +88,32 @@ describe Environments do
     describe 'put' do
 
       before(:each) do
-        post '/uat-team-a'
+        Manifest.create({:name => 'pr.123'})
+        Manifest.create({:name => 'pr.234'})
+        Manifest.create({:name => 'pr.345'})
+        Manifest.create({:name => 'pr.456'})
+        Manifest.create({:name => 'pr.567'})
+
+        post '/uat-team-a', {
+          :manifests => ['pr.123', 'pr.234', 'pr.345']
+        }
+
       end
 
-      it 'simple' do
+      it 'with manifests' do
 
-        put '/uat-team-a'
-
-        environment = Environment.first
+        put 'uat-team-a', {
+          :manifests => ['pr.345', 'pr.567']
+        }
 
         expect(last_response.ok?).to be true
-        expect(environment.name).to eq 'uat-team-a'
+
+        environment = Environment.first({:name => 'uat-team-a'})
+
+        expect(environment.manifests.size).to eq 2
+        expect(environment.manifests[0].name).to eq 'pr.345'
+        expect(environment.manifests[1].name).to eq 'pr.567'
+
       end
 
     end

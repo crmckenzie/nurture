@@ -27,7 +27,6 @@ class Manifests < Sinatra::Base
     manifest.save
 
     if params[:application_versions]
-
       params[:application_versions].each do |key, value|
         hash = {:name => key }
         app = Application.create hash
@@ -50,7 +49,11 @@ class Manifests < Sinatra::Base
     manifest.save
 
     if params[:application_versions]
-
+      manifest.application_versions.each do |application_version|
+        application_version.manifest = nil
+        application_version.save
+      end
+      
       params[:application_versions].each do |key, value|
         hash = {:name => key }
         app = Application.create hash

@@ -91,7 +91,11 @@ describe Manifests do
 
       before(:each) do
         post '/pr.521', {
-          :description => 'fredbob'
+          :description => 'fredbob',
+          :application_versions => {
+            :notepad => '1.0',
+            :dobby => '0.3.0.126'
+          }
         }
       end
 
@@ -101,11 +105,12 @@ describe Manifests do
           :description => 'this is a test'
         }
 
-        release = Manifest.first
-
         expect(last_response.ok?).to be true
+
+        release = Manifest.first
         expect(release.name).to eq 'pr.521'
         expect(release.description).to eq 'this is a test'
+        expect(release.application_versions.size).to eq 2
       end
 
       it 'complex - with application versions' do
@@ -113,8 +118,9 @@ describe Manifests do
           put '/pr.521', {
             :description => 'fredbob',
             :application_versions => {
-              :notepad => '1.0',
-              :dobby => '0.3.0.126'
+              :iterm2 => '3.0',
+              :ruby => '2.2.1',
+              :git => '1.9.0'
             }
           }
 
@@ -123,13 +129,16 @@ describe Manifests do
           result = Manifest.first({:name => 'pr.521'})
 
           expect(result).to_not be nil
-          expect(result.application_versions.size).to eq 2
+          expect(result.application_versions.size).to eq 3
 
-          expect(result.application_versions[0].application.name).to eq 'notepad'
-          expect(result.application_versions[0].value).to eq '1.0'
+          expect(result.application_versions[0].application.name).to eq 'iterm2'
+          expect(result.application_versions[0].value).to eq '3.0'
 
-          expect(result.application_versions[1].application.name).to eq 'dobby'
-          expect(result.application_versions[1].value).to eq '0.3.0.126'
+          expect(result.application_versions[1].application.name).to eq 'ruby'
+          expect(result.application_versions[1].value).to eq '2.2.1'
+
+          expect(result.application_versions[2].application.name).to eq 'git'
+          expect(result.application_versions[2].value).to eq '1.9.0'
 
       end
 

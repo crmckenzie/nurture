@@ -22,11 +22,33 @@ class Environments < Sinatra::Base
     hash = {:name => params[:name]}
     environment = Environment.create hash
     environment.save
+
+    if params[:manifests]
+      params[:manifests].each do |name|
+        manifest = Manifest.first({:name => name})
+        manifest.environment = environment
+        manifest.save
+      end
+    end
+
   end
 
   put '/:name' do
     environment = Environment.first({:name => params[:name]})
     environment.save
+
+    if params[:manifests]
+      environment.manifests.each do |manifest|
+        manifest.environment = nil
+        manifest.save
+      end
+
+      params[:manifests].each do |name|
+        manifest = Manifest.first({:name => name})
+        manifest.environment = environment
+        manifest.save
+      end
+    end
   end
 
   delete '/:name' do
