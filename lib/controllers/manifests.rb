@@ -74,8 +74,8 @@ class Manifests < Sinatra::Base
   end
 
   get '/:name' do
-    Manifest.first({:name => params[:name]})
+    status 200
+    body Manifest.first({:name => params[:name]})
   end
-
 
 end

@@ -36,7 +36,8 @@ class Environments < Sinatra::Base
   end
 
   get '/:name' do
-    Environment.first({:name => params[:name]})
+    status 200
+    body Environment.first({:name => params[:name]})
   end
 
 end

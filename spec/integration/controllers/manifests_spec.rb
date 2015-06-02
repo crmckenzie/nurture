@@ -11,6 +11,10 @@ describe Manifests do
     MongoMapper.database = "nurture-tests"
   end
 
+  before(:each) do
+    Manifest.collection.remove
+  end
+
   subject { Manifests }
 
   # required by rack/test
@@ -18,11 +22,7 @@ describe Manifests do
     subject
   end
 
-  describe '/name' do
-
-    before(:each) do
-      Manifest.collection.remove
-    end
+  describe '/:name' do
 
     describe 'post' do
 
@@ -63,6 +63,28 @@ describe Manifests do
 
       end
 
+    end
+
+    it 'get' do
+
+      post '/pr.521', {:description => 'fredbob'}
+
+      expect(last_response.ok?).to be true
+
+      get '/pr.521'
+
+      expect(last_response.ok?).to be true
+
+      result = JSON.parse(last_response.body)
+
+      expect(result['name']).to eq 'pr.521'
+      expect(result['description']).to eq 'fredbob'
+      expect(result['created_at']).to_not be nil
+      expect(result['updated_at']).to_not be nil
+      expect(result['id']).to_not be nil
+
+      expect(result['application_versions']).to_not be nil
+      expect(result['application_versions']).to be_kind_of Array
     end
 
     describe 'put' do
@@ -113,30 +135,6 @@ describe Manifests do
 
     end
 
-    it 'get' do
-      post_data = {
-        :description => 'fredbob'
-      }
-
-      post '/pr.521', post_data
-      expect(last_response.ok?).to be true
-
-      get '/'
-
-      expect(last_response.ok?).to be true
-
-      array = JSON.parse(last_response.body)
-      result = array.first
-
-      expect(result['name']).to eq post_data[:name]
-      expect(result['description']).to eq post_data[:description]
-      expect(result['created_at']).to_not be nil
-      expect(result['updated_at']).to_not be nil
-      expect(result['id']).to_not be nil
-
-      expect(result['application_versions']).to_not be nil
-      expect(result['application_versions']).to be_kind_of Array
-    end
 
     it 'delete' do
       post '/pr.521', {
@@ -148,27 +146,26 @@ describe Manifests do
       expect(Manifest.collection.size).to eq 0
     end
 
-    describe '/' do |variable|
-      before(:each) do
-        post '/pr.346', { :description => 'test release'}
-      end
+  end
 
-      it 'get' do
+  describe '/' do
+    before(:each) do
+      post '/pr.346', { :description => 'test release'}
+    end
 
-        get '/'
+    it 'get' do
 
-        expect(last_response.ok?).to eq true
+      get '/'
 
-        array = JSON.parse(last_response.body)
-        expect(array).to be_kind_of(Array)
+      expect(last_response.ok?).to eq true
 
-        expect(array.size).to eq 1
-        expect(array.first['name']).to eq 'pr.346'
+      array = JSON.parse(last_response.body)
+      expect(array).to be_kind_of(Array)
 
-      end
+      expect(array.size).to eq 1
+      expect(array.first['name']).to eq 'pr.346'
 
     end
 
   end
-
 end
