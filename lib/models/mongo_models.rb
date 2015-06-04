@@ -1,10 +1,14 @@
 class Application
   include MongoMapper::Document
   key :name, String
+  key :type, String
+  key :platform, String
+  key :tags, Array
 
   many :application_versions
 
   timestamps!
+  userstamps!
 end
 
 class ApplicationVersion
@@ -16,6 +20,7 @@ class ApplicationVersion
   belongs_to :manifest
 
   timestamps!
+  userstamps!
 end
 
 class Environment
@@ -25,6 +30,7 @@ class Environment
   many :manifests
 
   timestamps!
+  userstamps!
 end
 
 class Manifest
@@ -44,12 +50,14 @@ class Manifest
   end
 
   timestamps!
+  userstamps!
 end
 
 class Release
   include MongoMapper::Document
 
-  many: manifests
+  many :manifests
 
   timestamps!
+  userstamps!
 end

@@ -15,16 +15,107 @@ basePath: /v1
 produces:
   - application/json
 paths:
+  /applications:
+    get:
+      summary: applications
+      description: |
+        returns a list of applications
+      responses:
+        200:
+          description: an array of applications
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Application'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      summary: Create Application
+      description: |
+        create an application
+      parameters:
+        - name: application
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Application'
+      responses:
+        200:
+          description: the application was created successfully
+        default:
+          description: Unexpected error
+
+
+
+
+
+  /applications/{name}:
+    get:
+      summary: Application
+      description: gets a single application
+      parameters:
+        - name: name
+          in: path
+          description: The name of the application to be retrieved
+          required: true
+          type: string
+      responses:
+        200:
+          description: a application
+          schema:
+            $ref: '#/definitions/Application'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      summary: Application
+      description: |
+        create an application
+      parameters:
+        - name: name
+          in: path
+          description: The name of the application to be updated
+          required: true
+          type: string
+        - name: application
+          in: body
+          description: The name of the application to be updated
+          required: true
+          schema:
+            $ref: '#/definitions/Application'
+      responses:
+        200:
+          description: the application was updated successfully
+        default:
+          description: Unexpected error
+    delete:
+      summary: Application
+      description: |
+        create a application
+      parameters:
+        - name: name
+          in: path
+          description: The name of the application to be deleted
+          required: true
+          type: string
+      responses:
+        200:
+          description: the application was deleted successfully
+        default:
+          description: Unexpected error
+
+
+
+
+
   /manifests:
     get:
       summary: Manifests
       description: |
         A manifest contains a list of application versions being worked on.
-      parameters:
-        - name: name
-          in: query
-          required: false
-          type: string
       tags:
         - Manifests
       responses:
@@ -44,7 +135,7 @@ paths:
         create an manifest
       parameters:
         - name: manifest
-          in: path
+          in: body
           required: true
           schema:
             $ref: '#/definitions/Manifest'
@@ -53,6 +144,11 @@ paths:
           description: the manifest was created successfully
         default:
           description: Unexpected error
+
+
+
+
+
   /manifests/{name}:
     get:
       summary: Manifest
@@ -83,7 +179,7 @@ paths:
           required: true
           type: string
         - name: manifest
-          in: path
+          in: body
           description: The name of the manifest to be updated
           required: true
           schema:
@@ -108,16 +204,16 @@ paths:
           description: the manifest was deleted successfully
         default:
           description: Unexpected error
+
+
+
+
+
   /environments:
     get:
       summary: Environments
       description: |
         A environment contains a list of manifests being worked on.
-      parameters:
-        - name: name
-          in: query
-          required: false
-          type: string
       tags:
         - Environments
       responses:
@@ -136,8 +232,8 @@ paths:
       description: |
         create an environment
       parameters:
-        - name: manifest
-          in: path
+        - name: environment
+          in: body
           description: The name of the manifest to be created
           required: true
           schema:
@@ -147,6 +243,11 @@ paths:
           description: the environment was created successfully
         default:
           description: Unexpected error
+
+
+
+
+
   /environments/{name}:
     get:
       summary: Environment
@@ -176,9 +277,9 @@ paths:
           description: The name of the environment to be updated
           required: true
           type: string
-        - name: manifest
-          in: path
-          description: The name of the manifest to be updated
+        - name: environment
+          in: body
+          description: The name of the environment to be updated
           required: true
           schema:
             $ref: '#/definitions/Environment'
@@ -202,7 +303,26 @@ paths:
           description: the environment was deleted successfully
         default:
           description: Unexpected error
+
+
+
+
+
 definitions:
+  Application:
+    properties:
+      name:
+        type: string
+      description:
+        type: string
+      type:
+        type: string
+      platform:
+        type: string
+      tags:
+        type: array
+        items:
+          type: string
   ApplicationVersion:
     properties:
       name:
