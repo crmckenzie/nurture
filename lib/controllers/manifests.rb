@@ -18,10 +18,6 @@ class Manifests < Sinatra::Base
     Manifest.all()
   end
 
-  def is_array(arg)
-
-  end
-
   def halt_if_no_application_versions(params)
     versions = params[:application_versions]
     has_versions = versions && versions.keys && versions.keys.size > 0
@@ -91,26 +87,32 @@ class Manifests < Sinatra::Base
   put '/:name' do
     manifest = Manifest.first({:name => params[:name]})
     halt_if_released manifest
+    halt_if_applications_do_not_exist params if params[:application_versions]
 
     manifest.description = params[:description] if params[:description]
     manifest.save
 
     if params[:application_versions]
+
       manifest.application_versions.each do |application_version|
         application_version.manifest = nil
         application_version.save
       end
 
       params[:application_versions].each do |key, value|
-        hash = {:name => key }
-        app = Application.create hash
+        app = Application.first({
+          :name => key
+          })
 
-        hash = {
+        version = app.application_versions.first({
+          :value => value
+          })
+
+        version = ApplicationVersion.create({
           :value => value,
           :application => app,
           :manifest => manifest
-          }
-        version = ApplicationVersion.create hash
+          }) if version.nil?
       end
 
     end

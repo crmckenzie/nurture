@@ -12,6 +12,9 @@ describe Manifests do
 
     Application.create({:name => 'notepad'})
     Application.create({:name => 'dobby'})
+    Application.create({:name => 'iterm2'})
+    Application.create({:name => 'git'})
+    Application.create({:name => 'ruby'})
   end
 
   subject { Manifests }
@@ -219,8 +222,7 @@ describe Manifests do
         }
       end
 
-      it 'simple - manifest only' do
-
+      it 'does not update application versions if they are not specified' do
         put '/pr.521', {
           :description => 'this is a test'
         }
@@ -233,23 +235,7 @@ describe Manifests do
         expect(release.application_versions.size).to eq 2
       end
 
-      it 'returns FORBIDDEN if the status is released' do
-        manifest = Manifest.first({:name => 'pr.521'})
-        manifest.release = Release.create()
-        manifest.save
-
-        put '/pr.521', {
-          :description => 'fredbob'
-        }
-
-        expect(last_response.status).to eq HttpStatusCodes::FORBIDDEN
-
-        json = JSON.parse(last_response.body)
-        expect(json['application_versions'][0]).to eq 'manifest has been released'
-
-      end
-
-      it 'complex - with application versions' do
+      it 'updates application versions' do
 
           put '/pr.521', {
             :description => 'fredbob',
@@ -275,7 +261,57 @@ describe Manifests do
 
           expect(result.application_versions[2].application.name).to eq 'git'
           expect(result.application_versions[2].value).to eq '1.9.0'
+      end
 
+      it 'does not create duplicate application versions' do
+        put '/pr.521', {
+          :description => 'fredbob',
+          :application_versions => {
+            :dobby => '0.3.0.126'
+          }
+        }
+
+        post '/pr.521', {
+          :description => 'fredbob',
+          :application_versions => {
+            :dobby => '0.3.0.126'
+          }
+        }
+
+        app = Application.first({:name => 'dobby'})
+        expect(app.application_versions.count).to eq 1
+
+      end
+
+      it 'cannot be released' do
+        manifest = Manifest.first({:name => 'pr.521'})
+        manifest.release = Release.create()
+        manifest.save
+
+        put '/pr.521', {
+          :description => 'fredbob'
+        }
+
+        expect(last_response.status).to eq HttpStatusCodes::FORBIDDEN
+
+        json = JSON.parse(last_response.body)
+        expect(json['application_versions'][0]).to eq 'manifest has been released'
+
+      end
+
+      it 'applications must exist' do
+
+        put '/pr.521', {
+          :description => 'fredbob',
+          :application_versions => {
+            :fredbob => '1.0'
+          }
+        }
+
+        expect(last_response.status).to eq HttpStatusCodes::FORBIDDEN
+
+        json = JSON.parse(last_response.body)
+        expect(json['application_versions'][0]).to eq  "'fredbob' is not an application."
       end
 
     end

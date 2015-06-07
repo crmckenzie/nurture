@@ -7,6 +7,15 @@
       :field_name => 'message'
     }
 
+## Models
+
+### Application
+
+- [ ] create accept_version method
+    - should create new version if not exists
+- [ ] refactor POST /manifests and PUT /manifests/:name to use the new method 
+
+
 ## POST /applications
 
 - [ ] name is required
@@ -22,10 +31,11 @@
 
 ## PUT /manifests
 
-- [ ] at least one application version is required.
-- [ ] applications must exist
-- [ ] application versions can be created dynamically
-- [ ] does not create duplicate application versions
+- [x] application versions are not updated if they are not given
+- [x] at least one application version is required if they are given
+- [x] applications must exist
+- [x] application versions can be created dynamically
+- [x] does not create duplicate application versions
 
 ## POST /releases
 
