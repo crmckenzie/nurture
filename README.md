@@ -7,7 +7,7 @@ Provides an api spec and a sample implementation for a staged release management
 ## TODO
 
 - implement a working swagger ui
-- POST, PUT, and DELETE environment/:name fails if :name => prod
+- GET /prod creates prod environment if it does not exist.
 
 ### POST /releases
 

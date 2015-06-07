@@ -3,7 +3,7 @@ require_relative '../../spec_helper'
 describe Environments do
   include Rack::Test::Methods
 
-  before(:all) do
+  before(:each) do
     client = Mongo::MongoClient.new
     db = client.db 'nurture-tests'
     db.command({:dropDatabase => 1})
@@ -16,11 +16,6 @@ describe Environments do
   # required by rack/test
   def app
     subject
-  end
-
-  before(:each) do
-    Manifest.collection.remove
-    Environment.collection.remove
   end
 
   describe '/' do
@@ -55,6 +50,17 @@ describe Environments do
         expect(environment.manifests[0].name).to eq 'pr.123'
         expect(environment.manifests[1].name).to eq 'pr.234'
         expect(environment.manifests[2].name).to eq 'pr.345'
+      end
+
+      it 'cannot post prod environment' do
+        post '/', {:name => 'prod'}
+
+        expect(last_response.ok?).to eq false
+        expect(last_response.status).to eq HttpStatusCodes::FORBIDDEN
+
+        json = JSON.parse(last_response.body)
+        expect(json['reason']).to eq "'prod' is managed by the system."
+
       end
 
     end
@@ -119,16 +125,42 @@ describe Environments do
 
       end
 
+      it 'cannot update prod environment' do
+        put '/prod', {
+          :manifests => ['pr.345', 'pr.567']
+        }
+
+        expect(last_response.ok?).to eq false
+        expect(last_response.status).to eq HttpStatusCodes::FORBIDDEN
+
+        json = JSON.parse(last_response.body)
+        expect(json['reason']).to eq "'prod' is managed by the system."
+
+      end
     end
 
-    it 'delete' do
-      post '/', {:name => 'uat-team-a'}
+    describe 'delete' do
+      it 'happy path' do
+        post '/', {:name => 'uat-team-a'}
 
-      delete '/uat-team-a'
+        delete '/uat-team-a'
 
-      expect(last_response.ok?).to be true
+        expect(last_response.ok?).to be true
 
-      expect(Manifest.collection.size).to eq 0
+        expect(Manifest.collection.size).to eq 0
+      end
+
+      it 'cannot delete prod environment' do
+        delete '/prod'
+
+        expect(last_response.ok?).to eq false
+        expect(last_response.status).to eq HttpStatusCodes::FORBIDDEN
+
+        json = JSON.parse(last_response.body)
+        expect(json['reason']).to eq "'prod' is managed by the system."
+
+      end
+
     end
 
   end

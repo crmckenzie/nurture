@@ -19,6 +19,8 @@ class Environments < Sinatra::Base
   end
 
   post '/' do
+    halt HttpStatusCodes::FORBIDDEN, {:reason => "'prod' is managed by the system."} if params[:name] == 'prod'
+
     hash = {:name => params[:name]}
     environment = Environment.create hash
     environment.save
@@ -34,8 +36,9 @@ class Environments < Sinatra::Base
   end
 
   put '/:name' do
+    halt HttpStatusCodes::FORBIDDEN, {:reason => "'prod' is managed by the system."} if params[:name] == 'prod'
+
     environment = Environment.first({:name => params[:name]})
-    environment.save
 
     if params[:manifests]
       environment.manifests.each do |manifest|
@@ -52,6 +55,8 @@ class Environments < Sinatra::Base
   end
 
   delete '/:name' do
+    halt HttpStatusCodes::FORBIDDEN, {:reason => "'prod' is managed by the system."} if params[:name] == 'prod'
+
     name = params[:name]
     item = Environment.first({:name => name})
     item.destroy
