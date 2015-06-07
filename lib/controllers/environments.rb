@@ -73,13 +73,13 @@ class Environments < Sinatra::Base
   get '/:name' do
     environment = Environment.first(:name => params[:name])
 
-    halt 404 if environment.nil? unless params[:name] == 'prod'
+    halt HttpStatusCodes::NOT_FOUND if environment.nil? unless params[:name] == 'prod'
 
     environment = Environment.create({
       :name => 'prod'
       }) if environment.nil?
 
-    status 200
+    status HttpStatusCodes::SUCCESS
     body environment
   end
 

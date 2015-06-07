@@ -3,16 +3,15 @@ require_relative '../../spec_helper'
 describe Manifests do
   include Rack::Test::Methods
 
-  before(:all) do
+  before(:each) do
     client = Mongo::MongoClient.new
     db = client.db 'nurture-tests'
     db.command({:dropDatabase => 1})
 
     MongoMapper.database = "nurture-tests"
-  end
 
-  before(:each) do
-    Manifest.collection.remove
+    Application.create({:name => 'notepad'})
+    Application.create({:name => 'dobby'})
   end
 
   subject { Manifests }
@@ -26,21 +25,7 @@ describe Manifests do
 
     describe 'post' do
 
-      it 'simple - manifest only' do
-        post '/', {
-          :name => 'pr.521',
-          :description => 'fredbob'
-        }
-
-        release = Manifest.first
-
-        expect(last_response.ok?).to be true
-        expect(release.name).to eq 'pr.521'
-        expect(release.description).to eq 'fredbob'
-        expect(release.status.to_sym).to eq :in_progress
-      end
-
-      it 'complex - with application versions' do
+      it 'can post with application versions' do
 
           post '/', {
             :name => 'pr.521',
@@ -66,12 +51,72 @@ describe Manifests do
 
       end
 
+      it 'application versions are required.' do
+        post '/', {
+          :name => 'pr.521',
+          :description => 'fredbob'
+        }
+
+        release = Manifest.first
+
+        expect(last_response.ok?).to be false
+        expect(last_response.status).to eq HttpStatusCodes::FORBIDDEN
+
+        json = JSON.parse(last_response.body)
+        expect(json['reason']).to eq 'at least one application version is required.'
+
+      end
+
+      it 'application must exist' do
+        post '/', {
+          :name => 'pr.521',
+          :description => 'fredbob',
+          :application_versions => {
+            :fredbob => '1.0.0'
+          }
+        }
+
+        release = Manifest.first
+
+        expect(last_response.ok?).to be false
+        expect(last_response.status).to eq HttpStatusCodes::FORBIDDEN
+
+        json = JSON.parse(last_response.body)
+        expect(json['reason']).to eq "'fredbob' is not an application."
+
+      end
+
+      it 'does not create duplicate application versions' do
+        post '/', {
+          :name => 'pr.521',
+          :description => 'fredbob',
+          :application_versions => {
+            :dobby => '1.0'
+          }
+        }
+
+        post '/', {
+          :name => 'pr.522',
+          :description => 'fredbob',
+          :application_versions => {
+            :dobby => '1.0'
+          }
+        }
+
+        app = Application.first({:name => 'dobby'})
+        expect(app.application_versions.count).to eq 1
+
+      end
+
     end
 
     it 'get' do
       post '/', {
         :name => 'pr.346',
-        :description => 'test release'
+        :description => 'test release',
+        :application_versions => {
+          :notepad => '1.0.3'
+        }
       }
 
       get '/'
@@ -95,7 +140,10 @@ describe Manifests do
 
       post '/', {
         :name => 'pr.521',
-        :description => 'fredbob'
+        :description => 'fredbob',
+        :application_versions => {
+          'notepad' => '1.0.3'
+        }
       }
 
       expect(last_response.ok?).to be true
@@ -194,10 +242,14 @@ describe Manifests do
       before(:each) do
         post '/', {
           :name => 'pr.521',
-          :description => 'fredbob'
+          :description => 'fredbob',
+          :application_versions => {
+            :notepad => '1.0.3'
+          }
         }
+
       end
-      
+
       it 'removes the manifest' do
 
         delete '/pr.521'

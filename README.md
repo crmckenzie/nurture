@@ -8,19 +8,15 @@ Provides an api spec and a sample implementation for a staged release management
 
 - implement a working swagger ui
 
-
-
 ### POST /manifests
-
-- at least one application version is required.
-- applications must exist
-- application versions can be created dynamically
+- does not create duplicate application versions
 
 ### PUT /manifests
 
 - at least one application version is required.
 - applications must exist
 - application versions can be created dynamically
+- does not create duplicate application versions
 
 ### POST /releases
 

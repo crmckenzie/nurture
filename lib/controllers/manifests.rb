@@ -18,10 +18,44 @@ class Manifests < Sinatra::Base
     Manifest.all()
   end
 
-  post '/' do
-    if params[:status]
-      halt HttpStatusCodes::FORBIDDEN, {:reason => 'cannot set status'}
+  def is_array(arg)
+
+  end
+
+  def halt_if_no_application_versions(params)
+    versions = params[:application_versions]
+    has_versions = versions && versions.keys && versions.keys.size > 0
+    halt HttpStatusCodes::FORBIDDEN, {:reason => 'at least one application version is required.'} unless has_versions
+  end
+
+  def halt_if_applications_do_not_exist(params)
+    keys = params[:application_versions].keys
+
+    names = Application
+        .where(:name.in => keys)
+        .fields(:name)
+        .all
+        .map {|row| row.name}
+
+    keys.each do |name|
+      halt HttpStatusCodes::FORBIDDEN, {:reason => "'#{name}' is not an application."} if !names.include? name
     end
+  end
+
+  def halt_if_released(manifest)
+    if (manifest.release)
+      halt HttpStatusCodes::FORBIDDEN, {:reason => 'manifest has been released'}
+    end
+  end
+
+  def create_or_get_application_version(application, manifest, version)
+
+    version
+  end
+
+  post '/' do
+    halt_if_no_application_versions params
+    halt_if_applications_do_not_exist params
 
     manifest = Manifest.create({
       :name => params[:name],
@@ -31,26 +65,26 @@ class Manifests < Sinatra::Base
 
     if params[:application_versions]
       params[:application_versions].each do |key, value|
-        app = Application.create({
+        app = Application.first({
           :name => key
           })
 
-        ApplicationVersion.create({
-                  :value => value,
-                  :application => app,
-                  :manifest => manifest
-                  })
+        version = app.application_versions.first({
+          :value => value
+          })
+
+        version = ApplicationVersion.create({
+          :value => value,
+          :application => app,
+          :manifest => manifest
+          }) if version.nil?
+
       end
 
     end
 
   end
 
-  def halt_if_released(manifest)
-    if (manifest.release)
-      halt HttpStatusCodes::FORBIDDEN, {:reason => 'manifest has been released'}
-    end
-  end
 
   put '/:name' do
     manifest = Manifest.first({:name => params[:name]})
