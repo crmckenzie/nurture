@@ -18,8 +18,16 @@ class Environments < Sinatra::Base
     Environment.all()
   end
 
+  def forbidden(reason)
+    halt HttpStatusCodes::FORBIDDEN, {:reason => reason}
+  end
+
+  def forbid_prod(params)
+    forbidden "'prod' is managed by the system." if params[:name] == 'prod'
+  end
+
   post '/' do
-    halt HttpStatusCodes::FORBIDDEN, {:reason => "'prod' is managed by the system."} if params[:name] == 'prod'
+    forbid_prod params
 
     hash = {:name => params[:name]}
     environment = Environment.create hash
@@ -36,7 +44,7 @@ class Environments < Sinatra::Base
   end
 
   put '/:name' do
-    halt HttpStatusCodes::FORBIDDEN, {:reason => "'prod' is managed by the system."} if params[:name] == 'prod'
+    forbid_prod params
 
     environment = Environment.first({:name => params[:name]})
 
@@ -55,7 +63,7 @@ class Environments < Sinatra::Base
   end
 
   delete '/:name' do
-    halt HttpStatusCodes::FORBIDDEN, {:reason => "'prod' is managed by the system."} if params[:name] == 'prod'
+    forbid_prod params
 
     name = params[:name]
     item = Environment.first({:name => name})
@@ -64,14 +72,12 @@ class Environments < Sinatra::Base
 
   get '/:name' do
     environment = Environment.first(:name => params[:name])
-    if environment.nil?
-      halt 404 unless params[:name] == 'prod'
 
-      environment = Environment.create({
-        :name => 'prod',
-        :manifests => []
-        })
-    end
+    halt 404 if environment.nil? unless params[:name] == 'prod'
+
+    environment = Environment.create({
+      :name => 'prod'
+      }) if environment.nil?
 
     status 200
     body environment

@@ -29,7 +29,6 @@ class Applications < Sinatra::Base
     }
 
     record = Application.create data
-    record.save
   end
 
   get '/:name' do

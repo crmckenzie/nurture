@@ -46,11 +46,15 @@ class Manifests < Sinatra::Base
 
   end
 
-  put '/:name' do
-    manifest = Manifest.first({:name => params[:name]})
+  def halt_if_released(manifest)
     if (manifest.release)
       halt HttpStatusCodes::FORBIDDEN, {:reason => 'manifest has been released'}
     end
+  end
+
+  put '/:name' do
+    manifest = Manifest.first({:name => params[:name]})
+    halt_if_released manifest
 
     manifest.description = params[:description] if params[:description]
     manifest.save
@@ -64,13 +68,13 @@ class Manifests < Sinatra::Base
       params[:application_versions].each do |key, value|
         hash = {:name => key }
         app = Application.create hash
-        app.save
 
-        hash = {:value => value }
+        hash = {
+          :value => value,
+          :application => app,
+          :manifest => manifest
+          }
         version = ApplicationVersion.create hash
-        version.application = app
-        version.manifest = manifest
-        version.save
       end
 
     end
@@ -78,12 +82,9 @@ class Manifests < Sinatra::Base
   end
 
   delete '/:name' do
-    name = params[:name]
-    item = Manifest.first({:name => name})
-    if (item.release)
-      halt HttpStatusCodes::FORBIDDEN, {:reason => 'manifest has been released'}
-    end
-    item.destroy
+    manifest = Manifest.first({:name => params[:name]})
+    halt_if_released manifest
+    manifest.destroy
   end
 
   get '/:name' do
