@@ -25,7 +25,7 @@ class Manifests < Sinatra::Base
   def halt_if_no_application_versions(params)
     versions = params[:application_versions]
     has_versions = versions && versions.keys && versions.keys.size > 0
-    halt HttpStatusCodes::FORBIDDEN, {:reason => 'at least one application version is required.'} unless has_versions
+    halt HttpStatusCodes::FORBIDDEN, {:application_versions => ['at least one application version is required.']} unless has_versions
   end
 
   def halt_if_applications_do_not_exist(params)
@@ -38,13 +38,13 @@ class Manifests < Sinatra::Base
         .map {|row| row.name}
 
     keys.each do |name|
-      halt HttpStatusCodes::FORBIDDEN, {:reason => "'#{name}' is not an application."} if !names.include? name
+      halt HttpStatusCodes::FORBIDDEN, {:application_versions => ["'#{name}' is not an application."]} if !names.include? name
     end
   end
 
   def halt_if_released(manifest)
     if (manifest.release)
-      halt HttpStatusCodes::FORBIDDEN, {:reason => 'manifest has been released'}
+      halt HttpStatusCodes::FORBIDDEN, {:application_versions => ['manifest has been released']}
     end
   end
 

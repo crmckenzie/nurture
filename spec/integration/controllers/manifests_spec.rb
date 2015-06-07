@@ -51,6 +51,24 @@ describe Manifests do
 
       end
 
+      it 'name is required' do
+        post '/', {
+          :description => 'fredbob',
+          :application_versions => {
+            :notepad => '1.0',
+          }
+        }
+
+        release = Manifest.first
+
+        expect(last_response.ok?).to be false
+        expect(last_response.status).to eq HttpStatusCodes::FORBIDDEN
+
+        json = JSON.parse(last_response.body)
+        expect(json['name'][0]).to eq "can't be blank"
+
+      end
+
       it 'names must be unique' do
         post '/', {
           :name => 'pr.521',
@@ -87,7 +105,7 @@ describe Manifests do
         expect(last_response.status).to eq HttpStatusCodes::FORBIDDEN
 
         json = JSON.parse(last_response.body)
-        expect(json['reason']).to eq 'at least one application version is required.'
+        expect(json['application_versions'][0]).to eq 'at least one application version is required.'
 
       end
 
@@ -106,7 +124,7 @@ describe Manifests do
         expect(last_response.status).to eq HttpStatusCodes::FORBIDDEN
 
         json = JSON.parse(last_response.body)
-        expect(json['reason']).to eq "'fredbob' is not an application."
+        expect(json['application_versions'][0]).to eq "'fredbob' is not an application."
 
       end
 
@@ -227,7 +245,7 @@ describe Manifests do
         expect(last_response.status).to eq HttpStatusCodes::FORBIDDEN
 
         json = JSON.parse(last_response.body)
-        expect(json['reason']).to eq 'manifest has been released'
+        expect(json['application_versions'][0]).to eq 'manifest has been released'
 
       end
 
@@ -291,7 +309,7 @@ describe Manifests do
         expect(last_response.status).to eq HttpStatusCodes::FORBIDDEN
 
         json = JSON.parse(last_response.body)
-        expect(json['reason']).to eq 'manifest has been released'
+        expect(json['application_versions'][0]).to eq 'manifest has been released'
       end
     end
   end

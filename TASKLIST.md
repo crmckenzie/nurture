@@ -6,7 +6,7 @@
     {
       :field_name => 'message'
     }
-    
+
 ## POST /applications
 
 - [ ] name is required
@@ -14,9 +14,11 @@
 
 ## POST /manifests
 
-- [ ] name is required
+- [x] name is required
 - [x] name must be unique
 - [x] application versions must be unique
+- [x] normalize error messages
+  - [x] application versions
 
 ## PUT /manifests
 
