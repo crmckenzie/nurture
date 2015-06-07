@@ -7,7 +7,6 @@ Provides an api spec and a sample implementation for a staged release management
 ## TODO
 
 - implement a working swagger ui
-- GET /prod creates prod environment if it does not exist.
 
 ### POST /releases
 
@@ -20,7 +19,6 @@ recent releases and the application versions that were a part of them
 ### GET /releases/:id
 
 release with the given id
-
 
 ### DELETE /applications/:name
 

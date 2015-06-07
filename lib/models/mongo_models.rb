@@ -29,6 +29,12 @@ class Environment
 
   many :manifests
 
+  def serializable_hash(options = {})
+    result = super(options)
+    result[:manifests] = manifests.map {|row| row.name }
+    result
+  end
+
   timestamps!
   userstamps!
 end

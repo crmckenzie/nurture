@@ -137,6 +137,27 @@ describe Environments do
         expect(json['reason']).to eq "'prod' is managed by the system."
 
       end
+
+      it 'creates prod environment on demand' do
+
+        get '/prod'
+
+        expect(last_response.ok?).to eq true
+
+        json = JSON.parse(last_response.body)
+        expect(json['name']).to eq 'prod'
+        expect(json['manifests']).to eq []
+
+      end
+
+      it 'returns NOT_FOUND for non-existent environments' do
+
+        get '/fredbob'
+
+        expect(last_response.status).to eq HttpStatusCodes::NOT_FOUND
+
+      end
+
     end
 
     describe 'delete' do

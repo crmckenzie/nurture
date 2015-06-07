@@ -63,8 +63,18 @@ class Environments < Sinatra::Base
   end
 
   get '/:name' do
+    environment = Environment.first(:name => params[:name])
+    if environment.nil?
+      halt 404 unless params[:name] == 'prod'
+
+      environment = Environment.create({
+        :name => 'prod',
+        :manifests => []
+        })
+    end
+
     status 200
-    body Environment.first({:name => params[:name]})
+    body environment
   end
 
 end
