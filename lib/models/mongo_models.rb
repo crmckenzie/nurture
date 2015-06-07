@@ -42,7 +42,7 @@ end
 class Manifest
   include MongoMapper::Document
 
-  key :name, String
+  key :name, String, :required => true, :unique => true
   key :description, String
 
   def status

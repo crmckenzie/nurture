@@ -7,9 +7,10 @@ Provides an api spec and a sample implementation for a staged release management
 ## TODO
 
 - implement a working swagger ui
-
-### POST /manifests
-- does not create duplicate application versions
+- normalize errors
+    {
+      :field_name => 'message'
+    }
 
 ### PUT /manifests
 
@@ -21,6 +22,7 @@ Provides an api spec and a sample implementation for a staged release management
 ### POST /releases
 
 - manifests are required.
+- manifests cannot be already released
 - merges application versions into the prod environment
 - PUT is not allowed
 

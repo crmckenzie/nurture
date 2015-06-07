@@ -51,6 +51,30 @@ describe Manifests do
 
       end
 
+      it 'names must be unique' do
+        post '/', {
+          :name => 'pr.521',
+          :description => 'fredbob',
+          :application_versions => {
+            :notepad => '1.0',
+          }
+        }
+        post '/', {
+          :name => 'pr.521',
+          :description => 'fredbob',
+          :application_versions => {
+            :notepad => '1.0',
+          }
+        }
+
+
+        expect(last_response.ok?).to eq false
+        expect(last_response.status).to eq HttpStatusCodes::FORBIDDEN
+
+        json = JSON.parse(last_response.body)
+        expect(json['name'][0]).to eq 'has already been taken'
+      end
+
       it 'application versions are required.' do
         post '/', {
           :name => 'pr.521',

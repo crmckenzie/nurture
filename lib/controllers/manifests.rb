@@ -63,6 +63,8 @@ class Manifests < Sinatra::Base
       :status => :in_progress
     })
 
+    halt HttpStatusCodes::FORBIDDEN, manifest.errors unless manifest.valid?
+
     if params[:application_versions]
       params[:application_versions].each do |key, value|
         app = Application.first({
