@@ -15,7 +15,6 @@ class Releases < Sinatra::Base
   end
 
   post '/' do
-
     release = Release.create
     params[:manifests].each do |row|
       manifest = Manifest.first({:name => row})

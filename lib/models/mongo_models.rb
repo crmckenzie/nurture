@@ -39,6 +39,12 @@ class Manifest
   key :name, String
   key :description, String
 
+  def status
+    return :released if release
+    return :in_progress
+  end
+
+
   many :application_versions
 
   belongs_to :environment

@@ -37,6 +37,7 @@ describe Manifests do
         expect(last_response.ok?).to be true
         expect(release.name).to eq 'pr.521'
         expect(release.description).to eq 'fredbob'
+        expect(release.status.to_sym).to eq :in_progress
       end
 
       it 'complex - with application versions' do
@@ -140,6 +141,22 @@ describe Manifests do
         expect(release.name).to eq 'pr.521'
         expect(release.description).to eq 'this is a test'
         expect(release.application_versions.size).to eq 2
+      end
+
+      it 'returns FORBIDDEN if the status is released' do
+        manifest = Manifest.first({:name => 'pr.521'})
+        manifest.release = Release.create()
+        manifest.save
+
+        put '/pr.521', {
+          :description => 'fredbob'
+        }
+
+        expect(last_response.status).to eq HttpStatusCodes::FORBIDDEN
+
+        json = JSON.parse(last_response.body)
+        expect(json['reason']).to eq 'manifest has been released'
+
       end
 
       it 'complex - with application versions' do

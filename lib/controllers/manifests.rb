@@ -19,24 +19,27 @@ class Manifests < Sinatra::Base
   end
 
   post '/' do
-    manifest_data = {
+    if params[:status]
+      halt HttpStatusCodes::FORBIDDEN, {:reason => 'cannot set status'}
+    end
+
+    manifest = Manifest.create({
       :name => params[:name],
-      :description => params[:description]
-    }
-    manifest = Manifest.create manifest_data
-    manifest.save
+      :description => params[:description],
+      :status => :in_progress
+    })
 
     if params[:application_versions]
       params[:application_versions].each do |key, value|
-        hash = {:name => key }
-        app = Application.create hash
-        app.save
+        app = Application.create({
+          :name => key
+          })
 
-        hash = {:value => value }
-        version = ApplicationVersion.create hash
-        version.application = app
-        version.manifest = manifest
-        version.save
+        ApplicationVersion.create({
+                  :value => value,
+                  :application => app,
+                  :manifest => manifest
+                  })
       end
 
     end
@@ -44,7 +47,15 @@ class Manifests < Sinatra::Base
   end
 
   put '/:name' do
+    if params[:status]
+      halt HttpStatusCodes::FORBIDDEN, {:reason => 'cannot set status'}
+    end
+
     manifest = Manifest.first({:name => params[:name]})
+    if (manifest.release)
+      halt HttpStatusCodes::FORBIDDEN, {:reason => 'manifest has been released'}
+    end
+
     manifest.description = params[:description] if params[:description]
     manifest.save
 

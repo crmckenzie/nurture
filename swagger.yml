@@ -342,6 +342,9 @@ definitions:
       name:
         type: string
         description: the name of the manifest
+      status:
+        type: string
+        description: the status of the manifest (in_progress, released)
       application_versions:
         type: array
         items:

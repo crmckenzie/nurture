@@ -11,12 +11,6 @@ Provides an api spec and a sample implementation for a staged release management
 
 ### POST /releases
 
-#### data
-    ['manifest-name-1', 'manifest-name-2']
-
-#### effect
-
-- locks manifests for editing
 - merges application versions into the prod environment
 
 ### GET /releases

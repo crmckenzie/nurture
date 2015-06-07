@@ -28,29 +28,37 @@ describe Releases do
 
   describe '/' do
 
-    it 'post' do
-
+    before(:each) do
       post '/', {
         :manifests => ['pr.123', 'pr.234']
       }
+    end
 
-      release = Release.first
+    describe 'post' do
 
-      expect(last_response.ok?).to be true
+      let(:release) {Release.first() }
 
-      body = JSON.parse(last_response.body)
+      it 'is successful' do
+        expect(last_response.ok?).to be true
+      end
 
-      expect(body['id']).to eq release.id.to_s
-      names = release.manifests.map{|row| row.name}
-      expect(names).to eq ['pr.123', 'pr.234']
+      it 'creates a release' do
+        body = JSON.parse(last_response.body)
+
+        expect(body['id']).to eq release.id.to_s
+        names = release.manifests.map{|row| row.name}
+        expect(names).to eq ['pr.123', 'pr.234']
+      end
+
+      it 'locks the associated manifests for editing' do
+        release.manifests.each do |m|
+          expect(m.status.to_sym).to eq :released
+        end
+      end
 
     end
 
     it 'get' do
-
-      post '/', {
-        :manifests => ['pr.123', 'pr.234']
-      }
 
       id = JSON.parse(last_response.body)['id']
 
