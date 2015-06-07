@@ -190,18 +190,34 @@ describe Manifests do
 
     end
 
+    describe 'delete' do
+      before(:each) do
+        post '/', {
+          :name => 'pr.521',
+          :description => 'fredbob'
+        }
+      end
+      
+      it 'removes the manifest' do
 
-    it 'delete' do
-      post '/', {
-        :name => 'pr.521',
-        :description => 'fredbob'
-      }
+        delete '/pr.521'
 
-      delete '/pr.521'
+        expect(Manifest.collection.size).to eq 0
+      end
 
-      expect(Manifest.collection.size).to eq 0
+      it 'returns FORBIDDEN if the status is released' do
+        manifest = Manifest.first({:name => 'pr.521'})
+        manifest.release = Release.create()
+        manifest.save
+
+        delete '/pr.521'
+
+        expect(last_response.status).to eq HttpStatusCodes::FORBIDDEN
+
+        json = JSON.parse(last_response.body)
+        expect(json['reason']).to eq 'manifest has been released'
+      end
     end
-
   end
 
 end

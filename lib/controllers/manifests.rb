@@ -47,10 +47,6 @@ class Manifests < Sinatra::Base
   end
 
   put '/:name' do
-    if params[:status]
-      halt HttpStatusCodes::FORBIDDEN, {:reason => 'cannot set status'}
-    end
-
     manifest = Manifest.first({:name => params[:name]})
     if (manifest.release)
       halt HttpStatusCodes::FORBIDDEN, {:reason => 'manifest has been released'}
@@ -84,6 +80,9 @@ class Manifests < Sinatra::Base
   delete '/:name' do
     name = params[:name]
     item = Manifest.first({:name => name})
+    if (item.release)
+      halt HttpStatusCodes::FORBIDDEN, {:reason => 'manifest has been released'}
+    end
     item.destroy
   end
 
