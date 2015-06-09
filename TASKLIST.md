@@ -18,8 +18,8 @@
 
 ## POST /applications
 
-- [ ] name is required
-- [ ] name must be unique
+- [x] name is required
+- [x] name must be unique
 
 ## POST /manifests
 
@@ -39,11 +39,10 @@
 
 ## POST /releases
 
-- [ ] manifests are required.
-- [ ] manifests cannot be already released
+- [x] manifests are required.
+- [x] manifests cannot be already released
 - [ ] merges application versions into the prod environment
 - [ ] PUT is not allowed
-
 
 ## GET /releases
 
@@ -52,6 +51,14 @@
 ## GET /releases/:id
 
 - [ ] release with the given id
+
+## GET /environments/:name/application_versions
+
+- [ ] returns the list of application versions associated with the environment (all prod + modifications from manifests)
+
+## GET /environments/:name/manifests
+
+- [ ] get list of manifests associated with the environment
 
 ## DELETE /applications/:name
 
@@ -71,8 +78,3 @@
 ## GET /applications/:name/manifests
 
 - [ ] returns a list of manifests associated with the application
-
-
-## GET /environments/:name/application_versions
-
-- [ ] returns the list of application versions associated with the environment (all prod + modifications from manifests)

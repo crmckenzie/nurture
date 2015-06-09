@@ -26,7 +26,7 @@ describe Applications do
 
     describe 'post' do
 
-      it 'simple' do
+    it 'simple' do
         post '/', {
           :name => 'app-1',
           :type => 'web service',
@@ -34,13 +34,42 @@ describe Applications do
           :tags => ['tag1','tag2','tag3','tag4','tag5']
           }
 
-        application = Application.first({:name => 'app-1'})
 
         expect(last_response.ok?).to be true
+
+        application = Application.first({:name => 'app-1'})
         expect(application.name).to eq 'app-1'
         expect(application.type).to eq 'web service'
         expect(application.platform).to eq 'windows'
         expect(application.tags).to eq ['tag1','tag2','tag3','tag4','tag5']
+      end
+
+      it 'name is required' do
+        post '/', {
+          :description => 'fredbob',
+        }
+
+        expect(last_response.ok?).to be false
+        expect(last_response.status).to eq HttpStatusCodes::FORBIDDEN
+
+        json = JSON.parse(last_response.body)
+        expect(json['name'][0]).to eq "can't be blank"
+
+      end
+
+      it 'names must be unique' do
+        post '/', {
+          :name => 'fredbob'
+        }
+        post '/', {
+          :name => 'fredbob',
+        }
+
+        expect(last_response.ok?).to eq false
+        expect(last_response.status).to eq HttpStatusCodes::FORBIDDEN
+
+        json = JSON.parse(last_response.body)
+        expect(json['name'][0]).to eq 'has already been taken'
       end
 
     end

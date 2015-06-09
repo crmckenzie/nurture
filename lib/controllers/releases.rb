@@ -14,7 +14,30 @@ class Releases < Sinatra::Base
     end
   end
 
+  def halt_if_no_manifests(params)
+    items = params[:manifests]
+    has_items = items && items.size > 0
+    halt HttpStatusCodes::FORBIDDEN, {:manifests => ['at least one manifest is required.']} unless has_items
+  end
+
+  def halt_if_manifests_have_been_released(params)
+    manifests = Manifest.where({
+      :name.in => params[:manifests],
+      :release_id.ne => nil
+      })
+
+    errors = manifests.all.map {|m|
+      "'#{m.name}' has already been released."
+    }
+
+    halt HttpStatusCodes::FORBIDDEN, {:manifests => errors} if errors.size > 0
+
+  end
+
   post '/' do
+    halt_if_no_manifests params
+    halt_if_manifests_have_been_released params
+
     release = Release.create
     params[:manifests].each do |row|
       manifest = Manifest.first({:name => row})

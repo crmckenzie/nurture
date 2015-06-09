@@ -56,6 +56,31 @@ describe Releases do
         end
       end
 
+      it 'manifests are required.' do
+        post '/', {
+        }
+
+        expect(last_response.ok?).to be false
+        expect(last_response.status).to eq HttpStatusCodes::FORBIDDEN
+
+        json = JSON.parse(last_response.body)
+        expect(json['manifests'][0]).to eq 'at least one manifest is required.'
+
+      end
+
+      it 'cannot release manifest that has already been released' do
+        post '/', {
+          :manifests => ['pr.123']
+        }
+
+        expect(last_response.ok?).to be false
+        expect(last_response.status).to eq HttpStatusCodes::FORBIDDEN
+
+        json = JSON.parse(last_response.body)
+        expect(json['manifests'][0]).to eq "'pr.123' has already been released."
+
+      end
+
     end
 
     it 'get' do

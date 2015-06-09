@@ -1,6 +1,6 @@
 class Application
   include MongoMapper::Document
-  key :name, String
+  key :name, String, :required => true, :unique => true
   key :type, String
   key :platform, String
   key :tags, Array

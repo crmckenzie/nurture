@@ -29,6 +29,9 @@ class Applications < Sinatra::Base
     }
 
     record = Application.create data
+
+    halt HttpStatusCodes::FORBIDDEN, record.errors unless record.valid?
+
   end
 
   get '/:name' do
@@ -45,6 +48,9 @@ class Applications < Sinatra::Base
     record[:tags] = params[:tags] || []
 
     record.save
+
+    halt HttpStatusCodes::FORBIDDEN, record.errors unless record.valid?
+
   end
 
   delete '/:name' do
