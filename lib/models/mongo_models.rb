@@ -7,6 +7,19 @@ class Application
 
   many :application_versions
 
+  def add_version(version, manifest = nil)
+
+    count = self.application_versions
+      .where({:value => version})
+      .count
+
+    version = ApplicationVersion.create({
+      :application => self,
+      :value => version,
+      :manifest => manifest
+      }) if count == 0
+  end
+
   timestamps!
   userstamps!
 end
@@ -55,6 +68,26 @@ class Manifest
 
   belongs_to :environment
   belongs_to :release
+
+
+  def sync_versions(versions)
+    if versions
+
+      self.application_versions.each do |version|
+        version.manifest = nil
+        version.save
+      end
+
+      versions.each do |name, version|
+        app = Application.first({
+          :name => name
+          })
+
+        app.add_version version, self
+      end
+
+    end
+  end
 
   def serializable_hash(options = {})
     result = super({:include => :application_versions}.merge(options))

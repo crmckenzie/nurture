@@ -61,25 +61,7 @@ class Manifests < Sinatra::Base
 
     halt HttpStatusCodes::FORBIDDEN, manifest.errors unless manifest.valid?
 
-    if params[:application_versions]
-      params[:application_versions].each do |key, value|
-        app = Application.first({
-          :name => key
-          })
-
-        version = app.application_versions.first({
-          :value => value
-          })
-
-        version = ApplicationVersion.create({
-          :value => value,
-          :application => app,
-          :manifest => manifest
-          }) if version.nil?
-
-      end
-
-    end
+    manifest.sync_versions params[:application_versions]
 
   end
 
@@ -92,30 +74,7 @@ class Manifests < Sinatra::Base
     manifest.description = params[:description] if params[:description]
     manifest.save
 
-    if params[:application_versions]
-
-      manifest.application_versions.each do |application_version|
-        application_version.manifest = nil
-        application_version.save
-      end
-
-      params[:application_versions].each do |key, value|
-        app = Application.first({
-          :name => key
-          })
-
-        version = app.application_versions.first({
-          :value => value
-          })
-
-        version = ApplicationVersion.create({
-          :value => value,
-          :application => app,
-          :manifest => manifest
-          }) if version.nil?
-      end
-
-    end
+    manifest.sync_versions params[:application_versions]
 
   end
 

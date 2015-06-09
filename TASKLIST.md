@@ -11,9 +11,9 @@
 
 ### Application
 
-- [ ] create accept_version method
+- [x] create add_version method
     - should create new version if not exists
-- [ ] refactor POST /manifests and PUT /manifests/:name to use the new method 
+- [x] refactor POST /manifests and PUT /manifests/:name to use the new method
 
 
 ## POST /applications
