@@ -63,12 +63,10 @@ class Manifest
     return :in_progress
   end
 
-
   many :application_versions
 
   belongs_to :environment
   belongs_to :release
-
 
   def sync_versions(versions)
     if versions
@@ -102,6 +100,30 @@ class Release
   include MongoMapper::Document
 
   many :manifests
+
+  key :application_version_ids, Array
+  many :application_versions, :in => :application_version_ids
+
+  def merge_application_versions(release)
+    old_versions = []
+    old_versions = release.application_versions.all if release
+
+    new_versions = []
+
+    self.manifests.each do |manifest|
+      manifest.application_versions.each do |new_version|
+        new_versions.push new_version
+      end
+    end
+
+    old_versions.each do |old_version|
+      exists = new_versions.detect {|row| row.application.name == old_version.application.name }
+      new_versions.push(old_version) unless exists
+    end
+
+    self.application_versions = new_versions
+
+  end
 
   def serializable_hash(options = {})
     result = super(options)

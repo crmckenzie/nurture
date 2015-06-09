@@ -38,12 +38,17 @@ class Releases < Sinatra::Base
     halt_if_no_manifests params
     halt_if_manifests_have_been_released params
 
+    previous_release = Release.sort(:created_at).last
     release = Release.create
+
     params[:manifests].each do |row|
       manifest = Manifest.first({:name => row})
       manifest.release = release
       manifest.save
     end
+
+    release.merge_application_versions(previous_release)
+    release.save
 
     status 200
     body({:id => release.id.to_s})

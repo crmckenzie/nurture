@@ -41,8 +41,11 @@
 
 - [x] manifests are required.
 - [x] manifests cannot be already released
-- [ ] merges application versions into the prod environment
-- [ ] PUT is not allowed
+- [x] manifest should be associated to the prod environment
+  - [x] merges application versions into a release
+  - [x] merges previously released versions of other applications into the release
+  - [ ] last release should be used when reporting current prod versions
+- [x] PUT is not allowed
 
 ## GET /releases
 
@@ -51,6 +54,15 @@
 ## GET /releases/:id
 
 - [ ] release with the given id
+
+## POST /environments
+
+- [ ] should environment disallow duplicate application versions across manifests?
+
+## PUT /environments/:name
+
+- [ ] should environment disallow duplicate application versions across manifests?
+
 
 ## GET /environments/:name/application_versions
 
