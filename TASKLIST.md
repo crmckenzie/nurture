@@ -64,18 +64,22 @@ versions
 
 - [ ] should environment disallow duplicate application versions across manifests?
 
+## GET /environments
+
+- [x] should include manifest names
+
+## GET /environments/:name
+
+- [x] should include manifest names
+
 ## GET /environments/:name/application_versions
 
 - [x] returns the list of application versions associated with the environment (all prod + modifications from manifests)
 - [x] last release should be used when reporting current prod application versions
 
-## GET /environments/:name/application/:name
+## GET /environments/:env_name/application/:app_name
 
 - [ ] returns the application version for the environment.
-
-## GET /environments/:name/manifests
-
-- [ ] get list of manifests associated with the environment
 
 ## DELETE /applications/:name
 

@@ -68,6 +68,17 @@ describe Environments do
     it 'get' do
 
       post '/', {:name => 'uat-team-a'}
+      environment = Environment.first({:name => 'uat-team-a'})
+      Manifest.create({
+        :name => 'pr.123',
+        :environment => environment
+        })
+
+      Manifest.create({
+        :name => 'pr.234',
+        :environment => environment
+        })
+
       get '/'
 
       expect(last_response.ok?).to eq true
@@ -75,22 +86,50 @@ describe Environments do
       result = array.first
 
       expect(result['name']).to eq 'uat-team-a'
+      manifests = result['manifests']
+
+      expect(manifests).to include 'pr.123'
+      expect(manifests).to include 'pr.234'
     end
 
   end
 
   describe '/:name' do
 
-    it 'get' do
-      post '/', {:name => 'uat-team-a'}
+    describe 'get' do
 
-      get '/uat-team-a'
+      before(:each) do
+        post '/', {:name => 'uat-team-a'}
 
-      expect(last_response.ok?).to be true
+        environment = Environment.first({:name => 'uat-team-a'})
+        Manifest.create({
+          :name => 'pr.123',
+          :environment => environment
+          })
 
-      result = JSON.parse(last_response.body)
+        Manifest.create({
+          :name => 'pr.234',
+          :environment => environment
+          })
 
-      expect(result['name']).to eq 'uat-team-a'
+      end
+
+      it 'get' do
+
+        get '/uat-team-a'
+
+        expect(last_response.ok?).to be true
+
+        result = JSON.parse(last_response.body)
+
+        expect(result['name']).to eq 'uat-team-a'
+
+        manifests = result['manifests']
+
+        expect(manifests).to include 'pr.123'
+        expect(manifests).to include 'pr.234'
+      end
+
     end
 
     describe 'put' do
@@ -235,7 +274,6 @@ describe Environments do
 
           expect(versions.size).to eq 2
 
-          puts versions
           expect(versions[0]['name']).to eq 'julia'
           expect(versions[1]['name']).to eq 'dobby'
 
