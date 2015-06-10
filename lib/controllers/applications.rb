@@ -34,6 +34,29 @@ class Applications < Sinatra::Base
 
   end
 
+  get '/:name/versions' do
+    application = Application.first({:name => params[:name]})
+    halt HttpStatusCodes::NOT_FOUND unless application
+    values = application.application_versions.map {|version| version.value}
+    values
+  end
+
+  get '/:name/releases' do
+    application = Application.first({:name => params[:name]})
+    halt HttpStatusCodes::NOT_FOUND unless application
+
+    versions = application.application_versions
+    releases = versions.map {|version|
+      {
+        :manifest => version.manifest.name,
+        :version => version,
+        :created_at => version.manifest.release.created_at
+      }
+    }
+
+    body releases
+  end
+
   get '/:name' do
     status 200
     body Application.first({:name => params[:name]})

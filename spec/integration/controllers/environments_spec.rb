@@ -237,32 +237,15 @@ describe Environments do
 
           dobby = Application.create({:name => 'dobby'})
           julia = Application.create({:name => 'julia'})
-          manifest = Manifest.create({
-            :name => 'pr.123',
-            :environment => environment
-          })
 
+          manifest = environment.create_manifest 'pr.123'
           dobby_version = dobby.add_version '1.0', manifest
           julia_version = julia.add_version '1.0', manifest
 
-          Release.create({
-            :manifests => [manifest],
-            :application_versions => [
-              dobby_version, julia_version
-            ]
-          })
+          manifest.perform_release
 
-          manifest.environment = nil
-          manifest.save
-
-          environment = Environment.first({:name => 'uat-team-a'})
-          manifest_2 = Manifest.create({
-            :name => 'pr.234',
-            :environment => environment
-            })
-
-          julia = Application.first({:name => 'julia'})
-          julia_version = julia.add_version '1.0.1', manifest_2
+          manifest = environment.create_manifest 'pr.234'
+          manifest.add_version 'julia', '1.0.1'
 
         end
 

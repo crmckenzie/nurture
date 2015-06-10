@@ -45,6 +45,13 @@ class Environment
 
   many :manifests
 
+  def create_manifest(name)
+    Manifest.create({
+      :name => name,
+      :environment => self
+      })
+  end
+
   def self.prod
     @@prod ||= Environment.first({:name => 'prod'})
     @@prod ||= Environment.create({:name => 'prod'})
@@ -76,6 +83,20 @@ class Manifest
 
   belongs_to :environment
   belongs_to :release
+
+  def perform_release
+    Release.create({
+      :manifests => [self],
+      :application_versions => self.application_versions
+      })
+    self.environment = Environment.prod
+    self.save
+  end
+
+  def add_version(application_name, version)
+    app = Application.first({:name => application_name})
+    app.add_version version, self
+  end
 
   def sync_versions(versions)
     if versions

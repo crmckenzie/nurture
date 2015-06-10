@@ -14,24 +14,17 @@ describe Releases do
     julia   = Application.create({:name => 'julia'})
     nurture = Application.create({:name => 'nurture'})
 
-    Manifest.create({
-      :name => 'pr.123',
-      :application_versions => [
-        {:application => dobby, :value => '1.0'},
-        {:application => julia, :value => '1.0'}
-      ]
-    })
-    Manifest.create({
-      :name => 'pr.234',
-      :application_versions => [
-        { :application => nurture, :value => '1.0'}
-      ]
-    })
+    manifest = Manifest.create({:name =>'pr.123'})
+    manifest.add_version 'dobby', '1.0'
+    manifest.add_version 'julia', '1.0'
+
+    manifest = Manifest.create({:name => 'pr.234'})
+    manifest.add_version 'nurture', '1.0'
+
   end
 
   subject { Releases }
 
-  # required by rack/test
   def app
     subject
   end

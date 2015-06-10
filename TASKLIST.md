@@ -41,7 +41,7 @@
 
 - [x] manifests are required.
 - [x] manifests cannot be already released
-- [ ] manifest is removed for source environment
+- [ ] manifest is removed from source environment
 - [x] manifest should be associated to the prod environment
   - [x] merges application versions into a release
   - [x] merges previously released versions of other applications into the release
@@ -87,15 +87,10 @@ versions
 - [ ] fails if the application has been released
 - [ ] implies a need for archived applicatioÂns that are not returned from /applications by default
 
-
 ## GET /applications/:name/versions
 
-- [ ] returns the version history of an application
+- [x] returns the version history of an application
 
 ## GET /applications/:name/releases
 
-- [ ] release history for a given application
-
-## GET /applications/:name/manifests
-
-- [ ] returns a list of manifests associated with the application
+- [x] release history for a given application (date, version)
