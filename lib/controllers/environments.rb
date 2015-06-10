@@ -31,7 +31,6 @@ class Environments < Sinatra::Base
 
     hash = {:name => params[:name]}
     environment = Environment.create hash
-    environment.save
 
     if params[:manifests]
       params[:manifests].each do |name|
@@ -74,15 +73,7 @@ class Environments < Sinatra::Base
     environment = Environment.first({:name => params[:name]})
     halt HttpStatusCodes::NOT_FOUND unless environment
 
-    env_versions = []
-    environment.manifests.each do |manifest|
-      manifest.application_versions.each do |app_version|
-        env_versions.push({
-          :name => app_version.application.name,
-          :version => app_version.value
-        })
-      end
-    end
+    env_versions = environment.get_manifest_versions
 
     release = Release.sort(:created_at).last
 
@@ -109,15 +100,7 @@ class Environments < Sinatra::Base
     halt HttpStatusCodes::NOT_FOUND unless environment
 
 
-    env_versions = []
-    environment.manifests.each do |manifest|
-      manifest.application_versions.each do |app_version|
-        env_versions.push({
-          :name => app_version.application.name,
-          :version => app_version.value
-        })
-      end
-    end
+    env_versions = environment.get_manifest_versions
 
     release = Release.sort(:created_at).last
 

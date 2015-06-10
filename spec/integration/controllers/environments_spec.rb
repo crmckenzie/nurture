@@ -229,19 +229,14 @@ describe Environments do
 
         before(:each) do
 
-          post '/', {:name => 'uat-team-a'}
+          environment = Environment.create({:name => 'uat-team-a'})
 
-          expect(last_response.ok?).to eq true
-
-          environment = Environment.first({:name => 'uat-team-a'})
-
-          dobby = Application.create({:name => 'dobby'})
-          julia = Application.create({:name => 'julia'})
+          Application.create({:name => 'dobby'})
+          Application.create({:name => 'julia'})
 
           manifest = environment.create_manifest 'pr.123'
-          dobby_version = dobby.add_version '1.0', manifest
-          julia_version = julia.add_version '1.0', manifest
-
+          manifest.add_version 'julia', '1.0'
+          manifest.add_version 'dobby', '1.0'
           manifest.perform_release
 
           manifest = environment.create_manifest 'pr.234'

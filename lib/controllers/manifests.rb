@@ -44,19 +44,13 @@ class Manifests < Sinatra::Base
     end
   end
 
-  def create_or_get_application_version(application, manifest, version)
-
-    version
-  end
-
   post '/' do
     halt_if_no_application_versions params
     halt_if_applications_do_not_exist params
 
     manifest = Manifest.create({
       :name => params[:name],
-      :description => params[:description],
-      :status => :in_progress
+      :description => params[:description]
     })
 
     halt HttpStatusCodes::FORBIDDEN, manifest.errors unless manifest.valid?

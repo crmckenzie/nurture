@@ -52,6 +52,19 @@ class Environment
       })
   end
 
+  def get_manifest_versions
+    env_versions = []
+    self.manifests.each do |manifest|
+      manifest.application_versions.each do |app_version|
+        env_versions.push({
+          :name => app_version.application.name,
+          :version => app_version.value
+        })
+      end
+    end
+    env_versions
+  end
+
   def self.prod
     @@prod ||= Environment.first({:name => 'prod'})
     @@prod ||= Environment.create({:name => 'prod'})
@@ -133,6 +146,15 @@ class Release
 
   key :application_version_ids, Array
   many :application_versions, :in => :application_version_ids
+
+  def get_release_versions
+    self.application_versions.map do |version|
+      {
+        :name => version.application.name,
+        :version => version.value
+      }
+    end
+  end
 
   def merge_application_versions(release)
     old_versions = []

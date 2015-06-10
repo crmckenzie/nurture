@@ -41,7 +41,7 @@ class Releases < Sinatra::Base
 
     previous_release = Release.sort(:created_at).last
     release = Release.create
-
+    
     manifests = Manifest.all({:name.in => params[:manifests]})
     manifests.each do |manifest|
       manifest.release = release
