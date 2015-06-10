@@ -44,7 +44,7 @@ describe Releases do
       }
     end
 
-    describe 'post' do
+     describe 'post' do
 
       let(:release) {Release.first() }
 
@@ -115,6 +115,14 @@ describe Releases do
 
       end
 
+      it 'applies manifests to prod' do
+        prod = Environment.prod
+
+        expect(prod.manifests.size).to eq 2
+        expect(prod.manifests[0].name).to eq 'pr.123'
+        expect(prod.manifests[1].name).to eq 'pr.234'
+      end
+
       it 'locks the associated manifests for editing' do
         release.manifests.each do |m|
           expect(m.status.to_sym).to eq :released
@@ -159,6 +167,29 @@ describe Releases do
       record = JSON.parse(last_response.body)
 
       expect(record['manifests']).to eq ['pr.123', 'pr.234']
+    end
+
+  end
+
+  describe '/:id' do
+    before(:each) do
+      post '/', {
+        :manifests => ['pr.123', 'pr.234']
+      }
+    end
+
+    it 'returns the latest release' do
+      json = JSON.parse(last_response.body)
+      id = json['id']
+
+      get "/#{id}"
+
+      json = JSON.parse(last_response.body)
+      manifests = json['manifests']
+
+      expect(manifests).to include 'pr.123'
+      expect(manifests).to include 'pr.234'
+
     end
 
   end

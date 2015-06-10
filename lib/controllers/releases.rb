@@ -34,6 +34,7 @@ class Releases < Sinatra::Base
 
   end
 
+
   post '/' do
     halt_if_no_manifests params
     halt_if_manifests_have_been_released params
@@ -44,11 +45,14 @@ class Releases < Sinatra::Base
     params[:manifests].each do |row|
       manifest = Manifest.first({:name => row})
       manifest.release = release
+      manifest.environment = Environment.prod
       manifest.save
     end
 
     release.merge_application_versions(previous_release)
     release.save
+
+
 
     status 200
     body({:id => release.id.to_s})

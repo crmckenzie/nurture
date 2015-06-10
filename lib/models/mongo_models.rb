@@ -42,6 +42,12 @@ class Environment
 
   many :manifests
 
+  def self.prod
+    @@prod ||= Environment.first({:name => 'prod'})
+    @@prod ||= Environment.create({:name => 'prod'})
+    @@prod
+  end
+
   def serializable_hash(options = {})
     result = super(options)
     result[:manifests] = manifests.map {|row| row.name }

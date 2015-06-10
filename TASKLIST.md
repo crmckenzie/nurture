@@ -44,7 +44,7 @@
 - [x] manifest should be associated to the prod environment
   - [x] merges application versions into a release
   - [x] merges previously released versions of other applications into the release
-  - [ ] last release should be used when reporting current prod versions
+versions
 - [x] PUT is not allowed
 
 ## GET /releases
@@ -53,7 +53,7 @@
 
 ## GET /releases/:id
 
-- [ ] release with the given id
+- [x] release with the given id
 
 ## POST /environments
 
@@ -67,6 +67,7 @@
 ## GET /environments/:name/application_versions
 
 - [ ] returns the list of application versions associated with the environment (all prod + modifications from manifests)
+- [ ] last release should be used when reporting current prod application versions
 
 ## GET /environments/:name/manifests
 
