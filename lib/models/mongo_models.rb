@@ -9,15 +9,18 @@ class Application
 
   def add_version(version, manifest = nil)
 
-    count = self.application_versions
-      .where({:value => version})
-      .count
+    app_version = self.application_versions
+      .first({:value => version})
 
-    version = ApplicationVersion.create({
+    app_version = ApplicationVersion.create({
       :application => self,
       :value => version,
       :manifest => manifest
-      }) if count == 0
+      }) unless app_version
+
+    app_version.save
+
+    app_version
   end
 
   timestamps!

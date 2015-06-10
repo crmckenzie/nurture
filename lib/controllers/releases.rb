@@ -42,8 +42,8 @@ class Releases < Sinatra::Base
     previous_release = Release.sort(:created_at).last
     release = Release.create
 
-    params[:manifests].each do |row|
-      manifest = Manifest.first({:name => row})
+    manifests = Manifest.all({:name.in => params[:manifests]})
+    manifests.each do |manifest|
       manifest.release = release
       manifest.environment = Environment.prod
       manifest.save
@@ -51,8 +51,6 @@ class Releases < Sinatra::Base
 
     release.merge_application_versions(previous_release)
     release.save
-
-
 
     status 200
     body({:id => release.id.to_s})

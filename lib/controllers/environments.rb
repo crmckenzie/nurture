@@ -70,6 +70,39 @@ class Environments < Sinatra::Base
     item.destroy
   end
 
+  get '/:name/application_versions' do
+    environment = Environment.first({:name => params[:name]})
+    halt HttpStatusCodes::NOT_FOUND unless environment
+
+
+    env_versions = []
+    environment.manifests.each do |manifest|
+      manifest.application_versions.each do |app_version|
+        env_versions.push({
+          :name => app_version.application.name,
+          :version => app_version.value
+        })
+      end
+    end
+
+    release = Release.sort(:created_at).last
+
+    prod_versions = []
+    prod_versions = release.application_versions.map do |version|
+      {
+        :name => version.application.name,
+        :version => version.value
+      }
+    end if release
+
+    prod_versions.each do |prod_version|
+      env_versions.push prod_version unless env_versions.detect {|row| row[:name] == prod_version[:name]}
+    end
+
+    status 200
+    body env_versions
+  end
+
   get '/:name' do
     environment = Environment.first(:name => params[:name])
 
@@ -82,5 +115,6 @@ class Environments < Sinatra::Base
     status HttpStatusCodes::SUCCESS
     body environment
   end
+
 
 end

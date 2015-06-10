@@ -184,6 +184,68 @@ describe Environments do
 
     end
 
+    describe '/application_versions' do
+      describe 'get' do
+
+        before(:each) do
+
+          post '/', {:name => 'uat-team-a'}
+
+          expect(last_response.ok?).to eq true
+
+          environment = Environment.first({:name => 'uat-team-a'})
+
+          dobby = Application.create({:name => 'dobby'})
+          julia = Application.create({:name => 'julia'})
+          manifest = Manifest.create({
+            :name => 'pr.123',
+            :environment => environment
+          })
+
+          dobby_version = dobby.add_version '1.0', manifest
+          julia_version = julia.add_version '1.0', manifest
+
+          Release.create({
+            :manifests => [manifest],
+            :application_versions => [
+              dobby_version, julia_version
+            ]
+          })
+
+          manifest.environment = nil
+          manifest.save
+
+        end
+
+        it 'returns prod + manifest application version overrides' do
+          environment = Environment.first({:name => 'uat-team-a'})
+          manifest_2 = Manifest.create({
+            :name => 'pr.234',
+            :environment => environment
+            })
+
+          julia = Application.first({:name => 'julia'})
+          julia_version = julia.add_version '1.0.1', manifest_2
+
+          get '/uat-team-a/application_versions'
+
+          expect(last_response.ok?).to eq true
+
+          versions = JSON.parse(last_response.body)
+
+          expect(versions.size).to eq 2
+
+          puts versions
+          expect(versions[0]['name']).to eq 'julia'
+          expect(versions[1]['name']).to eq 'dobby'
+
+          expect(versions[0]['version']).to eq '1.0.1'
+          expect(versions[1]['version']).to eq '1.0'
+
+        end
+      end
+    end
+
   end
 
 end

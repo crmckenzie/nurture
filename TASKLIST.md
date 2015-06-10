@@ -41,6 +41,7 @@
 
 - [x] manifests are required.
 - [x] manifests cannot be already released
+- [ ] manifest is removed for source environment
 - [x] manifest should be associated to the prod environment
   - [x] merges application versions into a release
   - [x] merges previously released versions of other applications into the release
@@ -62,7 +63,6 @@ versions
 ## PUT /environments/:name
 
 - [ ] should environment disallow duplicate application versions across manifests?
-
 
 ## GET /environments/:name/application_versions
 
