@@ -66,8 +66,12 @@ versions
 
 ## GET /environments/:name/application_versions
 
-- [ ] returns the list of application versions associated with the environment (all prod + modifications from manifests)
-- [ ] last release should be used when reporting current prod application versions
+- [x] returns the list of application versions associated with the environment (all prod + modifications from manifests)
+- [x] last release should be used when reporting current prod application versions
+
+## GET /environments/:name/application/:name
+
+- [ ] returns the application version for the environment.
 
 ## GET /environments/:name/manifests
 
