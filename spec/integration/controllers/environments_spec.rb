@@ -224,6 +224,7 @@ describe Environments do
     end
 
     describe '/application_versions' do
+
       describe 'get' do
 
         before(:each) do
@@ -254,9 +255,6 @@ describe Environments do
           manifest.environment = nil
           manifest.save
 
-        end
-
-        it 'returns prod + manifest application version overrides' do
           environment = Environment.first({:name => 'uat-team-a'})
           manifest_2 = Manifest.create({
             :name => 'pr.234',
@@ -265,6 +263,10 @@ describe Environments do
 
           julia = Application.first({:name => 'julia'})
           julia_version = julia.add_version '1.0.1', manifest_2
+
+        end
+
+        it 'returns prod + manifest application version overrides' do
 
           get '/uat-team-a/application_versions'
 
@@ -281,6 +283,21 @@ describe Environments do
           expect(versions[1]['version']).to eq '1.0'
 
         end
+
+        it '/app_name' do
+          get '/uat-team-a/application_versions/julia'
+
+          puts last_response.body
+          expect(last_response.ok?).to eq true
+
+          versions = JSON.parse(last_response.body)
+
+          expect(versions['name']).to eq 'julia'
+          expect(versions['version']).to eq '1.0.1'
+
+        end
+
+
       end
     end
 

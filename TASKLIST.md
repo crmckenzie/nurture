@@ -77,9 +77,9 @@ versions
 - [x] returns the list of application versions associated with the environment (all prod + modifications from manifests)
 - [x] last release should be used when reporting current prod application versions
 
-## GET /environments/:env_name/application/:app_name
+## GET /environments/:name/application_versions/:app_name
 
-- [ ] returns the application version for the environment.
+- [x] returns the application version for the environment.
 
 ## DELETE /applications/:name
 
