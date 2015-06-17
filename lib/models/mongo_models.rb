@@ -43,48 +43,6 @@ class ApplicationVersion
   userstamps!
 end
 
-class Environment
-  include MongoMapper::Document
-  key :name, String
-
-  many :manifests
-
-  def create_manifest(name)
-    Manifest.create({
-      :name => name,
-      :environment => self
-      })
-  end
-
-  def get_manifest_versions
-    env_versions = []
-    self.manifests.each do |manifest|
-      manifest.application_versions.each do |app_version|
-        env_versions.push({
-          :name => app_version.application.name,
-          :version => app_version.value
-        })
-      end
-    end
-    env_versions
-  end
-
-  def self.prod
-    @@prod ||= Environment.first({:name => 'prod'})
-    @@prod ||= Environment.create({:name => 'prod'})
-    @@prod
-  end
-
-  def serializable_hash(options = {})
-    result = super(options)
-    result[:manifests] = manifests.map {|row| row.name }
-    result
-  end
-
-  timestamps!
-  userstamps!
-end
-
 class Manifest
   include MongoMapper::Document
 
@@ -131,6 +89,48 @@ class Manifest
 
   def serializable_hash(options = {})
     result = super({:include => :application_versions}.merge(options))
+    result
+  end
+
+  timestamps!
+  userstamps!
+end
+
+class Environment
+  include MongoMapper::Document
+  key :name, String
+
+  many :manifests
+
+  def create_manifest(name)
+    Manifest.create({
+      :name => name,
+      :environment => self
+      })
+  end
+
+  def get_manifest_versions
+    env_versions = []
+    self.manifests.each do |manifest|
+      manifest.application_versions.each do |app_version|
+        env_versions.push({
+          :name => app_version.application.name,
+          :version => app_version.value
+        })
+      end
+    end
+    env_versions
+  end
+
+  def self.prod
+    @@prod ||= Environment.first({:name => 'prod'})
+    @@prod ||= Environment.create({:name => 'prod'})
+    @@prod
+  end
+
+  def serializable_hash(options = {})
+    result = super(options)
+    result[:manifests] = manifests.map {|row| row.name }
     result
   end
 

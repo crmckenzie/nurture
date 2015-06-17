@@ -14,7 +14,16 @@
 - [x] create add_version method
     - should create new version if not exists
 - [x] refactor POST /manifests and PUT /manifests/:name to use the new method
+- [ ] rename application_versions to versions
 
+### Manifest
+- [ ] rename application_versions to versions
+
+### Release
+- [ ] rename application_versions to versions
+
+### API
+- [ ] rename application_versions to versions
 
 ## POST /applications
 
@@ -35,7 +44,7 @@
 - [x] at least one application version is required if they are given
 - [x] applications must exist
 - [x] application versions can be created dynamically
-- [x] does not create duplicate application versions
+- [x] does not create duplicate«» application versions
 - [x] if version already exists, make sure manifest is appliedß
 
 ## POST /releases
@@ -84,7 +93,7 @@ versions
 
 ## DELETE /applications/:name
 
-- [ ] removes an application (done)
+- [ ] removes an application
 - [ ] fails if the application has been released
 - [ ] implies a need for archived applicatioÂns that are not returned from /applications by default
 

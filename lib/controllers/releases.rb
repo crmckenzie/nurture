@@ -34,14 +34,13 @@ class Releases < Sinatra::Base
 
   end
 
-
   post '/' do
     halt_if_no_manifests params
     halt_if_manifests_have_been_released params
 
     previous_release = Release.sort(:created_at).last
     release = Release.create
-    
+
     manifests = Manifest.all({:name.in => params[:manifests]})
     manifests.each do |manifest|
       manifest.release = release
