@@ -265,7 +265,6 @@ describe Environments do
         it '/app_name' do
           get '/uat-team-a/application_versions/julia'
 
-          puts last_response.body
           expect(last_response.ok?).to eq true
 
           versions = JSON.parse(last_response.body)

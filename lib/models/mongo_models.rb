@@ -1,5 +1,6 @@
 class Application
   include MongoMapper::Document
+
   key :name, String, :required => true, :unique => true
   key :type, String
   key :platform, String
@@ -12,13 +13,16 @@ class Application
     app_version = self.application_versions
       .first({:value => version})
 
-    app_version = ApplicationVersion.create({
-      :application => self,
-      :value => version,
-      :manifest => manifest
-      }) unless app_version
-
-    app_version.save
+    if app_version
+      app_version.manifest = manifest
+      app_version.save
+    else
+      app_version = ApplicationVersion.create({
+        :application => self,
+        :value => version,
+        :manifest => manifest
+        })
+    end
 
     app_version
   end
@@ -86,11 +90,6 @@ class Manifest
 
   key :name, String, :required => true, :unique => true
   key :description, String
-
-  def status
-    return :released if release
-    return :in_progress
-  end
 
   many :application_versions
 

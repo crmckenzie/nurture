@@ -116,9 +116,9 @@ describe Releases do
         expect(prod.manifests[1].name).to eq 'pr.234'
       end
 
-      it 'locks the associated manifests for editing' do
+      it 'associates the manifest with the release.' do
         release.manifests.each do |m|
-          expect(m.status.to_sym).to eq :released
+          expect(m.release).to eq release
         end
       end
 

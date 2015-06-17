@@ -49,7 +49,7 @@ class Applications < Sinatra::Base
     releases = versions.map {|version|
       {
         :manifest => version.manifest.name,
-        :version => version,
+        :version => version.value,
         :created_at => version.manifest.release.created_at
       }
     }

@@ -36,6 +36,7 @@
 - [x] applications must exist
 - [x] application versions can be created dynamically
 - [x] does not create duplicate application versions
+- [x] if version already exists, make sure manifest is appliedß
 
 ## POST /releases
 

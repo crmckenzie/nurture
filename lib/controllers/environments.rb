@@ -86,7 +86,9 @@ class Environments < Sinatra::Base
     end if release
 
     prod_versions.each do |prod_version|
-      env_versions.push prod_version unless env_versions.detect {|row| row[:name] == prod_version[:name]}
+      env_versions.push prod_version unless env_versions.detect {|row|
+        row[:name] == prod_version[:name]
+      }
     end
 
     version = env_versions.select {|row| row[:name] == params[:app_name]} .first

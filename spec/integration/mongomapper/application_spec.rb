@@ -22,7 +22,7 @@ describe Manifests do
 
     }
 
-    it 'add version' do
+    it 'no manifest' do
 
       subject.add_version '1.0'
 
@@ -57,7 +57,20 @@ describe Manifests do
       subject.add_version '1.0', manifest
 
       expect(subject.application_versions[0].manifest).to eq manifest
+    end
 
+    it 'can change the manifest' do
+      manifest1 = Manifest.create({
+        :name => 'pr.521'
+        })
+      manifest2 = Manifest.create({
+        :name => 'pr.522'
+        })
+
+      subject.add_version '1.0', manifest1
+      subject.add_version '1.0', manifest2
+
+      expect(subject.application_versions[0].manifest).to eq manifest2
     end
 
   end

@@ -3,7 +3,7 @@ require_relative '../../spec_helper'
   describe Applications do
     include Rack::Test::Methods
 
-    before(:all) do
+    before(:each) do
       client = Mongo::MongoClient.new
       db = client.db 'nurture-tests'
       db.command({:dropDatabase => 1})
@@ -32,7 +32,6 @@ require_relative '../../spec_helper'
             :platform => 'windows',
             :tags => ['tag1','tag2','tag3','tag4','tag5']
             }
-
 
           expect(last_response.ok?).to be true
 
@@ -189,15 +188,11 @@ require_relative '../../spec_helper'
     before(:each) do
       julia = Application.create({:name => 'julia'})
 
-      manifest = Manifest.create({
-        :name => 'pr.123',
-        })
+      manifest = Manifest.create({:name => 'pr.123'})
       manifest.add_version 'julia', '1.0'
       manifest.perform_release
 
-      manifest = Manifest.create({
-        :name => 'pr.234',
-        })
+      manifest = Manifest.create({:name => 'pr.234' })
       manifest.add_version 'julia', '1.1'
       manifest.perform_release
 
@@ -215,14 +210,11 @@ require_relative '../../spec_helper'
 
       releases = Release.sort(:created_at).all
 
-      expect(json[0]['created_at']).to eq releases[0].created_at.to_s
-      expect(json[1]['created_at']).to eq releases[1].created_at.to_s
-
       expect(json[0]['manifest']).to eq 'pr.123'
       expect(json[1]['manifest']).to eq 'pr.234'
 
       expect(json[0]['version']).to eq '1.0'
-      expect(json[0]['version']).to eq '1.1'
+      expect(json[1]['version']).to eq '1.1'
 
     end
 
